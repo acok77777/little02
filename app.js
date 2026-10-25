@@ -1,534 +1,1031 @@
 
-'use strict';
+/* =========================================
+   리틀팍스 동화 레벨 2 - app.js
+   동화 67편 / 영어·한국어 학습 / 오디오
+========================================= */
 
-const TOTAL = 67;
-
-// 기존에 음성이 잘 나오던 경로 유지
-const AUDIO_DIR = './s67/';
+const TOTAL_STORIES = 67;
+const AUDIO_DIR = "./s67/";
 
 const DATA_FILES = [
-  './data/story67.txt',
-  './데이터/story67.txt',
-  './메모장w67.txt',
-  './data/메모장w67.txt'
+  "./데이터/story67.txt",
+  "./data/story67.txt",
+  "./story67.txt",
+  "./메모장w67.txt",
+  "./data/메모장w67.txt"
 ];
 
-const $ = (selector) => document.querySelector(selector);
+const $ = (id) => document.getElementById(id);
 
-const home = $('#homeView');
-const list = $('#listView');
-const study = $('#studyView');
-const audio = $('#audio');
+let stories = [];
+let currentStory = 1;
+let currentMode = "both";
+let currentRange = "1-20";
+let audio = new Audio();
+let audioReady = false;
 
-const load = (key, fallback) => {
+/* =========================================
+   학습 완료 상태 저장
+========================================= */
+
+const PROGRESS_KEY = "little02_completed_stories";
+
+function getCompletedStories() {
   try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return value ?? fallback;
-  } catch {
-    return fallback;
+    const saved = JSON.parse(
+      localStorage.getItem(PROGRESS_KEY) || "[]"
+    );
+
+    return new Set(
+      Array.isArray(saved)
+        ? saved.map(Number)
+        : []
+    );
+  } catch (error) {
+    return new Set();
   }
-};
-
-const pad = (number) => String(number).padStart(2, '0');
-
-const escapeHTML = (value) =>
-  String(value ?? '').replace(/[&<>"']/g, (char) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  })[char]);
-
-let stories = Array.from({ length: TOTAL }, (_, index) => ({
-  id: index + 1,
-  title: `${index + 1}번 동화`,
-  lines: []
-}));
-
-let done = load('lf2_done', []);
-let recent = load('lf2_recent', []);
-let id = 1;
-let start = 1;
-let end = 20;
-let mode = 'both';
-let speed = 1;
-let toastTimer = null;
-
-// --------------------------------------------------
-// 화면 표시
-// --------------------------------------------------
-
-function showView(view) {
-  home.classList.toggle('hidden', view !== 'home');
-  list.classList.toggle('hidden', view !== 'list');
-  study.classList.toggle('hidden', view !== 'study');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function toast(message) {
-  const element = $('#toast');
-  element.textContent = message;
-  element.classList.add('show');
+let completedStories = getCompletedStories();
 
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    element.classList.remove('show');
-  }, 2200);
+function saveCompletedStories() {
+  localStorage.setItem(
+    PROGRESS_KEY,
+    JSON.stringify([...completedStories])
+  );
 }
 
-function saveProgress() {
-  localStorage.setItem('lf2_done', JSON.stringify(done));
-  localStorage.setItem('lf2_recent', JSON.stringify(recent));
+/* =========================================
+   화면 요소 표시 / 숨기기
+========================================= */
+
+function showView(viewId) {
+  const viewIds = ["homeView", "listView", "studyView"];
+
+  viewIds.forEach((id) => {
+    const el = $(id);
+    if (el) {
+      el.hidden = id !== viewId;
+      el.style.display = id === viewId ? "" : "none";
+    }
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
-function addRecent(number) {
-  recent = [
-    number,
-    ...recent.filter((item) => item !== number)
-  ].slice(0, 6);
+/* =========================================
+   텍스트 파일 불러오기
+========================================= */
 
-  localStorage.setItem('lf2_recent', JSON.stringify(recent));
-}
+async function loadStoryText() {
+  let lastError = null;
 
-// --------------------------------------------------
-// 텍스트 불러오기
-// 현재는 임시 파서이며 story67.txt 형식을 확인한 후
-// 동화 경계를 정확히 나누도록 수정할 예정
-// --------------------------------------------------
-
-async function fetchStoryText() {
   for (const path of DATA_FILES) {
     try {
-      const response = await fetch(path, { cache: 'no-cache' });
+      const response = await fetch(path, {
+        cache: "no-store"
+      });
 
-      if (response.ok) {
-        const text = await response.text();
+      if (!response.ok) {
+        throw new Error(
+          `${path} 파일을 불러오지 못했습니다.`
+        );
+      }
 
-        if (text.trim()) {
-          console.log('동화 파일 불러오기 성공:', path);
-          return text.replace(/^\uFEFF/, '');
-        }
+      const text = await response.text();
+
+      if (text.trim()) {
+        return text.replace(/^\uFEFF/, "");
       }
     } catch (error) {
-      console.warn('파일 불러오기 실패:', path);
+      lastError = error;
     }
   }
 
   throw new Error(
-    'story67.txt 파일을 찾을 수 없습니다. 파일 경로와 이름을 확인해 주세요.'
+    "story67.txt 파일을 찾지 못했습니다. " +
+    "파일 위치와 이름을 확인해 주세요. " +
+    (lastError ? lastError.message : "")
   );
 }
 
-function parseStories(rawText) {
-  const result = Array.from({ length: TOTAL }, (_, index) => ({
-    id: index + 1,
-    title: `${index + 1}번 동화`,
-    lines: []
-  }));
+/* =========================================
+   언어 판별
+========================================= */
 
-  /*
-   * 임시 파서:
-   * "1 | 제목", "1. 제목", "[1] 제목",
-   * "1번 제목", "Story 1: 제목" 같은 표식을 인식합니다.
-   *
-   * 실제 파일에서 동화가 구분되는 방식을 확인한 뒤
-   * 이 함수만 정확하게 조정할 예정입니다.
-   */
+function detectLanguage(text) {
+  if (/[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(text)) {
+    return "ko";
+  }
 
-  const lines = rawText.split(/\r?\n/);
-  let current = null;
-  let firstStoryHasContent = false;
+  if (/[a-zA-Z]/.test(text)) {
+    return "en";
+  }
 
-  const headingPatterns = [
-    /^\s*(\d{1,2})\s*\|\s*(.+?)\s*$/,
-    /^\s*\[(\d{1,2})\]\s*(.*?)\s*$/,
-    /^\s*(\d{1,2})\s*번(?:\s*[:：.)-]?\s*)(.*?)\s*$/,
-    /^\s*Story\s*(\d{1,2})\s*[:：.)-]\s*(.*?)\s*$/i,
-    /^\s*(\d{1,2})\s*[.)]\s+(.+?)\s*$/
+  return "other";
+}
+
+/* =========================================
+   불필요한 웹페이지 문구 제거
+========================================= */
+
+function isPageInstruction(line) {
+  const text = line.trim();
+
+  if (!text) return true;
+
+  if (/^\[L\d+\]/.test(text)) return true;
+
+  const ignoredExact = [
+    "학습자료",
+    "원문해석",
+    "글자 확대",
+    "글자 축소",
+    "인쇄",
+    "원문 숨기기",
+    "원문 보이기",
+    "해석 숨기기",
+    "해석 보이기"
   ];
 
-  for (const originalLine of lines) {
-    const line = originalLine.trim();
+  if (ignoredExact.includes(text)) return true;
 
+  if (
+    /원문 내용 중 단어를 클릭하면/.test(text) ||
+    /글자 확대.*글자 축소.*인쇄/.test(text) ||
+    /원문 숨기기.*원문 보이기/.test(text) ||
+    /해석 숨기기.*해석 보이기/.test(text) ||
+    /All rights reserved/i.test(text) ||
+    /www\.littlefox\.co\.kr/i.test(text) ||
+    /©\s*2000-2026/i.test(text)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/* =========================================
+   동화 제목 판별
+예: My First Readers 2, My Helicopter
+========================================= */
+
+function extractTitle(line) {
+  const match = line.match(
+    /^My First Readers\s*2\s*,\s*(.+)$/i
+  );
+
+  return match ? match[1].trim() : null;
+}
+
+/* =========================================
+   story67.txt 파싱
+파일 형식:
+1
+학습자료
+원문해석
+...
+My First Readers 2, My Helicopter
+나의 첫 영어책 2, 나의 헬리콥터
+...
+I can fly over the field.
+나는 들판 위로 날아갈 수 있어요.
+2
+...
+========================================= */
+
+function parseStories(rawText) {
+  const lines = rawText
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
+    .map((line) => line.trim())
+    .map((line) =>
+      line.replace(/^\[L\d+\]\s*/, "").trim()
+    );
+
+  const parsed = new Map();
+
+  let storyNumber = null;
+  let titleFound = false;
+  let koreanTitlePending = false;
+  let bodyStarted = false;
+
+  function createStory(number) {
+    return {
+      id: number,
+      title: `동화 ${number}`,
+      lines: []
+    };
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // 독립된 숫자 1~67은 각 동화의 시작 표시
+    if (/^\d{1,2}$/.test(line)) {
+      const number = Number(line);
+
+      if (number >= 1 && number <= TOTAL_STORIES) {
+        storyNumber = number;
+
+        if (!parsed.has(number)) {
+          parsed.set(number, createStory(number));
+        }
+
+        titleFound = false;
+        koreanTitlePending = false;
+        bodyStarted = false;
+        continue;
+      }
+    }
+
+    if (!storyNumber) continue;
     if (!line) continue;
 
-    let heading = null;
+    const story = parsed.get(storyNumber);
 
-    for (const pattern of headingPatterns) {
-      const match = line.match(pattern);
+    // 영어 제목 찾기
+    const title = extractTitle(line);
 
-      if (match) {
-        heading = {
-          number: Number(match[1]),
-          title: (match[2] || '').trim()
-        };
-        break;
-      }
-    }
-
-    if (heading && heading.number >= 1 && heading.number <= TOTAL) {
-      current = result[heading.number - 1];
-
-      if (heading.title) {
-        current.title = heading.title;
-      }
-
-      firstStoryHasContent = false;
+    if (title) {
+      story.title = title;
+      titleFound = true;
+      koreanTitlePending = true;
+      bodyStarted = false;
       continue;
     }
 
-    // 숫자만 있는 줄은 실제 파일 구조를 확인하기 전에는
-    // 동화 구분자로 처리하지 않습니다.
-    if (!current) {
-      current = result[0];
-    }
-
-    // 웹페이지에서 복사된 불필요한 안내문 제거
-    if (
-      /^(학습자료|원문해석|글자 확대|글자 축소|인쇄)$/.test(line) ||
-      /원문 숨기기|원문 보이기|단어를 클릭하면|글자 확대글자 축소인쇄/.test(line)
-    ) {
+    // 제목을 찾기 전의 페이지 안내 문구 무시
+    if (!titleFound) {
       continue;
     }
 
-    // 제목과 부제목으로 보이는 첫 두 줄은 임시 제목으로 활용
-    if (!firstStoryHasContent && current.lines.length === 0) {
-      if (
-        line.length < 100 &&
-        !/[.!?。]$/.test(line) &&
-        !/^(나는|내가|그는|그녀는|이것은|저것은)\s/.test(line)
-      ) {
-        if (current.title.endsWith('번 동화')) {
-          current.title = line;
-          firstStoryHasContent = true;
-          continue;
-        }
+    // 영어 제목 바로 다음에 나오는 한국어 제목 제거
+    if (koreanTitlePending) {
+      if (/[가-힣]/.test(line)) {
+        koreanTitlePending = false;
+        continue;
       }
+
+      // 한국어 제목이 없고 안내 문구가 먼저 나오는 경우
+      if (isPageInstruction(line)) {
+        continue;
+      }
+
+      koreanTitlePending = false;
     }
 
-    current.lines.push({
-      text: line,
-      lang: detectLanguage(line)
-    });
+    // 웹페이지 버튼과 저작권 문구 제거
+    if (isPageInstruction(line)) {
+      continue;
+    }
 
-    firstStoryHasContent = true;
+    // 페이지 번호나 불필요한 숫자만 있는 줄 제거
+    if (/^\d+$/.test(line)) {
+      continue;
+    }
+
+    // 본문 저장
+    const language = detectLanguage(line);
+
+    if (language === "en" || language === "ko") {
+      bodyStarted = true;
+
+      story.lines.push({
+        text: line,
+        lang: language
+      });
+    }
+  }
+
+  // 1~67번을 순서대로 반환
+  const result = [];
+
+  for (let i = 1; i <= TOTAL_STORIES; i++) {
+    const story = parsed.get(i) || createStory(i);
+
+    // 빈 동화는 화면에서 오류 없이 표시
+    if (!Array.isArray(story.lines)) {
+      story.lines = [];
+    }
+
+    result.push(story);
   }
 
   return result;
 }
 
-function detectLanguage(text) {
-  if (/[가-힣]/.test(text)) return 'ko';
-  if (/[a-zA-Z]/.test(text)) return 'en';
-  return 'other';
+/* =========================================
+   동화 범위
+========================================= */
+
+function getRangeBounds(range) {
+  const ranges = {
+    "1-20": [1, 20],
+    "21-40": [21, 40],
+    "41-60": [41, 60],
+    "61-67": [61, 67]
+  };
+
+  return ranges[range] || ranges["1-20"];
 }
 
-async function initializeStories() {
-  try {
-    const rawText = await fetchStoryText();
-    stories = parseStories(rawText);
-    renderHome();
-    renderStudy();
-  } catch (error) {
-    console.error(error);
-    $('#storyContent').innerHTML = `
-      <p class="error-message">
-        동화 텍스트 파일을 불러오지 못했습니다.<br>
-        GitHub 저장소에서 파일 경로를 확인해 주세요.
-      </p>
-    `;
-    renderHome();
-  }
+function getStoriesInRange(range = currentRange) {
+  const [start, end] = getRangeBounds(range);
+
+  return stories.filter(
+    (story) => story.id >= start && story.id <= end
+  );
 }
 
-// --------------------------------------------------
-// 홈 및 동화 목록
-// --------------------------------------------------
+/* =========================================
+   동화 목록 화면
+========================================= */
 
-function renderHome() {
-  const completedCount = done.length;
-  $('#progressText').textContent = `${completedCount} / ${TOTAL}`;
-  $('#progressBar').style.width =
-    `${Math.min(100, completedCount / TOTAL * 100)}%`;
+function renderStoryList() {
+  const container =
+    $("storyList") ||
+    $("storyGrid") ||
+    $("storiesList");
 
-  const grid = $('#storyGrid');
-  grid.innerHTML = '';
+  if (!container) return;
 
-  for (let number = start; number <= end; number++) {
-    const button = document.createElement('button');
-    button.className = 'story-card';
-    button.innerHTML = `
-      <span class="story-card-number">${number}</span>
-      <span class="story-card-title">
-        ${escapeHTML(stories[number - 1]?.title || `${number}번 동화`)}
-      </span>
-      <span class="story-card-status">
-        ${done.includes(number) ? '✓ 완료' : '학습하기 ›'}
-      </span>
-    `;
+  container.innerHTML = "";
 
-    if (done.includes(number)) {
-      button.classList.add('completed');
+  const rangeStories = getStoriesInRange();
+
+  rangeStories.forEach((story) => {
+    const item = document.createElement("button");
+
+    item.type = "button";
+    item.className = "story-item";
+
+    if (completedStories.has(story.id)) {
+      item.classList.add("completed");
     }
 
-    button.addEventListener('click', () => {
-      openList(start, end);
-      openStudy(number);
-    });
+    item.setAttribute(
+      "aria-label",
+      `${story.id}번 ${story.title}` +
+      (completedStories.has(story.id)
+        ? ", 학습 완료"
+        : "")
+    );
 
-    grid.appendChild(button);
-  }
+    const check = completedStories.has(story.id)
+      ? "✓"
+      : "";
 
-  const recentList = $('#recentList');
-
-  if (recent.length === 0) {
-    recentList.innerHTML = '<p class="empty-message">아직 학습 기록이 없어요.</p>';
-  } else {
-    recentList.innerHTML = '';
-
-    recent.forEach((number) => {
-      const button = document.createElement('button');
-      button.className = 'recent-item';
-      button.textContent =
-        `${number}번 · ${stories[number - 1]?.title || '동화'}`;
-
-      button.addEventListener('click', () => {
-        start = number <= 20 ? 1 : number <= 40 ? 21 : number <= 60 ? 41 : 61;
-        end = Math.min(start + 19, TOTAL);
-        openStudy(number);
-      });
-
-      recentList.appendChild(button);
-    });
-  }
-}
-
-function openList(from, to) {
-  start = from;
-  end = to;
-
-  $('#listTitle').textContent = `${from}~${to}번 동화 목록`;
-
-  const container = $('#storyList');
-  container.innerHTML = '';
-
-  for (let number = from; number <= to; number++) {
-    const button = document.createElement('button');
-    button.className = 'story-list-item';
-
-    button.innerHTML = `
-      <span class="list-number">${number}</span>
-      <span class="list-name">
-        ${escapeHTML(stories[number - 1]?.title || `${number}번 동화`)}
-      </span>
-      <span class="list-check">
-        ${done.includes(number) ? '✓' : '›'}
-      </span>
+    item.innerHTML = `
+      <span class="story-number">${story.id}</span>
+      <span class="story-title"></span>
+      <span class="story-check">${check}</span>
     `;
 
-    if (done.includes(number)) {
-      button.classList.add('completed');
+    const titleEl = item.querySelector(".story-title");
+
+    if (titleEl) {
+      titleEl.textContent = story.title;
     }
 
-    button.dataset.id = number;
+    item.addEventListener("click", () => {
+      openStory(story.id);
+    });
 
-    button.addEventListener('click', () => openStudy(number));
-    container.appendChild(button);
-  }
-
-  showView('list');
-}
-
-// --------------------------------------------------
-// 학습 화면
-// --------------------------------------------------
-
-function openStudy(number) {
-  if (number < 1 || number > TOTAL) return;
-
-  id = number;
-  addRecent(number);
-
-  renderStudy();
-  renderHome();
-  showView('study');
-
-  playAudio(number);
-}
-
-function renderStudy() {
-  const story = stories[id - 1];
-
-  if (!story) return;
-
-  $('#studyPosition').textContent = `${id} / ${TOTAL}`;
-  $('#storyTitle').textContent = story.title || `${id}번 동화`;
-
-  $('#studyDoneBadge').classList.toggle('hidden', !done.includes(id));
-
-  $('#prevBtn').disabled = id <= 1;
-  $('#nextBtn').disabled = id >= TOTAL;
-
-  document.querySelectorAll('.mode-btn').forEach((button) => {
-    button.classList.toggle('active', button.dataset.mode === mode);
+    container.appendChild(item);
   });
 
-  const content = $('#storyContent');
+  updateProgress();
+}
 
-  if (!story.lines.length) {
-    content.innerHTML = `
-      <p class="empty-message">
-        이 동화의 내용을 아직 나누지 못했어요.<br>
-        story67.txt 파일을 보내주면 번호별로 정확하게 구분해 줄게요.
-      </p>
-    `;
+/* =========================================
+   범위 버튼 선택
+========================================= */
+
+function selectRange(range) {
+  currentRange = range;
+
+  document.querySelectorAll("[data-range]").forEach((button) => {
+    const selected = button.dataset.range === range;
+
+    button.classList.toggle("active", selected);
+    button.setAttribute(
+      "aria-pressed",
+      selected ? "true" : "false"
+    );
+  });
+
+  renderStoryList();
+}
+
+/* =========================================
+   동화 학습 화면 열기
+========================================= */
+
+function openStory(number) {
+  const story = stories.find(
+    (item) => item.id === Number(number)
+  );
+
+  if (!story) {
+    alert(`${number}번 동화를 찾을 수 없습니다.`);
     return;
   }
 
-  const visibleLines = story.lines.filter((line) => {
-    if (mode === 'en') return line.lang === 'en';
-    if (mode === 'ko') return line.lang === 'ko';
-    return line.lang === 'en' || line.lang === 'ko';
-  });
+  currentStory = story.id;
 
-  content.innerHTML = visibleLines.map((line) => `
-    <p class="story-line ${line.lang === 'ko' ? 'korean-line' : 'english-line'}">
-      ${escapeHTML(line.text)}
-    </p>
-  `).join('');
-}
+  stopAudio();
 
-function saveCurrent() {
-  if (!done.includes(id)) {
-    done = [...done, id].sort((a, b) => a - b);
-  }
-
-  saveProgress();
   renderStudy();
-  renderHome();
-
-  if (!list.classList.contains('hidden')) {
-    openList(start, end);
-  }
-
-  toast('✓ 학습 완료로 저장했어요!');
+  showView("studyView");
+  updateAudioTitle();
+  updateNavigationButtons();
 }
 
-function setMode(nextMode) {
-  mode = nextMode;
+/* =========================================
+   영어 / 한국어 / 함께 보기
+========================================= */
+
+function setMode(mode) {
+  if (!["both", "en", "ko"].includes(mode)) {
+    mode = "both";
+  }
+
+  currentMode = mode;
+
+  document.querySelectorAll("[data-mode]").forEach((button) => {
+    const selected = button.dataset.mode === mode;
+
+    button.classList.toggle("active", selected);
+    button.setAttribute(
+      "aria-pressed",
+      selected ? "true" : "false"
+    );
+  });
+
   renderStudy();
 }
 
-// --------------------------------------------------
-// 음성 플레이어
-// --------------------------------------------------
+/* =========================================
+   본문 출력
+========================================= */
 
-function audioPath(number) {
-  return `${AUDIO_DIR}s${pad(number)}.mp3`;
-}
-
-function playAudio(number) {
-  const path = audioPath(number);
-
-  $('#audioTitle').textContent =
-    `${number}번 · ${stories[number - 1]?.title || '동화'}`;
-
-  $('#audioStatus').textContent = '음성 파일 준비 중';
-
-  audio.src = path;
-  audio.playbackRate = speed;
-  audio.load();
-
-  audio.play().then(() => {
-    $('#audioStatus').textContent = '재생 중';
-  }).catch(() => {
-    $('#audioStatus').textContent = '재생 버튼을 눌러주세요';
-  });
-}
-
-audio.addEventListener('play', () => {
-  $('#audioStatus').textContent = '재생 중';
-});
-
-audio.addEventListener('pause', () => {
-  if (!audio.ended) {
-    $('#audioStatus').textContent = '일시정지';
-  }
-});
-
-audio.addEventListener('ended', () => {
-  $('#audioStatus').textContent = '재생 완료';
-});
-
-$('#speedSelect').addEventListener('change', (event) => {
-  speed = Number(event.target.value);
-  audio.playbackRate = speed;
-  toast(`재생 속도 ${speed}배`);
-});
-
-// --------------------------------------------------
-// 버튼 이벤트
-// --------------------------------------------------
-
-document.querySelectorAll('.range-btn').forEach((button) => {
-  button.addEventListener('click', () => {
-    start = Number(button.dataset.start);
-    end = Number(button.dataset.end);
-
-    document.querySelectorAll('.range-btn').forEach((item) => {
-      item.classList.toggle('active', item === button);
-    });
-
-    renderHome();
-  });
-});
-
-document.querySelectorAll('.mode-btn').forEach((button) => {
-  button.addEventListener('click', () => {
-    setMode(button.dataset.mode);
-  });
-});
-
-$('#backHomeBtn').addEventListener('click', () => {
-  showView('home');
-});
-
-$('#backListBtn').addEventListener('click', () => {
-  openList(start, end);
-});
-
-$('#saveBtn').addEventListener('click', saveCurrent);
-
-$('#prevBtn').addEventListener('click', () => {
-  if (id > 1) openStudy(id - 1);
-});
-
-$('#nextBtn').addEventListener('click', () => {
-  if (id < TOTAL) openStudy(id + 1);
-});
-
-$('#continueBtn').addEventListener('click', () => {
-  openStudy(recent[0] || 1);
-});
-
-$('#resetProgressBtn').addEventListener('click', () => {
-  const confirmed = confirm(
-    '저장된 학습 완료 표시와 최근 학습 기록을 모두 초기화할까요?'
+function renderStudy() {
+  const story = stories.find(
+    (item) => item.id === currentStory
   );
 
-  if (!confirmed) return;
+  if (!story) return;
 
-  done = [];
-  recent = [];
-  saveProgress();
-  renderHome();
-  renderStudy();
-  toast('학습 기록을 초기화했어요.');
-});
+  const titleElement =
+    $("studyTitle") ||
+    $("storyTitle") ||
+    $("currentStoryTitle");
 
-// --------------------------------------------------
-// 시작
-// --------------------------------------------------
+  if (titleElement) {
+    titleElement.textContent =
+      `${story.id}. ${story.title}`;
+  }
 
-initializeStories();
+  const body =
+    $("storyContent") ||
+    $("studyContent") ||
+    $("storyBody");
+
+  if (!body) return;
+
+  body.innerHTML = "";
+
+  const filteredLines = story.lines.filter((line) => {
+    if (currentMode === "en") {
+      return line.lang === "en";
+    }
+
+    if (currentMode === "ko") {
+      return line.lang === "ko";
+    }
+
+    return line.lang === "en" || line.lang === "ko";
+  });
+
+  if (filteredLines.length === 0) {
+    const message = document.createElement("p");
+    message.className = "empty-story";
+    message.textContent =
+      "본문이 없습니다. story67.txt 파일 위치와 내용을 확인해 주세요.";
+
+    body.appendChild(message);
+    return;
+  }
+
+  filteredLines.forEach((line) => {
+    const paragraph = document.createElement("p");
+
+    paragraph.className =
+      line.lang === "en"
+        ? "story-line english-line"
+        : "story-line korean-line";
+
+    paragraph.textContent = line.text;
+
+    body.appendChild(paragraph);
+  });
+
+  updateCompleteButton();
+}
+
+/* =========================================
+   이전 / 목록 / 다음
+========================================= */
+
+function goPrevious() {
+  if (currentStory > 1) {
+    openStory(currentStory - 1);
+  }
+}
+
+function goNext() {
+  if (currentStory < TOTAL_STORIES) {
+    openStory(currentStory + 1);
+  }
+}
+
+function goToList() {
+  stopAudio();
+
+  const [start, end] = getRangeBounds(currentRange);
+
+  if (currentStory < start || currentStory > end) {
+    if (currentStory <= 20) {
+      selectRange("1-20");
+    } else if (currentStory <= 40) {
+      selectRange("21-40");
+    } else if (currentStory <= 60) {
+      selectRange("41-60");
+    } else {
+      selectRange("61-67");
+    }
+  }
+
+  renderStoryList();
+  showView("listView");
+}
+
+function updateNavigationButtons() {
+  const previousButton =
+    $("prevButton") || $("previousButton");
+
+  const nextButton =
+    $("nextButton");
+
+  if (previousButton) {
+    previousButton.disabled = currentStory <= 1;
+  }
+
+  if (nextButton) {
+    nextButton.disabled = currentStory >= TOTAL_STORIES;
+  }
+}
+
+/* =========================================
+   학습 완료 체크
+========================================= */
+
+function toggleComplete() {
+  if (completedStories.has(currentStory)) {
+    completedStories.delete(currentStory);
+  } else {
+    completedStories.add(currentStory);
+  }
+
+  saveCompletedStories();
+  updateCompleteButton();
+  updateProgress();
+  renderStoryList();
+}
+
+function updateCompleteButton() {
+  const button =
+    $("completeButton") ||
+    $("markCompleteButton");
+
+  if (!button) return;
+
+  const completed = completedStories.has(currentStory);
+
+  button.textContent = completed
+    ? "✓ 학습 완료 취소"
+    : "✓ 학습 완료 체크 저장";
+
+  button.classList.toggle("completed", completed);
+  button.setAttribute(
+    "aria-pressed",
+    completed ? "true" : "false"
+  );
+}
+
+function updateProgress() {
+  const count = completedStories.size;
+  const percent = Math.round(
+    (count / TOTAL_STORIES) * 100
+  );
+
+  const countElement =
+    $("progressCount") ||
+    $("completedCount");
+
+  const percentElement =
+    $("progressPercent");
+
+  const bar =
+    $("progressBar");
+
+  if (countElement) {
+    countElement.textContent =
+      `${count} / ${TOTAL_STORIES}`;
+  }
+
+  if (percentElement) {
+    percentElement.textContent = `${percent}%`;
+  }
+
+  if (bar) {
+    bar.style.width = `${percent}%`;
+    bar.setAttribute("aria-valuenow", String(percent));
+  }
+}
+
+/* =========================================
+   오디오
+파일 예시: ./s67/s01.mp3
+========================================= */
+
+function getAudioPath(number) {
+  return `${AUDIO_DIR}s${String(number).padStart(2, "0")}.mp3`;
+}
+
+function updateAudioTitle() {
+  const story = stories.find(
+    (item) => item.id === currentStory
+  );
+
+  const title =
+    $("audioTitle") ||
+    $("playerTitle");
+
+  if (title && story) {
+    title.textContent =
+      `${story.id}. ${story.title}`;
+  }
+}
+
+function loadAudio(number) {
+  const path = getAudioPath(number);
+
+  audio.pause();
+  audio.currentTime = 0;
+  audio.src = path;
+  audio.load();
+
+  audioReady = true;
+  updateAudioTitle();
+}
+
+function playAudio() {
+  if (!audioReady || !audio.src) {
+    loadAudio(currentStory);
+  }
+
+  audio.playbackRate = getSelectedSpeed();
+
+  audio.play().catch((error) => {
+    console.error("오디오 재생 오류:", error);
+
+    alert(
+      "오디오를 재생할 수 없습니다.\n" +
+      `파일 위치를 확인해 주세요: ${getAudioPath(currentStory)}`
+    );
+  });
+}
+
+function pauseAudio() {
+  audio.pause();
+}
+
+function toggleAudio() {
+  if (audio.paused) {
+    playAudio();
+  } else {
+    pauseAudio();
+  }
+}
+
+function stopAudio() {
+  audio.pause();
+
+  try {
+    audio.currentTime = 0;
+  } catch (error) {
+    // 오디오가 아직 준비되지 않은 경우 무시
+  }
+}
+
+function getSelectedSpeed() {
+  const speedSelect =
+    $("speedSelect") ||
+    $("playbackSpeed");
+
+  const speed = speedSelect
+    ? Number(speedSelect.value)
+    : 1;
+
+  return Number.isFinite(speed) && speed > 0
+    ? speed
+    : 1;
+}
+
+function setAudioSpeed(speed) {
+  const value = Number(speed);
+
+  if (!Number.isFinite(value) || value <= 0) {
+    return;
+  }
+
+  audio.playbackRate = value;
+}
+
+/* =========================================
+   오디오 진행 표시
+========================================= */
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds)) {
+    return "0:00";
+  }
+
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+
+  return `${mins}:${String(secs).padStart(2, "0")}`;
+}
+
+function updateAudioProgress() {
+  const currentTimeElement =
+    $("currentTime");
+
+  const durationElement =
+    $("durationTime");
+
+  const progress =
+    $("audioProgress") ||
+    $("progressSeek");
+
+  if (currentTimeElement) {
+    currentTimeElement.textContent =
+      formatTime(audio.currentTime);
+  }
+
+  if (durationElement) {
+    durationElement.textContent =
+      formatTime(audio.duration);
+  }
+
+  if (
+    progress &&
+    Number.isFinite(audio.duration) &&
+    audio.duration > 0
+  ) {
+    progress.max = String(audio.duration);
+    progress.value = String(audio.currentTime);
+  }
+
+  const playButton =
+    $("playButton") ||
+    $("audioPlayButton");
+
+  if (playButton) {
+    playButton.textContent = audio.paused
+      ? "▶ 재생"
+      : "Ⅱ 일시정지";
+  }
+}
+
+function seekAudio(value) {
+  const time = Number(value);
+
+  if (
+    Number.isFinite(time) &&
+    Number.isFinite(audio.duration)
+  ) {
+    audio.currentTime = Math.max(
+      0,
+      Math.min(time, audio.duration)
+    );
+  }
+}
+
+/* =========================================
+   버튼 이벤트 연결
+========================================= */
+
+function bindClick(ids, callback) {
+  ids.forEach((id) => {
+    const element = $(id);
+
+    if (element) {
+      element.addEventListener("click", callback);
+    }
+  });
+}
+
+function bindEvents() {
+  // 홈 화면에서 목록으로 이동
+  bindClick(
+    ["startButton", "goListButton", "openListButton"],
+    () => {
+      renderStoryList();
+      showView("listView");
+    }
+  );
+
+  // 홈으로 돌아가기
+  bindClick(
+    ["homeButton", "backHomeButton"],
+    () => {
+      stopAudio();
+      showView("homeView");
+    }
+  );
+
+  // 목록으로 돌아가기
+  bindClick(
+    ["listButton", "backToListButton"],
+    goToList
+  );
+
+  // 이전 / 다음 동화
+  bindClick(
+    ["prevButton", "previousButton"],
+    goPrevious
+  );
+
+  bindClick(
+    ["nextButton"],
+    goNext
+  );
+
+  // 완료 체크
+  bindClick(
+    ["completeButton", "markCompleteButton"],
+    toggleComplete
+  );
+
+  // 재생 / 일시정지
+  bindClick(
+    ["playButton", "audioPlayButton"],
+    toggleAudio
+  );
+
+  bindClick(
+    ["pauseButton"],
+    pauseAudio
+  );
+
+  bindClick(
+    ["stopButton"],
+    stopAudio
+  );
+
+  // 범위 선택 버튼
+  document.querySelectorAll("[data-range]").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectRange(button.dataset.range);
+    });
+  });
+
+  // 영어 / 한국어 보기 버튼
+  document.querySelectorAll("[data-mode]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setMode(button.dataset.mode);
+    });
+  });
+
+  // 재생 속도
+  const speedSelect =
+    $("speedSelect") ||
+    $("playbackSpeed");
+
+  if (speedSelect) {
+    speedSelect.addEventListener("change", () => {
+      setAudioSpeed(speedSelect.value);
+    });
+  }
+
+  // 오디오 탐색
+  const progress =
+    $("audioProgress") ||
+    $("progressSeek");
+
+  if (progress) {
+    progress.addEventListener("input", () => {
+      seekAudio(progress.value);
+    });
+  }
+
+  // 재생 시간 업데이트
+  audio.addEventListener("timeupdate", updateAudioProgress);
+  audio.addEventListener("loadedmetadata", updateAudioProgress);
+  audio.addEventListener("play", updateAudioProgress);
+  audio.addEventListener("pause", updateAudioProgress);
+  audio.addEventListener("ended", updateAudioProgress);
+
+  audio.addEventListener("error", () => {
+    console.error(
+      "오디오 파일을 불러오지 못했습니다:",
+      audio.src
+    );
+  });
+
+  // 키보드 좌우 방향키로 이전 / 다음 동화
+  document.addEventListener("keydown", (event) => {
+    const tag = event.target?.tagName;
+
+    if (
+      tag === "INPUT" ||
+      tag === "TEXTAREA" ||
+      tag === "SELECT"
+    ) {
+      return;
+    }
+
+    if (
+      $("studyView") &&
+      $("studyView").style.display !== "none" &&
+      !$("studyView").hidden
+    ) {
+      if (event.key === "ArrowLeft") {
+        goPrevious();
+      } else if (event.key === "ArrowRight") {
+        goNext();
+      }
+    }
+  });
+}
+
+/* =========================================
+   초기 실행
+========================================= */
+
+async function initApp() {
+  bindEvents();
+
+  try {
+    const rawText = await loadStoryText();
+
+    stories = parseStories(rawText);
+
+    const loadedCount = stories.filter(
+      (story) => story.lines.length > 0
+    ).length;
+
+    console.log(
+      `동화 ${loadedCount}/${TOTAL_STORIES}편의 본문을 읽었습니다.`
+    );
+
+    if (loadedCount === 0) {
+      throw new Error(
+        "동화 본문을 읽지 못했습니다. story67.txt의 형식을 확인해 주세요."
+      );
+    }
+
+    renderStoryList();
+    updateProgress();
+    selectRange("1-20");
+
+    showView("homeView");
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      $("errorMessage") ||
+      $("loadingMessage");
+
+    if (message) {
+      message.hidden = false;
+      message.style.display = "block";
+      message.textContent =
+        "동화 데이터를 불러오지 못했습니다. " +
+        "GitHub 저장소에서 story67.txt 파일의 위치와 이름을 확인해 주세요.";
+    } else {
+      alert(
+        "동화 데이터를 불러오지 못했습니다.\n\n" +
+        error.message
+      );
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
