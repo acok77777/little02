@@ -4,131 +4,421 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff8ef">
+  <meta name="theme-color" content="#6C9FD8">
   <meta name="description" content="리틀팍스 동화 레벨 2 영어 학습 앱">
   <title>리틀팍스 동화 레벨 2</title>
+
   <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./icon-192.png">
+  <link rel="icon" type="image/png" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
   <link rel="stylesheet" href="./style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f3f7fc;
+      color: #253247;
+      font-family: Arial, "Malgun Gothic", sans-serif;
+    }
+
+    button, select {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 15px;
+      background: #e3edf9;
+      color: #25466b;
+    }
+
+    button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .app-header {
+      padding: 22px 16px;
+      color: white;
+      background: #6c9fd8;
+    }
+
+    .app-header h1 {
+      margin: 0 0 6px;
+      font-size: 23px;
+    }
+
+    .app-header p {
+      margin: 0;
+      opacity: .95;
+      font-size: 14px;
+    }
+
+    main {
+      width: min(760px, 100%);
+      margin: auto;
+      padding: 18px 14px 120px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 14px #203c5b0d;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    .hero-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+    }
+
+    .primary {
+      background: #387cc4;
+      color: white;
+    }
+
+    .wide {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .range-buttons,
+    .mode-buttons,
+    .navigation {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .range-buttons button,
+    .mode-buttons button {
+      flex: 1;
+      min-width: 95px;
+    }
+
+    button.active {
+      background: #387cc4;
+      color: white;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #e8edf4;
+    }
+
+    #progressBar {
+      height: 100%;
+      width: 0;
+      background: #48ad88;
+      transition: width .2s;
+    }
+
+    #storyList {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .story-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      text-align: left;
+      background: #f0f5fc;
+      padding: 12px 10px;
+    }
+
+    .story-item.completed {
+      background: #e4f6ed;
+    }
+
+    .story-number {
+      display: grid;
+      place-items: center;
+      flex: 0 0 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      font-weight: bold;
+    }
+
+    .story-title {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: 13px;
+    }
+
+    .story-check {
+      color: #168657;
+      font-weight: bold;
+    }
+
+    #studyTitle {
+      font-size: 22px;
+      margin: 0 0 18px;
+    }
+
+    #storyContent {
+      margin-top: 20px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .story-line {
+      margin: 0 0 13px;
+    }
+
+    .english-line {
+      color: #254e83;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .korean-line {
+      color: #536274;
+      font-size: 16px;
+    }
+
+    .navigation {
+      margin-top: 22px;
+    }
+
+    .navigation button {
+      flex: 1;
+    }
+
+    .audio-dock {
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+      background: white;
+      border-top: 1px solid #dce5ef;
+      box-shadow: 0 -5px 20px #203c5b0d;
+    }
+
+    .audio-inner {
+      width: min(760px, 100%);
+      margin: auto;
+    }
+
+    #audioTitle {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audio-controls button {
+      white-space: nowrap;
+    }
+
+    #speedSelect {
+      max-width: 100px;
+      padding: 10px 5px;
+      border: 1px solid #d7e0eb;
+      border-radius: 10px;
+      background: white;
+    }
+
+    #audioProgress {
+      width: 100%;
+      margin: 10px 0 0;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      color: #65758a;
+      font-size: 12px;
+    }
+
+    #errorMessage {
+      white-space: pre-wrap;
+      color: #b42318;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 420px) {
+      .panel {
+        padding: 15px;
+      }
+
+      #storyList {
+        grid-template-columns: 1fr;
+      }
+
+      .english-line {
+        font-size: 17px;
+      }
+
+      .audio-controls {
+        gap: 5px;
+      }
+
+      .audio-controls button {
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">ENGLISH STORY LEARNING</p>
-      <h1>🦊 리틀팍스 동화 레벨 2</h1>
-      <p class="subtitle">매일 듣고, 읽고, 반복하기</p>
-    </div>
-    <div class="progress-box">
-      <span>학습 완료</span>
-      <strong id="progressText">0 / 67</strong>
-      <div class="progress-track">
-        <div id="progressBar"></div>
-      </div>
-    </div>
+  <header class="app-header">
+    <h1>📚 리틀팍스 동화 레벨 2</h1>
+    <p>영어 동화 67편 · 듣기 · 읽기 · 해석</p>
   </header>
 
   <main>
+    <p id="errorMessage" hidden></p>
+
     <section id="homeView">
-      <h2>📚 동화 선택</h2>
-      <p class="section-desc">공부할 동화 번호 구간을 선택하세요.</p>
-
-      <div class="range-buttons">
-        <button class="range-btn active" data-start="1" data-end="20">1~20번</button>
-        <button class="range-btn" data-start="21" data-end="40">21~40번</button>
-        <button class="range-btn" data-start="41" data-end="60">41~60번</button>
-        <button class="range-btn" data-start="61" data-end="67">61~67번</button>
+      <div class="panel hero">
+        <div class="hero-icon">🚁</div>
+        <h2>영어 동화 학습</h2>
+        <p>듣고, 읽고, 뜻을 확인해 보세요.</p>
+        <button id="startButton" class="primary wide">
+          동화 학습 시작하기
+        </button>
       </div>
 
-      <div class="home-actions">
-        <button id="continueBtn" class="secondary-btn">▶ 이어서 학습하기</button>
-        <button id="resetProgressBtn" class="text-btn">학습 기록 초기화</button>
+      <div class="panel">
+        <div class="progress-text">
+          <span>나의 학습 진행률</span>
+          <strong id="progressCount">0 / 67</strong>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" role="progressbar"
+               aria-valuemin="0" aria-valuemax="67"
+               aria-valuenow="0"></div>
+        </div>
+        <p id="progressPercent">0%</p>
       </div>
-
-      <div id="storyGrid" class="story-grid"></div>
-
-      <section class="recent-section">
-        <h2>🕘 최근 학습</h2>
-        <div id="recentList" class="recent-list"></div>
-      </section>
     </section>
 
-    <section id="listView" class="hidden">
-      <div class="section-heading">
-        <button id="backHomeBtn" class="back-btn">← 구간 선택</button>
-        <div>
-          <h2 id="listTitle">동화 목록</h2>
-          <p class="section-desc">동화를 누르면 해당 동화로 이동합니다.</p>
+    <section id="listView" hidden>
+      <div class="panel">
+        <h2>동화 목록</h2>
+
+        <div class="range-buttons">
+          <button data-range="1-20">1~20편</button>
+          <button data-range="21-40">21~40편</button>
+          <button data-range="41-60">41~60편</button>
+          <button data-range="61-67">61~67편</button>
         </div>
+
+        <div id="storyList"></div>
+
+        <button id="homeButton" class="wide">
+          홈으로 돌아가기
+        </button>
       </div>
-      <div id="storyList" class="story-list"></div>
     </section>
 
-    <section id="studyView" class="hidden">
-      <div class="study-nav">
-        <button id="backListBtn" class="secondary-btn">☰ 목록</button>
-        <span id="studyPosition">1 / 67</span>
-      </div>
+    <section id="studyView" hidden>
+      <div class="panel">
+        <button id="listButton">← 목록</button>
 
-      <div class="study-title-row">
-        <div>
-          <p class="eyebrow">STORY READING</p>
-          <h2 id="storyTitle">1번 동화</h2>
+        <h2 id="studyTitle">동화</h2>
+
+        <div class="mode-buttons">
+          <button data-mode="both">영어 + 한국어</button>
+          <button data-mode="en">영어만</button>
+          <button data-mode="ko">한국어만</button>
         </div>
-        <span id="studyDoneBadge" class="done-badge hidden">✓ 학습 완료</span>
-      </div>
 
-      <div class="mode-buttons" aria-label="보기 방식">
-        <button class="mode-btn active" data-mode="both">영어 + 한국어</button>
-        <button class="mode-btn" data-mode="en">영어만</button>
-        <button class="mode-btn" data-mode="ko">한국어만</button>
-      </div>
+        <article id="storyContent"></article>
 
-      <article id="storyContent" class="story-content">
-        <p class="loading-text">동화 내용을 불러오는 중입니다.</p>
-      </article>
+        <button id="completeButton" class="primary wide">
+          ✓ 학습 완료 체크 저장
+        </button>
 
-      <button id="saveBtn" class="save-main">✓ 학습 완료 체크 저장</button>
-
-      <div class="prev-next">
-        <button id="prevBtn" class="secondary-btn">← 이전 동화</button>
-        <button id="nextBtn" class="primary-btn">다음 동화 →</button>
+        <div class="navigation">
+          <button id="prevButton">← 이전 동화</button>
+          <button id="nextButton">다음 동화 →</button>
+        </div>
       </div>
     </section>
   </main>
 
-  <div id="audioDock" class="audio-dock">
-    <div class="audio-topline">
-      <div class="audio-now">
-        <span class="audio-icon">♫</span>
-        <div>
-          <strong id="audioTitle">동화를 선택하세요</strong>
-          <span id="audioStatus">음성 플레이어</span>
-        </div>
-      </div>
-      <label class="speed-label" for="speedSelect">
-        속도
-        <select id="speedSelect">
-          <option value="0.5">0.5x</option>
-          <option value="1">1.0x</option>
-          <option value="1.5">1.5x</option>
-          <option value="2">2.0x</option>
-          <option value="2.5">2.5x</option>
+  <footer class="audio-dock">
+    <div class="audio-inner">
+      <div id="audioTitle">동화를 선택해 주세요.</div>
+
+      <div class="audio-controls">
+        <button id="playButton" class="primary">▶ 재생</button>
+        <button id="stopButton">■ 정지</button>
+
+        <select id="speedSelect" aria-label="재생 속도">
+          <option value="0.5">0.5배속</option>
+          <option value="0.75">0.75배속</option>
+          <option value="1" selected>1배속</option>
+          <option value="1.25">1.25배속</option>
+          <option value="1.5">1.5배속</option>
+          <option value="2">2배속</option>
+          <option value="2.5">2.5배속</option>
         </select>
-      </label>
+      </div>
+
+      <input id="audioProgress" type="range"
+             min="0" max="100" value="0"
+             step="0.1" aria-label="오디오 재생 위치">
+
+      <div class="time-row">
+        <span id="currentTime">0:00</span>
+        <span id="durationTime">0:00</span>
+      </div>
     </div>
-
-    <audio id="audio" controls preload="none">
-      브라우저가 오디오 재생을 지원하지 않습니다.
-    </audio>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </footer>
 
   <script src="./app.js"></script>
+
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .catch((error) => {
+            console.error("서비스 워커 등록 실패:", error);
+          });
       });
     }
   </script>
