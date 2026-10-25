@@ -1,29 +1,38 @@
 
 'use strict';
 
-// ========================================
-// 리틀팍스 동화 레벨 2 설정
-// ========================================
 const TOTAL = 67;
+
+// 기존에 음성이 잘 나오던 경로 유지
 const AUDIO_DIR = './s67/';
+
 const DATA_FILES = [
   './data/story67.txt',
+  './데이터/story67.txt',
   './메모장w67.txt',
   './data/메모장w67.txt'
 ];
 
-const $ = selector => document.querySelector(selector);
+const $ = (selector) => document.querySelector(selector);
+
+const home = $('#homeView');
+const list = $('#listView');
+const study = $('#studyView');
+const audio = $('#audio');
 
 const load = (key, fallback) => {
   try {
-    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+    const value = JSON.parse(localStorage.getItem(key));
+    return value ?? fallback;
   } catch {
     return fallback;
   }
 };
 
-const esc = value =>
-  String(value ?? '').replace(/[&<>"']/g, char => ({
+const pad = (number) => String(number).padStart(2, '0');
+
+const escapeHTML = (value) =>
+  String(value ?? '').replace(/[&<>"']/g, (char) => ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -31,511 +40,465 @@ const esc = value =>
     "'": '&#39;'
   })[char]);
 
-// ★ 음성 파일명: s01.mp3 ~ s67.mp3
-const pad = number => String(number).padStart(2, '0');
-
-const audioPath = number =>
-  `${AUDIO_DIR}s${pad(number)}.mp3`;
-
-// ========================================
-// 앱 상태
-// ========================================
-let stories = Array.from(
-  { length: TOTAL },
-  (_, index) => ({
-    id: index + 1,
-    title: `${index + 1}번 동화`,
-    lines: []
-  })
-);
+let stories = Array.from({ length: TOTAL }, (_, index) => ({
+  id: index + 1,
+  title: `${index + 1}번 동화`,
+  lines: []
+}));
 
 let done = load('lf2_done', []);
 let recent = load('lf2_recent', []);
-
 let id = 1;
 let start = 1;
 let end = 20;
 let mode = 'both';
 let speed = 1;
-let toastTimer;
+let toastTimer = null;
 
-// 화면
-const home = $('#homeView');
-const list = $('#listView');
-const study = $('#studyView');
-const audio = $('#audio');
+// --------------------------------------------------
+// 화면 표시
+// --------------------------------------------------
 
-// ========================================
-// 공통 기능
-// ========================================
+function showView(view) {
+  home.classList.toggle('hidden', view !== 'home');
+  list.classList.toggle('hidden', view !== 'list');
+  study.classList.toggle('hidden', view !== 'study');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function toast(message) {
   const element = $('#toast');
   element.textContent = message;
   element.classList.add('show');
 
   clearTimeout(toastTimer);
-
   toastTimer = setTimeout(() => {
     element.classList.remove('show');
-  }, 2000);
+  }, 2200);
 }
 
-function view(target) {
-  [home, list, study].forEach(element => {
-    element.classList.add('hidden');
-  });
-
-  target.classList.remove('hidden');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function saveProgress() {
+  localStorage.setItem('lf2_done', JSON.stringify(done));
+  localStorage.setItem('lf2_recent', JSON.stringify(recent));
 }
 
-// ========================================
-// 동화 텍스트 파일 읽기
-//
-// 권장 형식:
-//
-// 1 | The New Teacher
-// EN: This is a story.
-// KO: 이것은 이야기입니다.
-//
-// 2 | A Good Friend
-// EN: I have a good friend.
-// KO: 나에게는 좋은 친구가 있습니다.
-// ========================================
-function parse(raw) {
-  const map = new Map();
-  let active = null;
+function addRecent(number) {
+  recent = [
+    number,
+    ...recent.filter((item) => item !== number)
+  ].slice(0, 6);
 
-  const lines = raw
-    .replace(/^\uFEFF/, '')
-    .split(/\r?\n/);
-
-  for (const rawLine of lines) {
-    const text = rawLine.trim();
-
-    if (!text || text.startsWith('#')) {
-      continue;
-    }
-
-    // 단원 제목 형식
-    const match = text.match(
-      /^\s*(?:\[(\d{1,2})\]|(\d{1,2})\s*(?:번\s*)?(?:[.|:：、-]\s*|\s+))(.+?)\s*$/
-    );
-
-    const alternative = text.match(
-      /^\s*(?:단원|동화|story|lesson)\s*(\d{1,2})\s*[:：-]\s*(.+)$/i
-    );
-
-    const number = match
-      ? Number(match[1] || match[2])
-      : alternative
-        ? Number(alternative[1])
-        : 0;
-
-    if (number >= 1 && number <= TOTAL) {
-      const title = match
-        ? match[3]
-        : alternative[2];
-
-      active = {
-        id: number,
-        title: title.replace(/^제목\s*[:：]\s*/, '').trim(),
-        lines: []
-      };
-
-      map.set(number, active);
-      continue;
-    }
-
-    // 숫자만 한 줄에 적힌 형식도 지원
-    const numberOnly = text.match(/^\[?(\d{1,2})번?\]?$/);
-
-    if (!active && numberOnly) {
-      const n = Number(numberOnly[1]);
-
-      if (n >= 1 && n <= TOTAL) {
-        active = {
-          id: n,
-          title: `${n}번 동화`,
-          lines: []
-        };
-
-        map.set(n, active);
-      }
-
-      continue;
-    }
-
-    if (!active) continue;
-
-    // 제목이 별도 줄에 있는 경우
-    if (/^제목\s*[:：]/.test(text)) {
-      active.title = text
-        .replace(/^제목\s*[:：]\s*/, '')
-        .trim();
-
-      continue;
-    }
-
-    const english = text.match(
-      /^(?:EN|ENG|영어)\s*[:：]\s*(.+)$/i
-    );
-
-    const korean = text.match(
-      /^(?:KO|KOR|해석|번역|우리말)\s*[:：]\s*(.+)$/i
-    );
-
-    const paired = text.match(/^(.+?)\s*\|\|\s*(.+)$/);
-
-    if (english) {
-      active.lines.push({
-        type: 'en',
-        text: english[1]
-      });
-    } else if (korean) {
-      active.lines.push({
-        type: 'ko',
-        text: korean[1]
-      });
-    } else if (paired) {
-      active.lines.push(
-        { type: 'en', text: paired[1].trim() },
-        { type: 'ko', text: paired[2].trim() }
-      );
-    } else {
-      active.lines.push({
-        type: 'auto',
-        text: text.replace(/^[-•*]\s*/, '')
-      });
-    }
-  }
-
-  // EN/KO 라벨이 없는 문장은 영어, 해석 순으로 처리
-  for (const story of map.values()) {
-    let index = 0;
-
-    story.lines = story.lines.map(line => {
-      if (line.type !== 'auto') return line;
-
-      return {
-        type: index++ % 2 === 0 ? 'en' : 'ko',
-        text: line.text
-      };
-    });
-  }
-
-  return map;
+  localStorage.setItem('lf2_recent', JSON.stringify(recent));
 }
 
-async function loadData() {
+// --------------------------------------------------
+// 텍스트 불러오기
+// 현재는 임시 파서이며 story67.txt 형식을 확인한 후
+// 동화 경계를 정확히 나누도록 수정할 예정
+// --------------------------------------------------
+
+async function fetchStoryText() {
   for (const path of DATA_FILES) {
     try {
-      const response = await fetch(path);
+      const response = await fetch(path, { cache: 'no-cache' });
 
-      if (!response.ok) continue;
+      if (response.ok) {
+        const text = await response.text();
 
-      const raw = await response.text();
-      const parsed = parse(raw);
-
-      parsed.forEach((story, number) => {
-        stories[number - 1] = story;
-      });
-
-      break;
+        if (text.trim()) {
+          console.log('동화 파일 불러오기 성공:', path);
+          return text.replace(/^\uFEFF/, '');
+        }
+      }
     } catch (error) {
-      console.warn('텍스트 파일 확인:', path, error);
+      console.warn('파일 불러오기 실패:', path);
     }
   }
 
-  renderHome();
+  throw new Error(
+    'story67.txt 파일을 찾을 수 없습니다. 파일 경로와 이름을 확인해 주세요.'
+  );
+}
 
-  if (!study.classList.contains('hidden')) {
+function parseStories(rawText) {
+  const result = Array.from({ length: TOTAL }, (_, index) => ({
+    id: index + 1,
+    title: `${index + 1}번 동화`,
+    lines: []
+  }));
+
+  /*
+   * 임시 파서:
+   * "1 | 제목", "1. 제목", "[1] 제목",
+   * "1번 제목", "Story 1: 제목" 같은 표식을 인식합니다.
+   *
+   * 실제 파일에서 동화가 구분되는 방식을 확인한 뒤
+   * 이 함수만 정확하게 조정할 예정입니다.
+   */
+
+  const lines = rawText.split(/\r?\n/);
+  let current = null;
+  let firstStoryHasContent = false;
+
+  const headingPatterns = [
+    /^\s*(\d{1,2})\s*\|\s*(.+?)\s*$/,
+    /^\s*\[(\d{1,2})\]\s*(.*?)\s*$/,
+    /^\s*(\d{1,2})\s*번(?:\s*[:：.)-]?\s*)(.*?)\s*$/,
+    /^\s*Story\s*(\d{1,2})\s*[:：.)-]\s*(.*?)\s*$/i,
+    /^\s*(\d{1,2})\s*[.)]\s+(.+?)\s*$/
+  ];
+
+  for (const originalLine of lines) {
+    const line = originalLine.trim();
+
+    if (!line) continue;
+
+    let heading = null;
+
+    for (const pattern of headingPatterns) {
+      const match = line.match(pattern);
+
+      if (match) {
+        heading = {
+          number: Number(match[1]),
+          title: (match[2] || '').trim()
+        };
+        break;
+      }
+    }
+
+    if (heading && heading.number >= 1 && heading.number <= TOTAL) {
+      current = result[heading.number - 1];
+
+      if (heading.title) {
+        current.title = heading.title;
+      }
+
+      firstStoryHasContent = false;
+      continue;
+    }
+
+    // 숫자만 있는 줄은 실제 파일 구조를 확인하기 전에는
+    // 동화 구분자로 처리하지 않습니다.
+    if (!current) {
+      current = result[0];
+    }
+
+    // 웹페이지에서 복사된 불필요한 안내문 제거
+    if (
+      /^(학습자료|원문해석|글자 확대|글자 축소|인쇄)$/.test(line) ||
+      /원문 숨기기|원문 보이기|단어를 클릭하면|글자 확대글자 축소인쇄/.test(line)
+    ) {
+      continue;
+    }
+
+    // 제목과 부제목으로 보이는 첫 두 줄은 임시 제목으로 활용
+    if (!firstStoryHasContent && current.lines.length === 0) {
+      if (
+        line.length < 100 &&
+        !/[.!?。]$/.test(line) &&
+        !/^(나는|내가|그는|그녀는|이것은|저것은)\s/.test(line)
+      ) {
+        if (current.title.endsWith('번 동화')) {
+          current.title = line;
+          firstStoryHasContent = true;
+          continue;
+        }
+      }
+    }
+
+    current.lines.push({
+      text: line,
+      lang: detectLanguage(line)
+    });
+
+    firstStoryHasContent = true;
+  }
+
+  return result;
+}
+
+function detectLanguage(text) {
+  if (/[가-힣]/.test(text)) return 'ko';
+  if (/[a-zA-Z]/.test(text)) return 'en';
+  return 'other';
+}
+
+async function initializeStories() {
+  try {
+    const rawText = await fetchStoryText();
+    stories = parseStories(rawText);
+    renderHome();
     renderStudy();
+  } catch (error) {
+    console.error(error);
+    $('#storyContent').innerHTML = `
+      <p class="error-message">
+        동화 텍스트 파일을 불러오지 못했습니다.<br>
+        GitHub 저장소에서 파일 경로를 확인해 주세요.
+      </p>
+    `;
+    renderHome();
   }
 }
 
-// ========================================
-// 메인 화면
-// ========================================
+// --------------------------------------------------
+// 홈 및 동화 목록
+// --------------------------------------------------
+
 function renderHome() {
-  const count = done.length;
+  const completedCount = done.length;
+  $('#progressText').textContent = `${completedCount} / ${TOTAL}`;
+  $('#progressBar').style.width =
+    `${Math.min(100, completedCount / TOTAL * 100)}%`;
 
-  $('#progressText').textContent =
-    `${count} / ${TOTAL} 완료`;
+  const grid = $('#storyGrid');
+  grid.innerHTML = '';
 
-  $('#progressFill').style.width =
-    `${count / TOTAL * 100}%`;
+  for (let number = start; number <= end; number++) {
+    const button = document.createElement('button');
+    button.className = 'story-card';
+    button.innerHTML = `
+      <span class="story-card-number">${number}</span>
+      <span class="story-card-title">
+        ${escapeHTML(stories[number - 1]?.title || `${number}번 동화`)}
+      </span>
+      <span class="story-card-status">
+        ${done.includes(number) ? '✓ 완료' : '학습하기 ›'}
+      </span>
+    `;
 
-  $('#progressSub').textContent =
-    count === TOTAL
-      ? '67개 동화를 모두 학습했어요!'
-      : `앞으로 ${TOTAL - count}개 동화를 더 학습할 수 있어요.`;
+    if (done.includes(number)) {
+      button.classList.add('completed');
+    }
 
-  document.querySelectorAll('.range-card').forEach(button => {
-    const first = Number(button.dataset.start);
-    const last = Number(button.dataset.end);
+    button.addEventListener('click', () => {
+      openList(start, end);
+      openStudy(number);
+    });
 
-    const completed = done.filter(number =>
-      number >= first && number <= last
-    ).length;
+    grid.appendChild(button);
+  }
 
-    button.querySelector('small').textContent =
-      `${completed}/${last - first + 1} 완료 · 학습하기`;
-  });
+  const recentList = $('#recentList');
 
-  const ids = recent
-    .filter((number, index, array) =>
-      array.indexOf(number) === index
-    )
-    .slice(0, 3);
+  if (recent.length === 0) {
+    recentList.innerHTML = '<p class="empty-message">아직 학습 기록이 없어요.</p>';
+  } else {
+    recentList.innerHTML = '';
 
-  $('#recentList').innerHTML = ids.length
-    ? ids.map(number => `
-        <button class="recent-item" data-id="${number}">
-          <span class="story-number">${pad(number)}</span>
-          <strong>${esc(stories[number - 1].title)}</strong>
-          ${
-            done.includes(number)
-              ? '<span class="check">✓ 완료</span>'
-              : '<span>이어하기 →</span>'
-          }
-        </button>
-      `).join('')
-    : '아직 학습한 동화가 없어요.';
+    recent.forEach((number) => {
+      const button = document.createElement('button');
+      button.className = 'recent-item';
+      button.textContent =
+        `${number}번 · ${stories[number - 1]?.title || '동화'}`;
+
+      button.addEventListener('click', () => {
+        start = number <= 20 ? 1 : number <= 40 ? 21 : number <= 60 ? 41 : 61;
+        end = Math.min(start + 19, TOTAL);
+        openStudy(number);
+      });
+
+      recentList.appendChild(button);
+    });
+  }
 }
 
-// ========================================
-// 단원 목록
-// ========================================
-function openList(first = 1, last = 20) {
-  start = first;
-  end = last;
+function openList(from, to) {
+  start = from;
+  end = to;
 
-  $('#listTitle').textContent =
-    `${first}~${last}번 동화`;
+  $('#listTitle').textContent = `${from}~${to}번 동화 목록`;
 
-  $('#listSubtitle').textContent =
-    `${done.filter(number =>
-      number >= first && number <= last
-    ).length} / ${last - first + 1}개 학습 완료`;
+  const container = $('#storyList');
+  container.innerHTML = '';
 
-  $('#storyList').innerHTML = stories
-    .slice(first - 1, last)
-    .map(story => `
-      <button class="story-row" data-id="${story.id}">
-        <span class="story-number">${pad(story.id)}</span>
-        <span class="story-name">${esc(story.title)}</span>
-        ${
-          done.includes(story.id)
-            ? '<span class="check">✓</span>'
-            : '<span>›</span>'
-        }
-      </button>
-    `).join('');
+  for (let number = from; number <= to; number++) {
+    const button = document.createElement('button');
+    button.className = 'story-list-item';
 
-  view(list);
+    button.innerHTML = `
+      <span class="list-number">${number}</span>
+      <span class="list-name">
+        ${escapeHTML(stories[number - 1]?.title || `${number}번 동화`)}
+      </span>
+      <span class="list-check">
+        ${done.includes(number) ? '✓' : '›'}
+      </span>
+    `;
+
+    if (done.includes(number)) {
+      button.classList.add('completed');
+    }
+
+    button.dataset.id = number;
+
+    button.addEventListener('click', () => openStudy(number));
+    container.appendChild(button);
+  }
+
+  showView('list');
 }
 
-// ========================================
-// 학습 화면 열기
-// ========================================
+// --------------------------------------------------
+// 학습 화면
+// --------------------------------------------------
+
 function openStudy(number) {
-  id = Math.max(1, Math.min(TOTAL, Number(number)));
+  if (number < 1 || number > TOTAL) return;
 
-  recent = [
-    id,
-    ...recent.filter(number => number !== id)
-  ].slice(0, 10);
-
-  localStorage.setItem(
-    'lf2_recent',
-    JSON.stringify(recent)
-  );
-
-  audio.pause();
-  audio.src = audioPath(id);
-  audio.playbackRate = 1;
-  speed = 1;
-  mode = 'both';
-
-  document.querySelectorAll('.mode-tab').forEach(button => {
-    button.classList.toggle(
-      'active',
-      button.dataset.mode === mode
-    );
-  });
+  id = number;
+  addRecent(number);
 
   renderStudy();
-  view(study);
+  renderHome();
+  showView('study');
+
+  playAudio(number);
 }
 
-// ========================================
-// 학습 내용 표시
-// ========================================
 function renderStudy() {
   const story = stories[id - 1];
 
-  $('#studyNumber').textContent = pad(id);
-  $('#studyTitle').textContent = story.title;
+  if (!story) return;
 
-  const saved = done.includes(id);
+  $('#studyPosition').textContent = `${id} / ${TOTAL}`;
+  $('#storyTitle').textContent = story.title || `${id}번 동화`;
 
-  $('#headerSaved').textContent =
-    saved ? '✓ 저장됨' : '♡ 저장';
+  $('#studyDoneBadge').classList.toggle('hidden', !done.includes(id));
 
-  $('#headerSaved').classList.toggle('saved', saved);
+  $('#prevBtn').disabled = id <= 1;
+  $('#nextBtn').disabled = id >= TOTAL;
 
-  $('#saveBtn').textContent = saved
-    ? '✓ 학습 완료 · 저장 취소'
-    : '♡ 이 동화 저장하기';
+  document.querySelectorAll('.mode-btn').forEach((button) => {
+    button.classList.toggle('active', button.dataset.mode === mode);
+  });
 
-  $('#saveBtn').classList.toggle('saved', saved);
+  const content = $('#storyContent');
 
-  $('#prevBtn').disabled = id === 1;
-  $('#nextBtn').disabled = id === TOTAL;
-
-  $('#speedValue').textContent = `${speed.toFixed(1)}×`;
-  $('#slowerBtn').disabled = speed <= 0.5;
-  $('#fasterBtn').disabled = speed >= 2.5;
-
-  const visible = story.lines.filter(line =>
-    mode === 'both' || line.type === mode
-  );
-
-  let content = `
-    <div class="content-title">
-      제목: (${esc(story.title)})
-    </div>
-  `;
-
-  if (visible.length) {
-    content += visible.map(line => `
-      <div class="line-card ${
-        line.type === 'ko' ? 'korean' : 'english'
-      }">
-        <div class="line-text">${esc(line.text)}</div>
-      </div>
-    `).join('');
-  } else {
-    content += `
-      <p class="empty-content">
-        텍스트가 없어요. data/story67.txt 파일을 확인하세요.
+  if (!story.lines.length) {
+    content.innerHTML = `
+      <p class="empty-message">
+        이 동화의 내용을 아직 나누지 못했어요.<br>
+        story67.txt 파일을 보내주면 번호별로 정확하게 구분해 줄게요.
       </p>
     `;
+    return;
   }
 
-  $('#storyContent').innerHTML = content;
-  $('#storyContent').scrollTop = 0;
+  const visibleLines = story.lines.filter((line) => {
+    if (mode === 'en') return line.lang === 'en';
+    if (mode === 'ko') return line.lang === 'ko';
+    return line.lang === 'en' || line.lang === 'ko';
+  });
 
-  renderHome();
+  content.innerHTML = visibleLines.map((line) => `
+    <p class="story-line ${line.lang === 'ko' ? 'korean-line' : 'english-line'}">
+      ${escapeHTML(line.text)}
+    </p>
+  `).join('');
 }
 
-// ========================================
-// 학습 완료 저장 / 취소
-// ========================================
 function saveCurrent() {
-  if (done.includes(id)) {
-    done = done.filter(number => number !== id);
-  } else {
+  if (!done.includes(id)) {
     done = [...done, id].sort((a, b) => a - b);
   }
 
-  localStorage.setItem('lf2_done', JSON.stringify(done));
-
+  saveProgress();
   renderStudy();
+  renderHome();
 
   if (!list.classList.contains('hidden')) {
     openList(start, end);
   }
 
-  toast(
-    done.includes(id)
-      ? '학습 완료로 저장했어요.'
-      : '완료 표시를 취소했어요.'
-  );
+  toast('✓ 학습 완료로 저장했어요!');
 }
 
-// ========================================
-// 재생 속도
-// 최소 0.5× / 최대 2.5× / 0.5씩 변경
-// ========================================
-function changeSpeed(delta) {
-  speed = Math.max(
-    0.5,
-    Math.min(2.5, Math.round((speed + delta) * 10) / 10)
-  );
+function setMode(nextMode) {
+  mode = nextMode;
+  renderStudy();
+}
 
+// --------------------------------------------------
+// 음성 플레이어
+// --------------------------------------------------
+
+function audioPath(number) {
+  return `${AUDIO_DIR}s${pad(number)}.mp3`;
+}
+
+function playAudio(number) {
+  const path = audioPath(number);
+
+  $('#audioTitle').textContent =
+    `${number}번 · ${stories[number - 1]?.title || '동화'}`;
+
+  $('#audioStatus').textContent = '음성 파일 준비 중';
+
+  audio.src = path;
   audio.playbackRate = speed;
+  audio.load();
 
-  $('#speedValue').textContent = `${speed.toFixed(1)}×`;
-  $('#slowerBtn').disabled = speed <= 0.5;
-  $('#fasterBtn').disabled = speed >= 2.5;
+  audio.play().then(() => {
+    $('#audioStatus').textContent = '재생 중';
+  }).catch(() => {
+    $('#audioStatus').textContent = '재생 버튼을 눌러주세요';
+  });
 }
 
-// ========================================
-// 오디오 시간 표시
-// ========================================
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds) || seconds < 0) {
-    return '00:00';
+audio.addEventListener('play', () => {
+  $('#audioStatus').textContent = '재생 중';
+});
+
+audio.addEventListener('pause', () => {
+  if (!audio.ended) {
+    $('#audioStatus').textContent = '일시정지';
   }
+});
 
-  return (
-    String(Math.floor(seconds / 60)).padStart(2, '0') +
-    ':' +
-    String(Math.floor(seconds % 60)).padStart(2, '0')
-  );
-}
+audio.addEventListener('ended', () => {
+  $('#audioStatus').textContent = '재생 완료';
+});
 
-// ========================================
+$('#speedSelect').addEventListener('change', (event) => {
+  speed = Number(event.target.value);
+  audio.playbackRate = speed;
+  toast(`재생 속도 ${speed}배`);
+});
+
+// --------------------------------------------------
 // 버튼 이벤트
-// ========================================
-document.querySelectorAll('.range-card').forEach(button => {
+// --------------------------------------------------
+
+document.querySelectorAll('.range-btn').forEach((button) => {
   button.addEventListener('click', () => {
-    openList(
-      Number(button.dataset.start),
-      Number(button.dataset.end)
-    );
+    start = Number(button.dataset.start);
+    end = Number(button.dataset.end);
+
+    document.querySelectorAll('.range-btn').forEach((item) => {
+      item.classList.toggle('active', item === button);
+    });
+
+    renderHome();
   });
 });
 
-$('#homeBtn').addEventListener('click', () => {
-  audio.pause();
-  view(home);
-  renderHome();
+document.querySelectorAll('.mode-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    setMode(button.dataset.mode);
+  });
 });
 
-$('#listBackBtn').addEventListener('click', () => {
-  view(home);
+$('#backHomeBtn').addEventListener('click', () => {
+  showView('home');
 });
 
-function backToList() {
-  audio.pause();
+$('#backListBtn').addEventListener('click', () => {
   openList(start, end);
-}
-
-$('#studyBackBtn').addEventListener('click', backToList);
-$('#backToListBtn').addEventListener('click', backToList);
-
-$('#showAllBtn').addEventListener('click', () => {
-  openList(1, 67);
 });
 
-$('#storyList').addEventListener('click', event => {
-  const button = event.target.closest('[data-id]');
-
-  if (button) {
-    openStudy(Number(button.dataset.id));
-  }
-});
-
-$('#recentList').addEventListener('click', event => {
-  const button = event.target.closest('[data-id]');
-
-  if (button) {
-    openStudy(Number(button.dataset.id));
-  }
-});
+$('#saveBtn').addEventListener('click', saveCurrent);
 
 $('#prevBtn').addEventListener('click', () => {
   if (id > 1) openStudy(id - 1);
@@ -545,113 +508,27 @@ $('#nextBtn').addEventListener('click', () => {
   if (id < TOTAL) openStudy(id + 1);
 });
 
-$('#saveBtn').addEventListener('click', saveCurrent);
-$('#headerSaved').addEventListener('click', saveCurrent);
-
-$('#slowerBtn').addEventListener('click', () => {
-  changeSpeed(-0.5);
+$('#continueBtn').addEventListener('click', () => {
+  openStudy(recent[0] || 1);
 });
 
-$('#fasterBtn').addEventListener('click', () => {
-  changeSpeed(0.5);
-});
-
-document.querySelectorAll('.mode-tab').forEach(button => {
-  button.addEventListener('click', () => {
-    mode = button.dataset.mode;
-
-    document.querySelectorAll('.mode-tab').forEach(tab => {
-      tab.classList.toggle('active', tab === button);
-    });
-
-    renderStudy();
-  });
-});
-
-// ========================================
-// 학습 기록 초기화
-// ========================================
 $('#resetProgressBtn').addEventListener('click', () => {
-  if (confirm('학습 완료 기록을 모두 초기화할까요?')) {
-    done = [];
-    recent = [];
+  const confirmed = confirm(
+    '저장된 학습 완료 표시와 최근 학습 기록을 모두 초기화할까요?'
+  );
 
-    localStorage.removeItem('lf2_done');
-    localStorage.removeItem('lf2_recent');
+  if (!confirmed) return;
 
-    renderHome();
-    renderStudy();
-
-    toast('학습 기록을 초기화했어요.');
-  }
+  done = [];
+  recent = [];
+  saveProgress();
+  renderHome();
+  renderStudy();
+  toast('학습 기록을 초기화했어요.');
 });
 
-// ========================================
-// 오디오 재생 / 일시정지
-// ========================================
-$('#playBtn').addEventListener('click', async () => {
-  try {
-    if (audio.paused) {
-      await audio.play();
-      $('#audioStatus').textContent = '듣고 따라 말해 보세요.';
-    } else {
-      audio.pause();
-    }
-  } catch {
-    $('#audioStatus').textContent =
-      `음성 파일 확인: s67/s${pad(id)}.mp3`;
-  }
-});
+// --------------------------------------------------
+// 시작
+// --------------------------------------------------
 
-audio.addEventListener('play', () => {
-  $('#playBtn').textContent = 'Ⅱ';
-});
-
-audio.addEventListener('pause', () => {
-  $('#playBtn').textContent = '▶';
-});
-
-audio.addEventListener('loadedmetadata', () => {
-  $('#duration').textContent = formatTime(audio.duration);
-  $('#audioStatus').textContent = '';
-});
-
-audio.addEventListener('timeupdate', () => {
-  if (audio.duration) {
-    $('#currentTime').textContent = formatTime(audio.currentTime);
-
-    $('#seekBar').value =
-      audio.currentTime / audio.duration * 100;
-  }
-});
-
-audio.addEventListener('error', () => {
-  $('#audioStatus').textContent =
-    `음성 파일 없음: s67/s${pad(id)}.mp3`;
-});
-
-// 재생 막대 이동
-$('#seekBar').addEventListener('input', () => {
-  if (audio.duration) {
-    audio.currentTime =
-      Number($('#seekBar').value) / 100 * audio.duration;
-  }
-});
-
-// ========================================
-// PWA 서비스 워커
-// ========================================
-if ('serviceWorker' in navigator &&
-    location.protocol === 'https:') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./service-worker.js')
-      .catch(error => console.warn('서비스 워커 등록 실패:', error));
-  });
-}
-
-// ========================================
-// 앱 시작
-// ========================================
-renderHome();
-loadData();
+initializeStories();
