@@ -1,17 +1,136 @@
-<!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#315eb5"><meta name="description" content="리틀팍스 동화 레벨 2 영어 듣기 학습">
-<link rel="manifest" href="./manifest.json"><link rel="icon" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./style.css"><title>리틀팍스 동화 레벨 2</title></head>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8ef">
+  <meta name="description" content="리틀팍스 동화 레벨 2 영어 학습 앱">
+  <title>리틀팍스 동화 레벨 2</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
 <body>
-<header class="topbar"><button id="homeBtn" class="icon-button">⌂</button><div class="brand"><span>📚</span><div><h1>리틀팍스 동화 레벨 2</h1><p>듣고 · 읽고 · 따라 말하기</p></div></div></header>
-<main id="homeView" class="view"><section class="hero"><div><small>ENGLISH LISTENING</small><h2>오늘도 한 편씩,<br>영어와 친해지기</h2><p>듣고, 읽고, 소리 내어 따라 해요.</p></div><div class="hero-art">🦊📖</div></section>
-<section class="range-grid"><button class="range-card pink" data-start="1" data-end="20"><strong>1~20번</strong><small>동화 학습하기</small></button><button class="range-card blue" data-start="21" data-end="40"><strong>21~40번</strong><small>동화 학습하기</small></button><button class="range-card green" data-start="41" data-end="60"><strong>41~60번</strong><small>동화 학습하기</small></button><button class="range-card yellow" data-start="61" data-end="67"><strong>61~67번</strong><small>동화 학습하기</small></button></section>
-<section class="card"><div class="section-heading"><h2>나의 학습 현황</h2><strong id="progressText">0 / 67 완료</strong></div><div class="progress-track"><div id="progressFill"></div></div><p id="progressSub">저장한 동화가 여기에 표시돼요.</p></section>
-<section class="card"><div class="section-heading"><h2>최근 학습한 동화</h2><button id="showAllBtn" class="text-button">전체 목록</button></div><div id="recentList" class="recent-list">아직 학습한 동화가 없어요.</div></section></main>
-<main id="listView" class="view hidden"><div class="page-heading"><button id="listBackBtn" class="back-button">← 메인</button><div><h2 id="listTitle">동화 목록</h2><p id="listSubtitle"></p></div></div><div id="storyList" class="story-list"></div></main>
-<main id="studyView" class="view study-view hidden"><div class="study-heading"><button id="studyBackBtn" class="back-button">← 목록</button><span id="studyNumber" class="story-number">001</span><h2 id="studyTitle">동화 제목</h2><button id="headerSaved" class="save-chip">♡ 저장</button></div>
-<section class="player-card"><div class="player-main"><button id="playBtn" class="play-button" aria-label="재생">▶</button><div class="timeline-wrap"><div class="time-row"><span id="currentTime">00:00</span><span id="duration">00:00</span></div><input id="seekBar" type="range" min="0" max="100" value="0" aria-label="재생 위치"></div></div>
-<div class="speed-row"><span>속도 조절</span><button id="slowerBtn" class="speed-arrow" aria-label="0.5배 느리게">−</button><strong id="speedValue">1.0×</strong><button id="fasterBtn" class="speed-arrow" aria-label="0.5배 빠르게">＋</button></div><p id="audioStatus" class="audio-status">음성 파일을 불러오는 중이에요.</p><audio id="audio" preload="metadata"></audio></section>
-<div class="mode-tabs"><button class="mode-tab active" data-mode="both">영어 + 해석</button><button class="mode-tab" data-mode="en">영어만</button><button class="mode-tab" data-mode="ko">해석만</button></div>
-<section id="storyContent" class="story-content"></section><nav class="study-nav"><button id="prevBtn" class="nav-button">← 이전</button><button id="backToListBtn" class="nav-button neutral">목록으로</button><button id="nextBtn" class="nav-button next">다음 →</button></nav><button id="saveBtn" class="save-main">♡ 이 동화 저장하기</button><p class="save-note">저장하면 메인 화면과 단원 목록에 완료 표시가 돼요.</p></main>
-<footer><span>Littlefox Level 2 · 개인 학습용</span><button id="resetProgressBtn" class="text-button">학습 기록 초기화</button></footer><div id="toast" class="toast"></div><script src="./app.js"></script></body></html>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">ENGLISH STORY LEARNING</p>
+      <h1>🦊 리틀팍스 동화 레벨 2</h1>
+      <p class="subtitle">매일 듣고, 읽고, 반복하기</p>
+    </div>
+    <div class="progress-box">
+      <span>학습 완료</span>
+      <strong id="progressText">0 / 67</strong>
+      <div class="progress-track">
+        <div id="progressBar"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="homeView">
+      <h2>📚 동화 선택</h2>
+      <p class="section-desc">공부할 동화 번호 구간을 선택하세요.</p>
+
+      <div class="range-buttons">
+        <button class="range-btn active" data-start="1" data-end="20">1~20번</button>
+        <button class="range-btn" data-start="21" data-end="40">21~40번</button>
+        <button class="range-btn" data-start="41" data-end="60">41~60번</button>
+        <button class="range-btn" data-start="61" data-end="67">61~67번</button>
+      </div>
+
+      <div class="home-actions">
+        <button id="continueBtn" class="secondary-btn">▶ 이어서 학습하기</button>
+        <button id="resetProgressBtn" class="text-btn">학습 기록 초기화</button>
+      </div>
+
+      <div id="storyGrid" class="story-grid"></div>
+
+      <section class="recent-section">
+        <h2>🕘 최근 학습</h2>
+        <div id="recentList" class="recent-list"></div>
+      </section>
+    </section>
+
+    <section id="listView" class="hidden">
+      <div class="section-heading">
+        <button id="backHomeBtn" class="back-btn">← 구간 선택</button>
+        <div>
+          <h2 id="listTitle">동화 목록</h2>
+          <p class="section-desc">동화를 누르면 해당 동화로 이동합니다.</p>
+        </div>
+      </div>
+      <div id="storyList" class="story-list"></div>
+    </section>
+
+    <section id="studyView" class="hidden">
+      <div class="study-nav">
+        <button id="backListBtn" class="secondary-btn">☰ 목록</button>
+        <span id="studyPosition">1 / 67</span>
+      </div>
+
+      <div class="study-title-row">
+        <div>
+          <p class="eyebrow">STORY READING</p>
+          <h2 id="storyTitle">1번 동화</h2>
+        </div>
+        <span id="studyDoneBadge" class="done-badge hidden">✓ 학습 완료</span>
+      </div>
+
+      <div class="mode-buttons" aria-label="보기 방식">
+        <button class="mode-btn active" data-mode="both">영어 + 한국어</button>
+        <button class="mode-btn" data-mode="en">영어만</button>
+        <button class="mode-btn" data-mode="ko">한국어만</button>
+      </div>
+
+      <article id="storyContent" class="story-content">
+        <p class="loading-text">동화 내용을 불러오는 중입니다.</p>
+      </article>
+
+      <button id="saveBtn" class="save-main">✓ 학습 완료 체크 저장</button>
+
+      <div class="prev-next">
+        <button id="prevBtn" class="secondary-btn">← 이전 동화</button>
+        <button id="nextBtn" class="primary-btn">다음 동화 →</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="audioDock" class="audio-dock">
+    <div class="audio-topline">
+      <div class="audio-now">
+        <span class="audio-icon">♫</span>
+        <div>
+          <strong id="audioTitle">동화를 선택하세요</strong>
+          <span id="audioStatus">음성 플레이어</span>
+        </div>
+      </div>
+      <label class="speed-label" for="speedSelect">
+        속도
+        <select id="speedSelect">
+          <option value="0.5">0.5x</option>
+          <option value="1">1.0x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2.0x</option>
+          <option value="2.5">2.5x</option>
+        </select>
+      </label>
+    </div>
+
+    <audio id="audio" controls preload="none">
+      브라우저가 오디오 재생을 지원하지 않습니다.
+    </audio>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
