@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>리틀팍스 동화 레벨 2</title>
   <meta name="description" content="영어 동화 67편 · 듣기 · 읽기 · 해석">
 
@@ -22,15 +21,40 @@
   <link rel="stylesheet" href="./style.css">
   <script src="./app.js" defer></script>
 </head>
-
 <body>
+  <!-- 상단 고정 영역: 제목 -->
   <header class="app-header">
     <div class="brand-icon" aria-hidden="true">🦊📚</div>
-    <div>
+    <div class="brand-text">
       <h1>리틀팍스 동화 레벨 2</h1>
-      <p>영어 동화 67편 · 듣기 · 읽기 · 해석 🐻</p>
+      <p>영어 동화 67편 · 듣기 · 읽기 · 해석</p>
     </div>
   </header>
+
+  <!-- 상단 고정 영역: 학습 중일 때만 플레이어 표시 -->
+  <section id="fixedPlayer" class="fixed-player" hidden>
+    <div class="player-main">
+      <button type="button" id="playButton" class="play-button">▶ 재생</button>
+      <button type="button" id="stopButton" class="stop-button">■ 정지</button>
+
+      <div class="speed-control">
+        <button type="button" id="slowerButton" class="speed-arrow" aria-label="재생 속도 느리게">◀</button>
+        <div class="speed-display">
+          <span class="speed-caption">재생 속도</span>
+          <strong id="speedValue">1.0배속</strong>
+        </div>
+        <button type="button" id="fasterButton" class="speed-arrow" aria-label="재생 속도 빠르게">▶</button>
+      </div>
+    </div>
+
+    <div class="audio-progress-area">
+      <input type="range" id="audioProgress" min="0" max="100" value="0" step="0.1" aria-label="오디오 재생 위치">
+      <div class="audio-times">
+        <span id="currentTime">0:00</span>
+        <span id="durationTime">0:00</span>
+      </div>
+    </div>
+  </section>
 
   <main>
     <!-- 메인 화면 -->
@@ -42,9 +66,9 @@
             <h2>🌟 나의 학습 진행률</h2>
             <strong id="progressCount">0 / 67</strong>
           </div>
-          <div id="progressTrack" class="progress-track"
-               role="progressbar" aria-label="학습 진행률"
-               aria-valuemin="0" aria-valuemax="67" aria-valuenow="0">
+          <div id="progressTrack" class="progress-track" role="progressbar"
+               aria-label="학습 진행률" aria-valuemin="0"
+               aria-valuemax="67" aria-valuenow="0">
             <div id="progressBar"></div>
           </div>
           <p id="progressText">0% 완료! 함께 시작해 봐요 🌱</p>
@@ -84,10 +108,10 @@
     <!-- 동화 목록 -->
     <section id="listView" class="view" hidden>
       <div class="page-heading">
-        <button type="button" id="homeButton" class="back-button">← 메인으로</button>
+        <button type="button" id="homeButton" class="back-button">← 메인</button>
         <div class="page-heading-text">
           <h2 id="listTitle">📚 동화 목록</h2>
-          <p>동화를 선택해 학습하고 완료 여부를 확인하세요.</p>
+          <p>동화를 선택해 학습하세요.</p>
         </div>
         <span class="heading-character" aria-hidden="true">🐣</span>
       </div>
@@ -96,61 +120,36 @@
       </div>
     </section>
 
-    <!-- 개별 동화 학습 -->
+    <!-- 개별 동화: 이 영역만 스크롤 -->
     <section id="studyView" class="view" hidden>
-      <!-- 상단 고정 오디오 플레이어 -->
-      <section class="audio-panel sticky-player" aria-label="동화 오디오 플레이어">
-        <div class="audio-character" aria-hidden="true">🎧🐱</div>
-        <div class="audio-controls">
-          <div class="audio-buttons">
-            <button type="button" id="playButton" class="play-button">▶ 재생</button>
-            <button type="button" id="stopButton" class="stop-button">■ 정지</button>
-            <label class="speed-label" for="speedSelect">속도</label>
-            <select id="speedSelect">
-              <option value="0.5">0.5배</option>
-              <option value="1" selected>1배</option>
-              <option value="1.5">1.5배</option>
-              <option value="2">2배</option>
-              <option value="2.5">2.5배</option>
-              <option value="3">3배</option>
-            </select>
-          </div>
-          <input type="range" id="audioProgress" min="0" max="100"
-                 value="0" step="0.1" aria-label="오디오 재생 위치">
-          <div class="audio-times">
-            <span id="currentTime">0:00</span>
-            <span id="durationTime">0:00</span>
-          </div>
+      <div class="study-scroll">
+        <div class="page-heading study-heading">
+          <button type="button" id="backToListButton" class="back-button">← 동화 목록</button>
+          <span class="heading-character" aria-hidden="true">🦉</span>
         </div>
-      </section>
 
-      <div class="page-heading study-heading">
-        <button type="button" id="backToListButton" class="back-button">← 동화 목록</button>
-        <span class="heading-character" aria-hidden="true">🦉</span>
+        <article class="study-panel">
+          <h2 id="studyTitle">📖 동화 제목</h2>
+
+          <div class="mode-buttons">
+            <button type="button" id="showBothButton" data-mode="both" class="active">영어 + 해석</button>
+            <button type="button" id="showEnglishButton" data-mode="english">영어만</button>
+            <button type="button" id="showKoreanButton" data-mode="korean">해석만</button>
+          </div>
+
+          <div id="storyContent" class="story-content">
+            <p>동화 내용을 불러오는 중이에요. 🐥</p>
+          </div>
+
+          <div class="study-actions">
+            <button type="button" id="completeButton" class="complete-button">○ 학습 완료 체크</button>
+            <div class="navigation-buttons">
+              <button type="button" id="prevButton" class="nav-button">← 이전</button>
+              <button type="button" id="nextButton" class="nav-button">다음 →</button>
+            </div>
+          </div>
+        </article>
       </div>
-
-      <!-- 이 아래 동화 내용 영역만 스크롤 -->
-      <article class="study-panel">
-        <h2 id="studyTitle">📖 동화 제목</h2>
-
-        <div class="mode-buttons">
-          <button type="button" id="showBothButton" data-mode="both" class="active">영어 + 해석</button>
-          <button type="button" id="showEnglishButton" data-mode="english">영어만</button>
-          <button type="button" id="showKoreanButton" data-mode="korean">해석만</button>
-        </div>
-
-        <div id="storyContent" class="story-content">
-          <p>동화 내용을 불러오는 중이에요. 🐥</p>
-        </div>
-
-        <div class="study-actions">
-          <button type="button" id="completeButton" class="complete-button">○ 학습 완료 체크</button>
-          <div class="navigation-buttons">
-            <button type="button" id="prevButton" class="nav-button">← 이전</button>
-            <button type="button" id="nextButton" class="nav-button">다음 →</button>
-          </div>
-        </div>
-      </article>
     </section>
   </main>
 </body>
