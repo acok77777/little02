@@ -457,3 +457,7 @@ async function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
+document.getElementById("startButton")?.addEventListener("click", () => {
+  document.getElementById("homeView").hidden = true;
+  document.getElementById("listView").hidden = false;
+});
