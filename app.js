@@ -8,13 +8,11 @@ const stories = [];
 let currentStory = null;
 let currentRange = { start: 1, end: 20 };
 let currentMode = "both";
-let audio = new Audio();
+const audio = new Audio();
 
 const $ = (id) => document.getElementById(id);
 
-function padNumber(number) {
-  return String(number).padStart(2, "0");
-}
+const padNumber = (number) => String(number).padStart(2, "0");
 
 function getCompleted() {
   try {
@@ -34,16 +32,6 @@ function saveCompleted() {
   );
 }
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, (char) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
 function parseStory(number, text) {
   const lines = text
     .replace(/^\uFEFF/, "")
@@ -61,7 +49,6 @@ function parseStory(number, text) {
       continue;
     }
 
-    // 제목 다음에 있는 한국어 제목
     if (!koreanTitle && contentLines.length === 0) {
       const match = line.match(/^\((.+)\)$/);
       if (match) {
@@ -70,10 +57,8 @@ function parseStory(number, text) {
       }
     }
 
-    // 원본 자료의 제목 안내나 불필요한 출처 문구 제외
     if (/^My First Readers\b/i.test(line)) continue;
     if (/^리틀팍스/i.test(line)) continue;
-    if (/^영어 문장\s*[,/·]\s*한국어 해석/.test(line)) continue;
 
     contentLines.push(line);
   }
@@ -89,15 +74,13 @@ function parseStory(number, text) {
         pairs.push({ english: pendingEnglish, korean: "" });
       }
       pendingEnglish = line;
+    } else if (pendingEnglish) {
+      pairs.push({ english: pendingEnglish, korean: line });
+      pendingEnglish = "";
+    } else if (pairs.length && !pairs[pairs.length - 1].korean) {
+      pairs[pairs.length - 1].korean = line;
     } else {
-      if (pendingEnglish) {
-        pairs.push({ english: pendingEnglish, korean: line });
-        pendingEnglish = "";
-      } else if (pairs.length > 0 && !pairs[pairs.length - 1].korean) {
-        pairs[pairs.length - 1].korean = line;
-      } else {
-        pairs.push({ english: "", korean: line });
-      }
+      pairs.push({ english: "", korean: line });
     }
   }
 
@@ -105,13 +88,7 @@ function parseStory(number, text) {
     pairs.push({ english: pendingEnglish, korean: "" });
   }
 
-  return {
-    number,
-    title,
-    koreanTitle,
-    pairs,
-    loaded: true
-  };
+  return { number, title, koreanTitle, pairs, loaded: true };
 }
 
 async function loadOneStory(number) {
@@ -119,11 +96,10 @@ async function loadOneStory(number) {
     const response = await fetch(`${DATA_DIR}w${padNumber(number)}.txt`);
 
     if (!response.ok) {
-      throw new Error(`파일을 찾을 수 없습니다: w${padNumber(number)}.txt`);
+      throw new Error(`w${padNumber(number)}.txt 파일을 불러오지 못했습니다.`);
     }
 
-    const text = await response.text();
-    return parseStory(number, text);
+    return parseStory(number, await response.text());
   } catch (error) {
     console.error(error);
     return {
@@ -137,11 +113,11 @@ async function loadOneStory(number) {
 }
 
 async function loadAllStories() {
-  const results = await Promise.all(
+  const loadedStories = await Promise.all(
     Array.from({ length: TOTAL_STORIES }, (_, i) => loadOneStory(i + 1))
   );
 
-  stories.splice(0, stories.length, ...results);
+  stories.splice(0, stories.length, ...loadedStories);
   updateProgress();
 }
 
@@ -158,24 +134,23 @@ function updateProgress() {
 
   $("progressCount").textContent = `${count} / ${TOTAL_STORIES}`;
   $("progressBar").style.width = `${percent}%`;
-  $("progressText").textContent =
-    count === TOTAL_STORIES
-      ? "🎉 대단해요! 67편을 모두 학습했어요!"
-      : `${percent}% 완료! 조금씩 꾸준히 해 봐요 🌱`;
+  $("progressText").textContent = count === TOTAL_STORIES
+    ? "🎉 대단해요! 67편을 모두 학습했어요!"
+    : `${percent}% 완료! 조금씩 꾸준히 해 봐요 🌱`;
 
   $("progressTrack").setAttribute("aria-valuenow", String(count));
 }
 
 function showView(viewName) {
-  for (const id of ["homeView", "listView", "studyView"]) {
+  ["homeView", "listView", "studyView"].forEach((id) => {
     const view = $(id);
-    const isActive = id === viewName;
+    const active = id === viewName;
 
-    view.classList.toggle("active", isActive);
-    view.hidden = !isActive;
-  }
+    view.classList.toggle("active", active);
+    view.hidden = !active;
+  });
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 function selectRange(range) {
@@ -193,15 +168,15 @@ function renderStoryList() {
 
   for (let number = currentRange.start; number <= currentRange.end; number++) {
     const story = stories[number - 1];
-    const isCompleted = completedStories.has(number);
+    const done = completedStories.has(number);
 
     const item = document.createElement("div");
-    item.className = `story-item${isCompleted ? " completed" : ""}`;
+    item.className = `story-item${done ? " completed" : ""}`;
 
     const openButton = document.createElement("button");
     openButton.type = "button";
     openButton.className = "story-open";
-    openButton.setAttribute("aria-label", `${number}번 ${getStoryTitle(story)} 학습하기`);
+    openButton.setAttribute("aria-label", `${number}번 동화 학습하기`);
 
     const numberBadge = document.createElement("span");
     numberBadge.className = "story-number";
@@ -216,16 +191,17 @@ function renderStoryList() {
 
     const subtitle = document.createElement("span");
     subtitle.className = "story-subtitle";
-    subtitle.textContent = story && story.loaded ? "📖 눌러서 학습하기" : "⚠️ 동화 파일 확인 필요";
+    subtitle.textContent = story?.loaded
+      ? "📖 눌러서 학습하기"
+      : "⚠️ 파일을 확인해 주세요";
 
     titleWrap.append(title, subtitle);
     openButton.append(numberBadge, titleWrap);
     openButton.addEventListener("click", () => openStory(number));
 
     const status = document.createElement("span");
-    status.className = `story-status${isCompleted ? " done" : ""}`;
-    status.textContent = isCompleted ? "☑ 학습 완료" : "○ 학습 전";
-    status.setAttribute("aria-label", isCompleted ? "학습 완료" : "학습 전");
+    status.className = `story-status${done ? " done" : ""}`;
+    status.textContent = done ? "☑ 학습 완료" : "○ 학습 전";
 
     item.append(openButton, status);
     list.append(item);
@@ -234,7 +210,6 @@ function renderStoryList() {
 
 function openStory(number) {
   currentStory = stories[number - 1];
-
   if (!currentStory) return;
 
   currentMode = "both";
@@ -244,25 +219,31 @@ function openStory(number) {
   updateNavigation();
 
   stopAudio();
+  audio.src = new URL(
+    `${AUDIO_DIR}s${padNumber(number)}.mp3`,
+    window.location.href
+  ).href;
+  audio.load();
+
   showView("studyView");
 }
 
 function renderStudyStory() {
-  const story = currentStory;
-
-  $("studyTitle").textContent = `📖 ${story.number}. ${getStoryTitle(story)}`;
+  $("studyTitle").textContent =
+    `📖 ${currentStory.number}. ${getStoryTitle(currentStory)}`;
 
   const content = $("storyContent");
   content.replaceChildren();
 
-  if (!story.loaded || story.pairs.length === 0) {
+  if (!currentStory.loaded || !currentStory.pairs.length) {
     const message = document.createElement("p");
-    message.textContent = "동화 내용을 불러오지 못했어요. data 폴더의 TXT 파일을 확인해 주세요.";
+    message.textContent =
+      "동화 내용을 불러오지 못했어요. data 폴더의 TXT 파일을 확인해 주세요.";
     content.append(message);
     return;
   }
 
-  for (const pair of story.pairs) {
+  for (const pair of currentStory.pairs) {
     if (currentMode !== "korean" && pair.english) {
       const english = document.createElement("p");
       english.className = "english-line";
@@ -277,6 +258,15 @@ function renderStudyStory() {
       content.append(korean);
     }
   }
+
+  // 새 동화로 바뀔 때 본문을 처음 위치로
+  content.scrollTop = 0;
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  updateModeButtons();
+  renderStudyStory();
 }
 
 function updateModeButtons() {
@@ -285,23 +275,14 @@ function updateModeButtons() {
   });
 }
 
-function setMode(mode) {
-  currentMode = mode;
-  updateModeButtons();
-
-  if (currentStory) {
-    renderStudyStory();
-  }
-}
-
 function updateCompleteButton() {
   if (!currentStory) return;
 
-  const isCompleted = completedStories.has(currentStory.number);
+  const done = completedStories.has(currentStory.number);
   const button = $("completeButton");
 
-  button.classList.toggle("completed", isCompleted);
-  button.textContent = isCompleted ? "☑ 학습 완료 취소" : "○ 학습 완료 체크";
+  button.classList.toggle("completed", done);
+  button.textContent = done ? "☑ 학습 완료 취소" : "○ 학습 완료 체크";
 }
 
 function toggleComplete() {
@@ -318,12 +299,9 @@ function toggleComplete() {
   saveCompleted();
   updateProgress();
   updateCompleteButton();
-  renderStoryList();
 }
 
 function updateNavigation() {
-  if (!currentStory) return;
-
   $("prevButton").disabled = currentStory.number <= 1;
   $("nextButton").disabled = currentStory.number >= TOTAL_STORIES;
 }
@@ -331,11 +309,10 @@ function updateNavigation() {
 function moveStory(step) {
   if (!currentStory) return;
 
-  const nextNumber = currentStory.number + step;
+  const number = currentStory.number + step;
+  if (number < 1 || number > TOTAL_STORIES) return;
 
-  if (nextNumber < 1 || nextNumber > TOTAL_STORIES) return;
-
-  openStory(nextNumber);
+  openStory(number);
 }
 
 function formatTime(seconds) {
@@ -349,32 +326,25 @@ function formatTime(seconds) {
 
 function updateAudioProgress() {
   const duration = audio.duration || 0;
-  const current = audio.currentTime || 0;
 
-  $("currentTime").textContent = formatTime(current);
+  $("currentTime").textContent = formatTime(audio.currentTime || 0);
   $("durationTime").textContent = formatTime(duration);
-  $("audioProgress").value = duration ? (current / duration) * 100 : 0;
+  $("audioProgress").value = duration
+    ? (audio.currentTime / duration) * 100
+    : 0;
 }
 
-function playAudio() {
+async function playAudio() {
   if (!currentStory) return;
-
-  const expectedSource = new URL(
-    `${AUDIO_DIR}s${padNumber(currentStory.number)}.mp3`,
-    window.location.href
-  ).href;
-
-  if (audio.src !== expectedSource) {
-    audio.src = expectedSource;
-    audio.load();
-  }
 
   audio.playbackRate = Number($("speedSelect").value);
 
-  audio.play().catch((error) => {
+  try {
+    await audio.play();
+  } catch (error) {
     console.error("오디오 재생 오류:", error);
-    alert("오디오를 재생할 수 없어요. s67 폴더의 MP3 파일 이름을 확인해 주세요.");
-  });
+    alert("오디오를 재생할 수 없어요. s67 폴더의 MP3 파일을 확인해 주세요.");
+  }
 }
 
 function stopAudio() {
@@ -388,7 +358,10 @@ function bindEvents() {
     button.addEventListener("click", () => selectRange(button.dataset.range));
   });
 
-  $("homeButton").addEventListener("click", () => showView("homeView"));
+  $("homeButton").addEventListener("click", () => {
+    stopAudio();
+    showView("homeView");
+  });
 
   $("backToListButton").addEventListener("click", () => {
     stopAudio();
@@ -413,7 +386,8 @@ function bindEvents() {
 
   $("audioProgress").addEventListener("input", () => {
     if (Number.isFinite(audio.duration) && audio.duration > 0) {
-      audio.currentTime = (Number($("audioProgress").value) / 100) * audio.duration;
+      audio.currentTime =
+        (Number($("audioProgress").value) / 100) * audio.duration;
     }
   });
 
