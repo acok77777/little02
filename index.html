@@ -4,12 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#6C9FD8">
 
-  <title>리틀팍스 동화 레벨 2</title>
-  <meta name="description" content="영어 동화 67편 · 듣기 · 읽기 · 해석을 한곳에서 학습하세요.">
+  <title>📚 리틀팍스 동화 레벨 2</title>
+  <meta name="description" content="영어 동화 67편! 듣고, 읽고, 뜻을 확인해 보세요.">
 
-  <!-- 카카오톡 및 메신저 공유 미리보기 -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="리틀팍스 동화 레벨 2">
   <meta property="og:title" content="📚 리틀팍스 동화 레벨 2">
@@ -21,18 +19,21 @@
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
 
-  <!-- X 등 다른 공유 서비스용 -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="리틀팍스 동화 레벨 2">
-  <meta name="twitter:description" content="영어 동화 67편 · 듣기 · 읽기 · 해석">
+  <meta name="twitter:title" content="📚 리틀팍스 동화 레벨 2">
+  <meta name="twitter:description" content="영어 동화 67편! 듣고, 읽고, 뜻을 확인해 보세요.">
   <meta name="twitter:image" content="https://acok77777.github.io/little02/icon-512.png">
 
-  <!-- 앱 아이콘 -->
-  <link rel="icon" type="image/png" href="./icon-192.png">
+  <meta name="theme-color" content="#fff8fb">
+  <link rel="icon" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
   <link rel="manifest" href="./manifest.json">
 
+  <!-- CSS 디자인 파일 연결 -->
   <link rel="stylesheet" href="./style.css">
+
+  <!-- JavaScript 파일 연결 -->
+  <script src="./app.js" defer></script>
 </head>
 
 <body>
@@ -42,146 +43,196 @@
   </header>
 
   <main>
-    <p id="errorMessage" hidden></p>
+    <!-- 첫 화면 -->
+    <section id="homeView" class="view active">
 
-    <!-- 메인 화면 -->
-    <section id="homeView">
-      <div class="panel progress-panel">
-        <div class="progress-text">
-          <strong>나의 학습 진행률</strong>
-          <strong id="progressCount">0 / 67</strong>
+      <!-- 학습 진행률: 구간 버튼보다 위에 표시 -->
+      <section class="panel progress-panel">
+        <div class="progress-heading">
+          <h2>나의 학습 진행률</h2>
+          <span id="progressCount" class="progress-count">0 / 67</span>
         </div>
 
-        <div class="progress-track">
-          <div id="progressBar"
-               role="progressbar"
-               aria-valuemin="0"
-               aria-valuemax="67"
-               aria-valuenow="0"></div>
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="나의 학습 진행률"
+          aria-valuemin="0"
+          aria-valuemax="67"
+          aria-valuenow="0"
+        >
+          <div id="progressBar"></div>
         </div>
 
-        <p id="progressPercent">0%</p>
-      </div>
+        <p id="progressText">0%</p>
+      </section>
 
-      <div class="panel hero">
-        <div class="hero-icon">🚁</div>
+      <!-- 동화 구간 선택 -->
+      <section class="hero">
+        <div class="hero-art" aria-hidden="true">🚁</div>
         <h2>영어 동화 학습</h2>
         <p>원하는 동화 구간을 선택하세요.</p>
 
         <div class="range-buttons">
-          <button class="range-card pink" data-range="1-20">
+          <button
+            type="button"
+            class="range-card pink"
+            data-range="1-20"
+          >
             <strong>1~20번</strong>
-            <small>첫 번째 구간</small>
+            <span>첫 번째 구간</span>
           </button>
 
-          <button class="range-card blue" data-range="21-40">
+          <button
+            type="button"
+            class="range-card blue"
+            data-range="21-40"
+          >
             <strong>21~40번</strong>
-            <small>두 번째 구간</small>
+            <span>두 번째 구간</span>
           </button>
 
-          <button class="range-card green" data-range="41-60">
+          <button
+            type="button"
+            class="range-card green"
+            data-range="41-60"
+          >
             <strong>41~60번</strong>
-            <small>세 번째 구간</small>
+            <span>세 번째 구간</span>
           </button>
 
-          <button class="range-card yellow" data-range="61-67">
+          <button
+            type="button"
+            class="range-card yellow"
+            data-range="61-67"
+          >
             <strong>61~67번</strong>
-            <small>네 번째 구간</small>
+            <span>네 번째 구간</span>
           </button>
         </div>
-      </div>
+      </section>
     </section>
 
-    <!-- 동화 목록 -->
-    <section id="listView" hidden>
-      <div class="panel">
-        <div class="list-heading">
-          <button id="homeButton">← 메인</button>
-          <h2 id="rangeTitle">동화 목록</h2>
+    <!-- 동화 목록 화면 -->
+    <section id="listView" class="view" hidden>
+      <section class="panel">
+        <div class="list-top">
+          <h2 id="listTitle" class="section-title">동화 목록</h2>
+          <button type="button" id="homeButton" class="back-button">
+            ← 처음으로
+          </button>
         </div>
 
-        <div class="range-buttons list-ranges">
-          <button class="range-card pink" data-range="1-20">1~20번</button>
-          <button class="range-card blue" data-range="21-40">21~40번</button>
-          <button class="range-card green" data-range="41-60">41~60번</button>
-          <button class="range-card yellow" data-range="61-67">61~67번</button>
+        <div class="range-buttons">
+          <button type="button" class="range-card pink" data-range="1-20">
+            <strong>1~20번</strong>
+            <span>첫 번째 구간</span>
+          </button>
+
+          <button type="button" class="range-card blue" data-range="21-40">
+            <strong>21~40번</strong>
+            <span>두 번째 구간</span>
+          </button>
+
+          <button type="button" class="range-card green" data-range="41-60">
+            <strong>41~60번</strong>
+            <span>세 번째 구간</span>
+          </button>
+
+          <button type="button" class="range-card yellow" data-range="61-67">
+            <strong>61~67번</strong>
+            <span>네 번째 구간</span>
+          </button>
         </div>
 
-        <div id="storyList"></div>
-      </div>
+        <div id="storyList" class="story-list">
+          <p class="empty-message">동화 목록을 불러오는 중입니다.</p>
+        </div>
+      </section>
     </section>
 
-    <!-- 학습 화면 -->
-    <section id="studyView" hidden>
-      <div class="panel study-panel">
-        <button id="listButton">← 동화 목록</button>
-
-        <h2 id="studyTitle">동화</h2>
+    <!-- 동화 학습 화면 -->
+    <section id="studyView" class="view" hidden>
+      <section class="panel study-panel">
+        <div class="study-top">
+          <button type="button" id="backToListButton" class="back-button">
+            ← 목록으로
+          </button>
+          <h2 id="studyTitle">동화 제목</h2>
+        </div>
 
         <div class="mode-buttons">
-          <button data-mode="both" class="active">영어 + 한국어</button>
-          <button data-mode="en">영어만</button>
-          <button data-mode="ko">한국어만</button>
+          <button type="button" id="showBothButton" data-mode="both" class="active">
+            영어 + 해석
+          </button>
+          <button type="button" id="showEnglishButton" data-mode="english">
+            영어만
+          </button>
+          <button type="button" id="showKoreanButton" data-mode="korean">
+            해석만
+          </button>
         </div>
 
-        <article id="storyContent"></article>
+        <article id="storyContent" class="story-content">
+          <p>동화를 불러오는 중입니다.</p>
+        </article>
 
-        <button id="completeButton" class="primary wide">
-          ✓ 학습 완료 체크 저장
-        </button>
+        <div class="study-actions">
+          <button type="button" id="completeButton" class="complete-button">
+            ✓ 학습 완료
+          </button>
 
-        <div class="navigation">
-          <button id="prevButton">← 이전 동화</button>
-          <button id="nextButton">다음 동화 →</button>
+          <div class="navigation-buttons">
+            <button type="button" id="prevButton" class="nav-button">
+              ← 이전 동화
+            </button>
+            <button type="button" id="nextButton" class="nav-button">
+              다음 동화 →
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     </section>
   </main>
 
   <!-- 하단 오디오 플레이어 -->
-  <footer class="audio-dock">
+  <aside class="audio-dock" aria-label="동화 오디오 플레이어">
     <div class="audio-inner">
-      <div id="audioTitle">동화를 선택해 주세요.</div>
+      <button type="button" id="playButton">
+        ▶ 재생
+      </button>
 
-      <div class="audio-controls">
-        <button id="playButton" class="primary">▶ 재생</button>
-        <button id="stopButton">■ 정지</button>
+      <button type="button" id="stopButton" class="stop-button">
+        ■ 정지
+      </button>
 
-        <select id="speedSelect" aria-label="재생 속도">
-          <option value="0.5">0.5배속</option>
-          <option value="0.75">0.75배속</option>
-          <option value="1" selected>1배속</option>
-          <option value="1.25">1.25배속</option>
-          <option value="1.5">1.5배속</option>
-          <option value="2">2배속</option>
-          <option value="2.5">2.5배속</option>
-        </select>
+      <div class="audio-progress-area">
+        <input
+          type="range"
+          id="audioProgress"
+          class="audio-progress"
+          min="0"
+          max="100"
+          value="0"
+          step="0.1"
+          aria-label="오디오 재생 위치"
+        >
+
+        <div class="audio-times">
+          <span id="currentTime">0:00</span>
+          <span id="durationTime">0:00</span>
+        </div>
       </div>
 
-      <input id="audioProgress"
-             type="range"
-             min="0"
-             max="100"
-             step="0.1"
-             value="0"
-             aria-label="오디오 재생 위치">
-
-      <div class="time-row">
-        <span id="currentTime">0:00</span>
-        <span id="durationTime">0:00</span>
-      </div>
+      <select id="speedSelect" aria-label="재생 속도">
+        <option value="0.5">0.5배속</option>
+        <option value="1" selected>1배속</option>
+        <option value="1.5">1.5배속</option>
+        <option value="2">2배속</option>
+        <option value="2.5">2.5배속</option>
+        <option value="3">3배속</option>
+      </select>
     </div>
-  </footer>
-
-  <script src="./app.js"></script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js")
-          .catch(error => console.error("서비스 워커 오류:", error));
-      });
-    }
-  </script>
+  </aside>
 </body>
 </html>
