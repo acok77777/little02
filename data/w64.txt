@@ -1,0 +1,34 @@
+제목: What Am I?
+(나는 무엇일까?)
+I unlock your door. What am I?
+I am a key.
+난 네 문을 열어준단다. 나는 무엇일까?
+나는 열쇠야.
+I light your room. What am I?
+I am a lamp.
+난 네 방을 밝게 해준단다. 나는 무엇일까?
+나는 램프야.
+I clean your room. What am I?
+I am a vacuum cleaner.
+난 네 방을 깨끗하게 해준단다. 나는 무엇일까?
+나는 진공 청소기야.
+I keep your food. What am I?
+I am a refrigerator.
+난 네 음식을 보관한단다. 나는 무엇일까?
+나는 냉장고야.
+I make tasty toast. What am I?
+I am a toaster.
+난 맛있는 토스트를 만든단다. 나는 무엇일까?
+나는 토스터기야.
+I bake yummy cookies. What am I?
+I am an oven.
+난 맛있는 과자를 만든단다. 나는 무엇일까?
+나는 오븐이야.
+I clean your clothes. What am I?
+I am a washing machine.
+난 네 옷을 깨끗하게 해준단다. 나는 무엇일까?
+나는 세탁기야.
+I take pictures. What am I?
+I am a camera.
+난 사진을 찍는단다. 나는 무엇일까?
+나는 카메라야.

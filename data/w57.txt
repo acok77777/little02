@@ -1,0 +1,32 @@
+제목: I Want That
+(난 저걸 원해요)
+The cow moos at the pig. "Moo, moo!"
+The surprised pig runs away.
+소가 돼지에게 음매 하고 울어요. "음매, 음매!"
+놀란 돼지가 도망가네요.
+The pig oinks at the dog. "Oink, oink!"
+The surprised dog runs away.
+돼지가 개에게 꿀꿀거려요. "꿀, 꿀!"
+놀란 개가 도망가네요.
+The dog barks at the cat. "Bow, wow!"
+The surprised cat runs away.
+개가 고양이에게 짖어요. "멍, 멍!"
+놀란 고양이가 도망가네요.
+The cat meows at the rat. "Meow, meow!"
+The surprised rat runs away.
+고양이가 쥐에게 야옹 하고 울어요. "야옹, 야옹!"
+놀란 쥐가 도망가네요.
+The rat squeaks at the goose. "Squeak, squeak!"
+The surprised goose runs away.
+쥐가 거위에게 찍찍 울어요. "찍, 찍!"
+놀란 거위가 도망가네요.
+The goose honks at the sheep. "Honk, honk!"
+The surprised sheep runs away.
+거위가 양에게 꽥꽥 울어요. "꽥, 꽥!"
+놀란 양이 도망가네요.
+The sheep baas at the cow. "Baa, baa!"
+But the cow is still eating.
+Poor sheep! It is hungry!
+양이 소에게 매애 하고 울어요. "매애, 매애!"
+하지만 소는 계속 먹고 있어요.
+가엾은 양! 양은 배가 고프대요!

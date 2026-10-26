@@ -1,0 +1,24 @@
+제목: At the Store
+(상점에서)
+Storekeeper: Hi! Welcome to my store. May I help you?
+Customer: Yes, please.
+상점 주인: 안녕하세요! 저희 가게에 오신 걸 환영합니다. 도와드릴까요?
+손님: 네, 부탁합니다.
+Customer: I'd like twenty-one pots.
+손님: 냄비를 스물한 개 사려고 합니다.
+Customer: I'd like twenty-three pans.
+손님: 프라이팬 스물세 개를 사고 싶어요.
+Customer: I'd like twenty-four wooden spoons.
+손님: 나무 숟가락 스물네 개를 살 거고요.
+Customer: I'd like twenty-six bowls.
+손님: 사발은 스물여섯 개 사려고 해요.
+Customer: I'd like twenty-eight glasses.
+손님: 유리잔을 스물여덟 개 살 거고요.
+Customer: I'd like twenty-nine mugs.
+손님: 머그잔은 스물아홉 개 살 겁니다.
+Storekeeper: Would you like anything else?
+Customer: No, thank you!
+상점 주인: 그 밖에 다른 거 또 사시겠어요?
+손님: 아뇨, 됐습니다!
+Storekeeper: Have a nice day!
+상점 주인: 좋은 하루 되세요!

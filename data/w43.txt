@@ -1,0 +1,18 @@
+제목: The Days of the Week
+(일주일의 여러 날들)
+Sunday is family day.
+일요일은 가족의 날이에요.
+Monday is math day.
+월요일은 수학의 날이고요.
+Tuesday is art day.
+화요일은 미술의 날이지요.
+Wednesday is music day.
+수요일은 음악의 날이고요.
+Thursday is science day.
+목요일은 과학의 날이지요.
+Friday is gym day.
+금요일은 체육의 날이고요.
+Saturday is play day.
+토요일은 노는 날이지요.
+These are the days of my week!
+나는 일주일을 이렇게 보낸답니다!

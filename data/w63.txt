@@ -1,0 +1,42 @@
+제목: Houses of the World
+(세계의 집들)
+People live in different houses.
+사람들은 서로 다른 집에서 살아요.
+This is a log cabin.
+이건 통나무집이에요.
+It is made of logs.
+그건 통나무로 만들어졌어요.
+This is an old castle.
+이건 오래된 성이에요.
+It is made of stones.
+그건 돌로 만들어졌어요.
+This is a brick house.
+이건 벽돌집이에요.
+It is made of bricks.
+그건 벽돌로 만들어졌어요.
+This is a grass hut.
+이건 풀로 된 오두막집이에요.
+It is made of straw.
+그건 짚으로 만들어졌어요.
+This is an adobe house.
+이건 어도비 벽돌집이에요.
+It is made of clay.
+그건 찰흙으로 만들어졌어요.
+This is a tent.
+이건 천막이에요.
+It is made of cloth.
+그건 천으로 만들어졌어요.
+This is a teepee.
+이건 티피(원뿔형 천막)예요.
+It is made of animal skins.
+그건 동물 가죽으로 만들어졌어요.
+This is an igloo.
+이건 이글루(얼음집)예요.
+It is made of blocks of ice.
+그건 얼음덩어리로 만들어졌어요.
+Where do you live?
+여러분은 어디에서 사나요?
+I live in an apartment.
+난 아파트에서 살아요.
+It is made of concrete blocks.
+그건 콘크리트 덩어리로 만들어졌지요.

@@ -1,0 +1,32 @@
+제목: My Fort
+(나의 요새)
+I am a miner.
+I'm looking for gold.
+난 광부예요.
+나는 금을 찾고 있어요.
+I am a knight.
+I'm protecting my castle.
+난 기사예요.
+나는 내 성을 지키고 있어요.
+I am a teacher.
+I'm teaching my class.
+난 선생님이에요.
+나는 내 학생들을 가르치고 있어요.
+I am a singer.
+I'm singing on a stage.
+난 가수예요.
+나는 무대 위에서 노래하고 있어요.
+I am an astronaut.
+I'm visiting the stars.
+난 우주 비행사예요.
+나는 별들을 방문하고 있어요.
+I am a camper.
+I'm reading in my tent.
+난 야영객이에요.
+나는 내 텐트 안에서 독서를 하고 있어요.
+I am a kid.
+I'm playing in my fort.
+난 어린아이예요.
+나는 내 요새 안에서 놀고 있어요.
+Oops! I'm making a mess!
+이크! 내가 다 어질러 놓았네요!
