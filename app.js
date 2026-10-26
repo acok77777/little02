@@ -143,7 +143,6 @@ function updateProgress() {
   $("progressTrack").setAttribute("aria-valuenow", String(count));
 }
 
-/* 화면에 따라 상단 플레이어 표시 */
 function showView(viewName) {
   ["homeView", "listView", "studyView"].forEach(id => {
     const view = $(id);
@@ -231,6 +230,7 @@ function openStory(number) {
 
   audio.load();
   updateSpeedDisplay();
+  updatePlaybackButtons();
   showView("studyView");
 }
 
@@ -322,7 +322,7 @@ function moveStory(step) {
   openStory(number);
 }
 
-/* 재생 속도: 0.5~3.0배속, 0.5씩 변경 */
+/* 배속은 0.5~3배, 0.5씩 변경 */
 function updateSpeedDisplay() {
   $("speedValue").textContent = `${playbackSpeed.toFixed(1)}배속`;
   audio.playbackRate = playbackSpeed;
@@ -338,6 +338,12 @@ function changeSpeed(direction) {
   );
 
   updateSpeedDisplay();
+}
+
+/* 재생 상태에 맞춰 버튼 상태 표시 */
+function updatePlaybackButtons() {
+  $("playButton").disabled = audio.paused === false;
+  $("pauseButton").disabled = audio.paused;
 }
 
 function formatTime(seconds) {
@@ -362,20 +368,31 @@ function updateAudioProgress() {
 async function playAudio() {
   if (!currentStory) return;
 
+  if (audio.ended) {
+    audio.currentTime = 0;
+  }
+
   audio.playbackRate = playbackSpeed;
 
   try {
     await audio.play();
+    updatePlaybackButtons();
   } catch (error) {
     console.error("오디오 재생 오류:", error);
-    alert("오디오를 재생할 수 없어요. MP3 파일 이름과 경로를 확인해 주세요.");
+    alert("오디오를 재생할 수 없어요. MP3 파일 경로와 이름을 확인해 주세요.");
   }
+}
+
+function pauseAudio() {
+  audio.pause();
+  updatePlaybackButtons();
 }
 
 function stopAudio() {
   audio.pause();
   audio.currentTime = 0;
   updateAudioProgress();
+  updatePlaybackButtons();
 }
 
 function bindEvents() {
@@ -403,6 +420,7 @@ function bindEvents() {
   $("nextButton").addEventListener("click", () => moveStory(1));
 
   $("playButton").addEventListener("click", playAudio);
+  $("pauseButton").addEventListener("click", pauseAudio);
   $("stopButton").addEventListener("click", stopAudio);
 
   $("slowerButton").addEventListener("click", () => changeSpeed(-1));
@@ -415,10 +433,13 @@ function bindEvents() {
     }
   });
 
+  audio.addEventListener("play", updatePlaybackButtons);
+  audio.addEventListener("pause", updatePlaybackButtons);
+  audio.addEventListener("ended", updatePlaybackButtons);
   audio.addEventListener("timeupdate", updateAudioProgress);
   audio.addEventListener("loadedmetadata", updateAudioProgress);
   audio.addEventListener("durationchange", updateAudioProgress);
-  audio.addEventListener("ended", updateAudioProgress);
+
   audio.addEventListener("error", () => {
     console.error("MP3 파일을 불러오지 못했습니다:", audio.src);
   });
@@ -428,6 +449,7 @@ async function initApp() {
   bindEvents();
   updateProgress();
   updateSpeedDisplay();
+  updatePlaybackButtons();
   showView("homeView");
   await loadAllStories();
 }
