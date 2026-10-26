@@ -5,301 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#6C9FD8">
-  <meta name="description" content="리틀팍스 동화 레벨 2 영어 학습 앱">
-  <title>리틀팍스 동화 레벨 2</title>
 
-  <link rel="manifest" href="./manifest.json">
+  <title>리틀팍스 동화 레벨 2</title>
+  <meta name="description" content="영어 동화 67편 · 듣기 · 읽기 · 해석을 한곳에서 학습하세요.">
+
+  <!-- 카카오톡 및 메신저 공유 미리보기 -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="리틀팍스 동화 레벨 2">
+  <meta property="og:title" content="📚 리틀팍스 동화 레벨 2">
+  <meta property="og:description" content="영어 동화 67편! 듣고, 읽고, 뜻을 확인해 보세요.">
+  <meta property="og:url" content="https://acok77777.github.io/little02/">
+  <meta property="og:image" content="https://acok77777.github.io/little02/icon-512.png">
+  <meta property="og:image:secure_url" content="https://acok77777.github.io/little02/icon-512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- X 등 다른 공유 서비스용 -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="리틀팍스 동화 레벨 2">
+  <meta name="twitter:description" content="영어 동화 67편 · 듣기 · 읽기 · 해석">
+  <meta name="twitter:image" content="https://acok77777.github.io/little02/icon-512.png">
+
+  <!-- 앱 아이콘 -->
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="manifest" href="./manifest.json">
+
   <link rel="stylesheet" href="./style.css">
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background: #f3f7fc;
-      color: #253247;
-      font-family: Arial, "Malgun Gothic", sans-serif;
-    }
-
-    button, select {
-      font: inherit;
-      cursor: pointer;
-    }
-
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 11px 15px;
-      background: #e3edf9;
-      color: #25466b;
-    }
-
-    button:disabled {
-      opacity: .4;
-      cursor: not-allowed;
-    }
-
-    .app-header {
-      padding: 22px 16px;
-      color: white;
-      background: #6c9fd8;
-    }
-
-    .app-header h1 {
-      margin: 0 0 6px;
-      font-size: 23px;
-    }
-
-    .app-header p {
-      margin: 0;
-      opacity: .95;
-      font-size: 14px;
-    }
-
-    main {
-      width: min(760px, 100%);
-      margin: auto;
-      padding: 18px 14px 120px;
-    }
-
-    .panel {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 3px 14px #203c5b0d;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 35px 20px;
-    }
-
-    .hero-icon {
-      font-size: 58px;
-      margin-bottom: 12px;
-    }
-
-    .hero h2 {
-      margin: 0 0 10px;
-    }
-
-    .primary {
-      background: #387cc4;
-      color: white;
-    }
-
-    .wide {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .range-buttons,
-    .mode-buttons,
-    .navigation {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .range-buttons button,
-    .mode-buttons button {
-      flex: 1;
-      min-width: 95px;
-    }
-
-    button.active {
-      background: #387cc4;
-      color: white;
-    }
-
-    .progress-text {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .progress-track {
-      height: 9px;
-      overflow: hidden;
-      border-radius: 99px;
-      background: #e8edf4;
-    }
-
-    #progressBar {
-      height: 100%;
-      width: 0;
-      background: #48ad88;
-      transition: width .2s;
-    }
-
-    #storyList {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
-      margin-top: 16px;
-    }
-
-    .story-item {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      min-width: 0;
-      text-align: left;
-      background: #f0f5fc;
-      padding: 12px 10px;
-    }
-
-    .story-item.completed {
-      background: #e4f6ed;
-    }
-
-    .story-number {
-      display: grid;
-      place-items: center;
-      flex: 0 0 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: white;
-      font-weight: bold;
-    }
-
-    .story-title {
-      flex: 1;
-      min-width: 0;
-      overflow-wrap: anywhere;
-      font-size: 13px;
-    }
-
-    .story-check {
-      color: #168657;
-      font-weight: bold;
-    }
-
-    #studyTitle {
-      font-size: 22px;
-      margin: 0 0 18px;
-    }
-
-    #storyContent {
-      margin-top: 20px;
-      line-height: 1.8;
-      overflow-wrap: anywhere;
-    }
-
-    .story-line {
-      margin: 0 0 13px;
-    }
-
-    .english-line {
-      color: #254e83;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .korean-line {
-      color: #536274;
-      font-size: 16px;
-    }
-
-    .navigation {
-      margin-top: 22px;
-    }
-
-    .navigation button {
-      flex: 1;
-    }
-
-    .audio-dock {
-      position: fixed;
-      z-index: 10;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
-      background: white;
-      border-top: 1px solid #dce5ef;
-      box-shadow: 0 -5px 20px #203c5b0d;
-    }
-
-    .audio-inner {
-      width: min(760px, 100%);
-      margin: auto;
-    }
-
-    #audioTitle {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .audio-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .audio-controls button {
-      white-space: nowrap;
-    }
-
-    #speedSelect {
-      max-width: 100px;
-      padding: 10px 5px;
-      border: 1px solid #d7e0eb;
-      border-radius: 10px;
-      background: white;
-    }
-
-    #audioProgress {
-      width: 100%;
-      margin: 10px 0 0;
-    }
-
-    .time-row {
-      display: flex;
-      justify-content: space-between;
-      color: #65758a;
-      font-size: 12px;
-    }
-
-    #errorMessage {
-      white-space: pre-wrap;
-      color: #b42318;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-
-    @media (max-width: 420px) {
-      .panel {
-        padding: 15px;
-      }
-
-      #storyList {
-        grid-template-columns: 1fr;
-      }
-
-      .english-line {
-        font-size: 17px;
-      }
-
-      .audio-controls {
-        gap: 5px;
-      }
-
-      .audio-controls button {
-        padding: 10px;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -311,57 +44,82 @@
   <main>
     <p id="errorMessage" hidden></p>
 
+    <!-- 메인 화면 -->
     <section id="homeView">
+      <div class="panel progress-panel">
+        <div class="progress-text">
+          <strong>나의 학습 진행률</strong>
+          <strong id="progressCount">0 / 67</strong>
+        </div>
+
+        <div class="progress-track">
+          <div id="progressBar"
+               role="progressbar"
+               aria-valuemin="0"
+               aria-valuemax="67"
+               aria-valuenow="0"></div>
+        </div>
+
+        <p id="progressPercent">0%</p>
+      </div>
+
       <div class="panel hero">
         <div class="hero-icon">🚁</div>
         <h2>영어 동화 학습</h2>
-        <p>듣고, 읽고, 뜻을 확인해 보세요.</p>
-        <button id="startButton" class="primary wide">
-          동화 학습 시작하기
-        </button>
-      </div>
+        <p>원하는 동화 구간을 선택하세요.</p>
 
-      <div class="panel">
-        <div class="progress-text">
-          <span>나의 학습 진행률</span>
-          <strong id="progressCount">0 / 67</strong>
+        <div class="range-buttons">
+          <button class="range-card pink" data-range="1-20">
+            <strong>1~20번</strong>
+            <small>첫 번째 구간</small>
+          </button>
+
+          <button class="range-card blue" data-range="21-40">
+            <strong>21~40번</strong>
+            <small>두 번째 구간</small>
+          </button>
+
+          <button class="range-card green" data-range="41-60">
+            <strong>41~60번</strong>
+            <small>세 번째 구간</small>
+          </button>
+
+          <button class="range-card yellow" data-range="61-67">
+            <strong>61~67번</strong>
+            <small>네 번째 구간</small>
+          </button>
         </div>
-        <div class="progress-track">
-          <div id="progressBar" role="progressbar"
-               aria-valuemin="0" aria-valuemax="67"
-               aria-valuenow="0"></div>
-        </div>
-        <p id="progressPercent">0%</p>
       </div>
     </section>
 
+    <!-- 동화 목록 -->
     <section id="listView" hidden>
       <div class="panel">
-        <h2>동화 목록</h2>
+        <div class="list-heading">
+          <button id="homeButton">← 메인</button>
+          <h2 id="rangeTitle">동화 목록</h2>
+        </div>
 
-        <div class="range-buttons">
-          <button data-range="1-20">1~20편</button>
-          <button data-range="21-40">21~40편</button>
-          <button data-range="41-60">41~60편</button>
-          <button data-range="61-67">61~67편</button>
+        <div class="range-buttons list-ranges">
+          <button class="range-card pink" data-range="1-20">1~20번</button>
+          <button class="range-card blue" data-range="21-40">21~40번</button>
+          <button class="range-card green" data-range="41-60">41~60번</button>
+          <button class="range-card yellow" data-range="61-67">61~67번</button>
         </div>
 
         <div id="storyList"></div>
-
-        <button id="homeButton" class="wide">
-          홈으로 돌아가기
-        </button>
       </div>
     </section>
 
+    <!-- 학습 화면 -->
     <section id="studyView" hidden>
-      <div class="panel">
-        <button id="listButton">← 목록</button>
+      <div class="panel study-panel">
+        <button id="listButton">← 동화 목록</button>
 
         <h2 id="studyTitle">동화</h2>
 
         <div class="mode-buttons">
-          <button data-mode="both">영어 + 한국어</button>
+          <button data-mode="both" class="active">영어 + 한국어</button>
           <button data-mode="en">영어만</button>
           <button data-mode="ko">한국어만</button>
         </div>
@@ -380,6 +138,7 @@
     </section>
   </main>
 
+  <!-- 하단 오디오 플레이어 -->
   <footer class="audio-dock">
     <div class="audio-inner">
       <div id="audioTitle">동화를 선택해 주세요.</div>
@@ -399,9 +158,13 @@
         </select>
       </div>
 
-      <input id="audioProgress" type="range"
-             min="0" max="100" value="0"
-             step="0.1" aria-label="오디오 재생 위치">
+      <input id="audioProgress"
+             type="range"
+             min="0"
+             max="100"
+             step="0.1"
+             value="0"
+             aria-label="오디오 재생 위치">
 
       <div class="time-row">
         <span id="currentTime">0:00</span>
@@ -416,9 +179,7 @@
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./service-worker.js")
-          .catch((error) => {
-            console.error("서비스 워커 등록 실패:", error);
-          });
+          .catch(error => console.error("서비스 워커 오류:", error));
       });
     }
   </script>
