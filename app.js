@@ -8,8 +8,8 @@ const TOTAL_STORIES = 67;
 const AUDIO_DIR = "./s67/";
 
 const DATA_FILES = [
-  "./데이터/story67.txt",
   "./data/story67.txt",
+  "./데이터/story67.txt",
   "./story67.txt",
   "./메모장w67.txt",
   "./data/메모장w67.txt"
@@ -37,9 +37,7 @@ function getCompletedStories() {
     );
 
     return new Set(
-      Array.isArray(saved)
-        ? saved.map(Number)
-        : []
+      Array.isArray(saved) ? saved.map(Number) : []
     );
   } catch (error) {
     return new Set();
@@ -56,7 +54,7 @@ function saveCompletedStories() {
 }
 
 /* =========================================
-   화면 요소 표시 / 숨기기
+   화면 전환
 ========================================= */
 
 function showView(viewId) {
@@ -64,20 +62,18 @@ function showView(viewId) {
 
   viewIds.forEach((id) => {
     const el = $(id);
+
     if (el) {
       el.hidden = id !== viewId;
       el.style.display = id === viewId ? "" : "none";
     }
   });
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 /* =========================================
-   텍스트 파일 불러오기
+   TXT 파일 불러오기
 ========================================= */
 
 async function loadStoryText() {
@@ -90,9 +86,7 @@ async function loadStoryText() {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `${path} 파일을 불러오지 못했습니다.`
-        );
+        throw new Error(`${path} 파일을 불러오지 못했습니다.`);
       }
 
       const text = await response.text();
@@ -102,6 +96,7 @@ async function loadStoryText() {
       }
     } catch (error) {
       lastError = error;
+      console.warn("데이터 파일 확인:", path, error);
     }
   }
 
@@ -117,14 +112,8 @@ async function loadStoryText() {
 ========================================= */
 
 function detectLanguage(text) {
-  if (/[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(text)) {
-    return "ko";
-  }
-
-  if (/[a-zA-Z]/.test(text)) {
-    return "en";
-  }
-
+  if (/[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(text)) return "ko";
+  if (/[a-zA-Z]/.test(text)) return "en";
   return "other";
 }
 
@@ -136,7 +125,6 @@ function isPageInstruction(line) {
   const text = line.trim();
 
   if (!text) return true;
-
   if (/^\[L\d+\]/.test(text)) return true;
 
   const ignoredExact = [
@@ -153,7 +141,7 @@ function isPageInstruction(line) {
 
   if (ignoredExact.includes(text)) return true;
 
-  if (
+  return (
     /원문 내용 중 단어를 클릭하면/.test(text) ||
     /글자 확대.*글자 축소.*인쇄/.test(text) ||
     /원문 숨기기.*원문 보이기/.test(text) ||
@@ -161,40 +149,39 @@ function isPageInstruction(line) {
     /All rights reserved/i.test(text) ||
     /www\.littlefox\.co\.kr/i.test(text) ||
     /©\s*2000-2026/i.test(text)
-  ) {
-    return true;
-  }
-
-  return false;
+  );
 }
 
 /* =========================================
-   동화 제목 판별
-예: My First Readers 2, My Helicopter
+   제목 추출
+   새 형식: 제목: My Helicopter
+   기존 형식도 지원
 ========================================= */
 
 function extractTitle(line) {
-  const match = line.match(
+  const newMatch = line.match(/^제목:\s*(.+)$/);
+
+  if (newMatch) {
+    return newMatch[1].trim();
+  }
+
+  const oldMatch = line.match(
     /^My First Readers\s*2\s*,\s*(.+)$/i
   );
 
-  return match ? match[1].trim() : null;
+  return oldMatch ? oldMatch[1].trim() : null;
 }
 
 /* =========================================
-   story67.txt 파싱
-파일 형식:
-1
-학습자료
-원문해석
-...
-My First Readers 2, My Helicopter
-나의 첫 영어책 2, 나의 헬리콥터
-...
-I can fly over the field.
-나는 들판 위로 날아갈 수 있어요.
-2
-...
+   동화 TXT 파싱
+   예시:
+   1
+   제목: My Helicopter
+   (나의 헬리콥터)
+   I can fly over the field.
+   나는 들판 위로 날아갈 수 있어요.
+   2
+   제목: ...
 ========================================= */
 
 function parseStories(rawText) {
@@ -202,16 +189,13 @@ function parseStories(rawText) {
     .replace(/\r\n?/g, "\n")
     .split("\n")
     .map((line) => line.trim())
-    .map((line) =>
-      line.replace(/^\[L\d+\]\s*/, "").trim()
-    );
+    .map((line) => line.replace(/^\[L\d+\]\s*/, "").trim());
 
   const parsed = new Map();
 
   let storyNumber = null;
   let titleFound = false;
   let koreanTitlePending = false;
-  let bodyStarted = false;
 
   function createStory(number) {
     return {
@@ -224,7 +208,7 @@ function parseStories(rawText) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // 독립된 숫자 1~67은 각 동화의 시작 표시
+    // 독립된 숫자 1~67은 동화 시작 표시
     if (/^\d{1,2}$/.test(line)) {
       const number = Number(line);
 
@@ -237,63 +221,52 @@ function parseStories(rawText) {
 
         titleFound = false;
         koreanTitlePending = false;
-        bodyStarted = false;
         continue;
       }
     }
 
-    if (!storyNumber) continue;
-    if (!line) continue;
+    if (!storyNumber || !line) continue;
 
     const story = parsed.get(storyNumber);
 
-    // 영어 제목 찾기
+    // 제목: 영어 제목 형식 인식
     const title = extractTitle(line);
 
     if (title) {
       story.title = title;
       titleFound = true;
       koreanTitlePending = true;
-      bodyStarted = false;
       continue;
     }
 
-    // 제목을 찾기 전의 페이지 안내 문구 무시
-    if (!titleFound) {
-      continue;
-    }
+    // 제목을 찾기 전의 안내 문구 무시
+    if (!titleFound) continue;
 
-    // 영어 제목 바로 다음에 나오는 한국어 제목 제거
+    // 영어 제목 바로 뒤의 한글 제목 제거
+    // 예: (나의 헬리콥터) 또는 나의 헬리콥터
     if (koreanTitlePending) {
-      if (/[가-힣]/.test(line)) {
+      if (
+        /^[（(]?\s*[가-힣].*[）)]?$/.test(line) ||
+        /^[가-힣].*$/.test(line)
+      ) {
         koreanTitlePending = false;
         continue;
       }
 
-      // 한국어 제목이 없고 안내 문구가 먼저 나오는 경우
-      if (isPageInstruction(line)) {
-        continue;
-      }
+      if (isPageInstruction(line)) continue;
 
       koreanTitlePending = false;
     }
 
-    // 웹페이지 버튼과 저작권 문구 제거
-    if (isPageInstruction(line)) {
-      continue;
-    }
+    // 웹페이지 안내 및 저작권 문구 제거
+    if (isPageInstruction(line)) continue;
 
-    // 페이지 번호나 불필요한 숫자만 있는 줄 제거
-    if (/^\d+$/.test(line)) {
-      continue;
-    }
+    // 페이지 번호만 있는 줄 제거
+    if (/^\d+$/.test(line)) continue;
 
-    // 본문 저장
     const language = detectLanguage(line);
 
     if (language === "en" || language === "ko") {
-      bodyStarted = true;
-
       story.lines.push({
         text: line,
         lang: language
@@ -301,18 +274,10 @@ function parseStories(rawText) {
     }
   }
 
-  // 1~67번을 순서대로 반환
   const result = [];
 
   for (let i = 1; i <= TOTAL_STORIES; i++) {
-    const story = parsed.get(i) || createStory(i);
-
-    // 빈 동화는 화면에서 오류 없이 표시
-    if (!Array.isArray(story.lines)) {
-      story.lines = [];
-    }
-
-    result.push(story);
+    result.push(parsed.get(i) || createStory(i));
   }
 
   return result;
@@ -342,7 +307,7 @@ function getStoriesInRange(range = currentRange) {
 }
 
 /* =========================================
-   동화 목록 화면
+   동화 목록 출력
 ========================================= */
 
 function renderStoryList() {
@@ -355,9 +320,7 @@ function renderStoryList() {
 
   container.innerHTML = "";
 
-  const rangeStories = getStoriesInRange();
-
-  rangeStories.forEach((story) => {
+  getStoriesInRange().forEach((story) => {
     const item = document.createElement("button");
 
     item.type = "button";
@@ -370,14 +333,10 @@ function renderStoryList() {
     item.setAttribute(
       "aria-label",
       `${story.id}번 ${story.title}` +
-      (completedStories.has(story.id)
-        ? ", 학습 완료"
-        : "")
+      (completedStories.has(story.id) ? ", 학습 완료" : "")
     );
 
-    const check = completedStories.has(story.id)
-      ? "✓"
-      : "";
+    const check = completedStories.has(story.id) ? "✓" : "";
 
     item.innerHTML = `
       <span class="story-number">${story.id}</span>
@@ -402,7 +361,7 @@ function renderStoryList() {
 }
 
 /* =========================================
-   범위 버튼 선택
+   범위 버튼
 ========================================= */
 
 function selectRange(range) {
@@ -412,17 +371,14 @@ function selectRange(range) {
     const selected = button.dataset.range === range;
 
     button.classList.toggle("active", selected);
-    button.setAttribute(
-      "aria-pressed",
-      selected ? "true" : "false"
-    );
+    button.setAttribute("aria-pressed", selected ? "true" : "false");
   });
 
   renderStoryList();
 }
 
 /* =========================================
-   동화 학습 화면 열기
+   동화 학습 화면
 ========================================= */
 
 function openStory(number) {
@@ -438,7 +394,6 @@ function openStory(number) {
   currentStory = story.id;
 
   stopAudio();
-
   renderStudy();
   showView("studyView");
   updateAudioTitle();
@@ -460,10 +415,7 @@ function setMode(mode) {
     const selected = button.dataset.mode === mode;
 
     button.classList.toggle("active", selected);
-    button.setAttribute(
-      "aria-pressed",
-      selected ? "true" : "false"
-    );
+    button.setAttribute("aria-pressed", selected ? "true" : "false");
   });
 
   renderStudy();
@@ -486,8 +438,7 @@ function renderStudy() {
     $("currentStoryTitle");
 
   if (titleElement) {
-    titleElement.textContent =
-      `${story.id}. ${story.title}`;
+    titleElement.textContent = `${story.id}. ${story.title}`;
   }
 
   const body =
@@ -500,14 +451,8 @@ function renderStudy() {
   body.innerHTML = "";
 
   const filteredLines = story.lines.filter((line) => {
-    if (currentMode === "en") {
-      return line.lang === "en";
-    }
-
-    if (currentMode === "ko") {
-      return line.lang === "ko";
-    }
-
+    if (currentMode === "en") return line.lang === "en";
+    if (currentMode === "ko") return line.lang === "ko";
     return line.lang === "en" || line.lang === "ko";
   });
 
@@ -515,7 +460,7 @@ function renderStudy() {
     const message = document.createElement("p");
     message.className = "empty-story";
     message.textContent =
-      "본문이 없습니다. story67.txt 파일 위치와 내용을 확인해 주세요.";
+      "본문이 없습니다. data/story67.txt 파일의 형식을 확인해 주세요.";
 
     body.appendChild(message);
     return;
@@ -530,7 +475,6 @@ function renderStudy() {
         : "story-line korean-line";
 
     paragraph.textContent = line.text;
-
     body.appendChild(paragraph);
   });
 
@@ -578,8 +522,7 @@ function updateNavigationButtons() {
   const previousButton =
     $("prevButton") || $("previousButton");
 
-  const nextButton =
-    $("nextButton");
+  const nextButton = $("nextButton");
 
   if (previousButton) {
     previousButton.disabled = currentStory <= 1;
@@ -621,31 +564,22 @@ function updateCompleteButton() {
     : "✓ 학습 완료 체크 저장";
 
   button.classList.toggle("completed", completed);
-  button.setAttribute(
-    "aria-pressed",
-    completed ? "true" : "false"
-  );
+  button.setAttribute("aria-pressed", completed ? "true" : "false");
 }
 
 function updateProgress() {
   const count = completedStories.size;
-  const percent = Math.round(
-    (count / TOTAL_STORIES) * 100
-  );
+  const percent = Math.round((count / TOTAL_STORIES) * 100);
 
   const countElement =
     $("progressCount") ||
     $("completedCount");
 
-  const percentElement =
-    $("progressPercent");
-
-  const bar =
-    $("progressBar");
+  const percentElement = $("progressPercent");
+  const bar = $("progressBar");
 
   if (countElement) {
-    countElement.textContent =
-      `${count} / ${TOTAL_STORIES}`;
+    countElement.textContent = `${count} / ${TOTAL_STORIES}`;
   }
 
   if (percentElement) {
@@ -660,7 +594,7 @@ function updateProgress() {
 
 /* =========================================
    오디오
-파일 예시: ./s67/s01.mp3
+   파일 예시: ./s67/s01.mp3
 ========================================= */
 
 function getAudioPath(number) {
@@ -677,8 +611,7 @@ function updateAudioTitle() {
     $("playerTitle");
 
   if (title && story) {
-    title.textContent =
-      `${story.id}. ${story.title}`;
+    title.textContent = `${story.id}. ${story.title}`;
   }
 }
 
@@ -738,21 +671,15 @@ function getSelectedSpeed() {
     $("speedSelect") ||
     $("playbackSpeed");
 
-  const speed = speedSelect
-    ? Number(speedSelect.value)
-    : 1;
+  const speed = speedSelect ? Number(speedSelect.value) : 1;
 
-  return Number.isFinite(speed) && speed > 0
-    ? speed
-    : 1;
+  return Number.isFinite(speed) && speed > 0 ? speed : 1;
 }
 
 function setAudioSpeed(speed) {
   const value = Number(speed);
 
-  if (!Number.isFinite(value) || value <= 0) {
-    return;
-  }
+  if (!Number.isFinite(value) || value <= 0) return;
 
   audio.playbackRate = value;
 }
@@ -762,9 +689,7 @@ function setAudioSpeed(speed) {
 ========================================= */
 
 function formatTime(seconds) {
-  if (!Number.isFinite(seconds)) {
-    return "0:00";
-  }
+  if (!Number.isFinite(seconds)) return "0:00";
 
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -773,24 +698,19 @@ function formatTime(seconds) {
 }
 
 function updateAudioProgress() {
-  const currentTimeElement =
-    $("currentTime");
-
-  const durationElement =
-    $("durationTime");
+  const currentTimeElement = $("currentTime");
+  const durationElement = $("durationTime");
 
   const progress =
     $("audioProgress") ||
     $("progressSeek");
 
   if (currentTimeElement) {
-    currentTimeElement.textContent =
-      formatTime(audio.currentTime);
+    currentTimeElement.textContent = formatTime(audio.currentTime);
   }
 
   if (durationElement) {
-    durationElement.textContent =
-      formatTime(audio.duration);
+    durationElement.textContent = formatTime(audio.duration);
   }
 
   if (
@@ -842,7 +762,6 @@ function bindClick(ids, callback) {
 }
 
 function bindEvents() {
-  // 홈 화면에서 목록으로 이동
   bindClick(
     ["startButton", "goListButton", "openListButton"],
     () => {
@@ -851,7 +770,6 @@ function bindEvents() {
     }
   );
 
-  // 홈으로 돌아가기
   bindClick(
     ["homeButton", "backHomeButton"],
     () => {
@@ -860,60 +778,43 @@ function bindEvents() {
     }
   );
 
-  // 목록으로 돌아가기
   bindClick(
     ["listButton", "backToListButton"],
     goToList
   );
 
-  // 이전 / 다음 동화
   bindClick(
     ["prevButton", "previousButton"],
     goPrevious
   );
 
-  bindClick(
-    ["nextButton"],
-    goNext
-  );
+  bindClick(["nextButton"], goNext);
 
-  // 완료 체크
   bindClick(
     ["completeButton", "markCompleteButton"],
     toggleComplete
   );
 
-  // 재생 / 일시정지
   bindClick(
     ["playButton", "audioPlayButton"],
     toggleAudio
   );
 
-  bindClick(
-    ["pauseButton"],
-    pauseAudio
-  );
+  bindClick(["pauseButton"], pauseAudio);
+  bindClick(["stopButton"], stopAudio);
 
-  bindClick(
-    ["stopButton"],
-    stopAudio
-  );
-
-  // 범위 선택 버튼
   document.querySelectorAll("[data-range]").forEach((button) => {
     button.addEventListener("click", () => {
       selectRange(button.dataset.range);
     });
   });
 
-  // 영어 / 한국어 보기 버튼
   document.querySelectorAll("[data-mode]").forEach((button) => {
     button.addEventListener("click", () => {
       setMode(button.dataset.mode);
     });
   });
 
-  // 재생 속도
   const speedSelect =
     $("speedSelect") ||
     $("playbackSpeed");
@@ -924,7 +825,6 @@ function bindEvents() {
     });
   }
 
-  // 오디오 탐색
   const progress =
     $("audioProgress") ||
     $("progressSeek");
@@ -935,7 +835,6 @@ function bindEvents() {
     });
   }
 
-  // 재생 시간 업데이트
   audio.addEventListener("timeupdate", updateAudioProgress);
   audio.addEventListener("loadedmetadata", updateAudioProgress);
   audio.addEventListener("play", updateAudioProgress);
@@ -949,7 +848,6 @@ function bindEvents() {
     );
   });
 
-  // 키보드 좌우 방향키로 이전 / 다음 동화
   document.addEventListener("keydown", (event) => {
     const tag = event.target?.tagName;
 
@@ -1004,7 +902,6 @@ async function initApp() {
     renderStoryList();
     updateProgress();
     selectRange("1-20");
-
     showView("homeView");
   } catch (error) {
     console.error(error);
@@ -1018,7 +915,7 @@ async function initApp() {
       message.style.display = "block";
       message.textContent =
         "동화 데이터를 불러오지 못했습니다. " +
-        "GitHub 저장소에서 story67.txt 파일의 위치와 이름을 확인해 주세요.";
+        "GitHub 저장소에서 data/story67.txt 파일의 위치와 이름을 확인해 주세요.";
     } else {
       alert(
         "동화 데이터를 불러오지 못했습니다.\n\n" +
