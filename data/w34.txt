@@ -1,0 +1,64 @@
+제목: Counting Animals
+(동물 세어 보기)
+Can you count the baby bears?
+One.
+One cub.
+넌 아기 곰들을 셀 수 있니?
+하나.
+아기 곰 한 마리.
+Can you count the baby owls?
+One, two.
+Two owlets.
+넌 아기 올빼미들을 셀 수 있니?
+하나, 둘.
+아기 올빼미 두 마리.
+Can you count the baby cows?
+One, two, three.
+Three calves.
+넌 아기 소들을 셀 수 있니?
+하나, 둘, 셋.
+송아지 세 마리.
+Can you count the baby ducks?
+One, two, three, four.
+Four ducklings.
+넌 아기 오리들을 셀 수 있니?
+하나, 둘, 셋, 넷.
+아기 오리 네 마리.
+Can you count the baby frogs?
+One, two, three, four, five.
+Five tadpoles.
+넌 아기 개구리들을 셀 수 있니?
+하나, 둘, 셋, 넷, 다섯.
+올챙이 다섯 마리.
+Can you count the baby cats?
+One, two, three, four, five, six.
+Six kittens.
+넌 아기 고양이들을 셀 수 있니?
+하나, 둘, 셋, 넷, 다섯, 여섯.
+아기 고양이 여섯 마리.
+Can you count the baby sheep?
+One, two, three, four, five, six, seven.
+Seven lambs.
+넌 아기 양들을 셀 수 있니?
+하나, 둘, 셋, 넷, 다섯, 여섯, 일곱.
+아기 양 일곱 마리.
+Can you count the baby dogs?
+One, two, three, four, five, six, seven, eight.
+Eight puppies.
+넌 아기 개들을 셀 수 있니?
+하나, 둘, 셋, 넷, 다섯, 여섯, 일곱, 여덟.
+강아지 여덟 마리.
+Can you count the baby pigs?
+One, two, three, four, five, six, seven, eight, nine.
+Nine piglets.
+넌 아기 돼지들을 셀 수 있니?
+하나, 둘, 셋, 넷, 다섯, 여섯, 일곱, 여덟, 아홉.
+아기 돼지 아홉 마리.
+Can you count the baby chickens?
+One, two, three, four, five, six, seven, eight, nine, ten.
+Ten chicks.
+넌 아기 닭들을 셀 수 있니?
+하나, 둘, 셋, 넷, 다섯, 여섯, 일곱, 여덟, 아홉, 열.
+병아리 열 마리.
+You can count very well.
+넌 아주 잘 세는구나.

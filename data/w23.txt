@@ -1,0 +1,38 @@
+제목: Shapes
+(모양)
+I can draw many shapes.
+나는 많은 모양들을 그릴 수 있어요.
+I can draw a circle.
+나는 동그라미를 그릴 수 있어요.
+Is the clock a circle?
+Yes, it is. The clock is a circle.
+시계가 동그란가요?
+네, 그래요. 시계는 동그랗지요.
+I can draw a square.
+나는 정사각형을 그릴 수 있어요.
+Is the stamp a square?
+Yes, it is. The stamp is a square.
+우표가 정사각형인가요?
+네, 그래요. 우표는 정사각형이에요.
+I can draw a triangle.
+나는 삼각형을 그릴 수 있어요.
+Is the sandwich a triangle?
+Yes, it is. The sandwich is a triangle.
+샌드위치가 삼각형인가요?
+네, 그래요. 샌드위치는 삼각형이지요.
+I can draw a rectangle.
+나는 직사각형을 그릴 수 있어요.
+Is the book a rectangle?
+Yes, it is. The book is a rectangle.
+책이 직사각형인가요?
+네, 그래요. 책은 직사각형이에요.
+I can draw a heart.
+나는 하트 모양을 그릴 수 있어요.
+Is the candy box a heart?
+Yes, it is. The candy box is a heart.
+사탕 상자가 하트 모양인가요?
+네, 그래요. 사탕 상자는 하트 모양이지요.
+Circle, square, triangle, rectangle, and heart!
+I can draw all of them.
+동그라미, 정사각형, 삼각형, 직사각형, 그리고 하트 모양!
+나는 그것들 모두를 그릴 수 있답니다.

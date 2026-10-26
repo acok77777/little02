@@ -1,0 +1,34 @@
+제목: How Do I Eat This?
+(난 이걸 어떻게 먹을까요?)
+How do I eat my rice?
+난 밥을 어떻게 먹을까요?
+I use a spoon.
+나는 숟가락을 사용해요.
+How do I eat my noodles?
+난 국수를 어떻게 먹을까요?
+I use chopsticks.
+나는 젓가락을 사용해요.
+How do I eat my soup?
+난 수프를 어떻게 먹을까요?
+I use a spoon.
+나는 숟가락을 사용해요.
+How do I eat my meat?
+난 고기를 어떻게 먹을까요?
+I use a knife and fork.
+나는 나이프와 포크를 사용해요.
+How do I eat my cake?
+난 케이크를 어떻게 먹을까요?
+I use a fork.
+나는 포크를 사용해요.
+How do I eat my spaghetti?
+난 스파게티를 어떻게 먹을까요?
+I use a fork.
+나는 포크를 사용해요.
+How do I eat my sushi?
+난 초밥을 어떻게 먹을까요?
+I use chopsticks.
+나는 젓가락을 사용해요.
+How do I eat this, then?
+그럼, 난 이건 어떻게 먹을까요?
+I use my hands.
+나는 내 손을 사용하지요.
