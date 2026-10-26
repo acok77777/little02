@@ -1,0 +1,20 @@
+제목: How to Make a Sandwich
+(샌드위치 만드는 법)
+We need some bread.
+우리는 빵이 좀 필요해.
+We need some lettuce.
+우리는 상추가 좀 필요해.
+We need some tomatoes.
+우리는 토마토가 좀 필요해.
+We need some cheese.
+우리는 치즈가 좀 필요해.
+We need some mustard.
+우리는 겨자가 좀 필요해.
+We need some mayonnaise.
+우리는 마요네즈가 좀 필요해.
+We need some bread, lettuce, tomatoes, cheese, mustard, and mayonnaise.
+우리는 빵, 상추, 토마토, 치즈, 겨자, 그리고 마요네즈가 필요하단다.
+Oh! We need some ham!
+아참! 우리는 햄이 좀 필요하네!
+We need some more sandwiches.
+우리는 샌드위치가 좀 더 필요해요.

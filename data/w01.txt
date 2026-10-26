@@ -1,0 +1,18 @@
+제목: My Helicopter
+(나의 헬리콥터)
+I can fly over the field.
+나는 들판 위로 날아갈 수 있어요.
+I can fly over the mountains.
+나는 산 위로 날아갈 수 있어요.
+I can fly over the orchard.
+나는 과수원 위로 날아갈 수 있어요.
+I can fly over the lake.
+나는 호수 위로 날아갈 수 있어요.
+I can fly over the city.
+나는 도시 위로 날아갈 수 있어요.
+I can fly over the bridge.
+나는 다리 위로 날아갈 수 있어요.
+I can fly over the street.
+나는 길 위로 날아갈 수 있어요.
+I can fly home.
+나는 집으로 날아갈 수 있어요.
