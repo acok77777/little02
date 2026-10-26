@@ -11,13 +11,14 @@ let currentMode = "both";
 let playbackSpeed = 1;
 
 const audio = new Audio();
-const $ = (id) => document.getElementById(id);
-const padNumber = (number) => String(number).padStart(2, "0");
+const $ = id => document.getElementById(id);
+const padNumber = number => String(number).padStart(2, "0");
 
 function getCompleted() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return new Set(saved.map(Number));
+    return new Set(
+      JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]").map(Number)
+    );
   } catch {
     return new Set();
   }
@@ -153,7 +154,6 @@ function showView(viewName) {
   });
 
   $("fixedPlayer").hidden = viewName !== "studyView";
-
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
@@ -322,7 +322,7 @@ function moveStory(step) {
   openStory(number);
 }
 
-/* 배속은 0.5~3배, 0.5씩 변경 */
+/* 배속: 0.5~3배, 0.5씩 조절 */
 function updateSpeedDisplay() {
   $("speedValue").textContent = `${playbackSpeed.toFixed(1)}배속`;
   audio.playbackRate = playbackSpeed;
@@ -340,10 +340,9 @@ function changeSpeed(direction) {
   updateSpeedDisplay();
 }
 
-/* 재생 상태에 맞춰 버튼 상태 표시 */
 function updatePlaybackButtons() {
-  $("playButton").disabled = audio.paused === false;
-  $("pauseButton").disabled = audio.paused;
+  $("playButton").disabled = !audio.paused && !audio.ended;
+  $("pauseButton").disabled = audio.paused || audio.ended;
 }
 
 function formatTime(seconds) {
