@@ -1,8 +1,8 @@
-<CodeBlock language="javascript" editable>
+
 /* ==========================================
    리틀팍스 동화 레벨 2
-   텍스트: data/w01.txt ~ data/w67.txt
-   오디오: s67/s01.mp3 ~ s67/s67.mp3
+   TXT: data/w01.txt ~ data/w67.txt
+   MP3: s67/s01.mp3 ~ s67/s67.mp3
 ========================================== */
 
 const TOTAL_STORIES = 67;
@@ -16,7 +16,15 @@ let currentRange = "1-20";
 let currentMode = "both";
 
 const audio = new Audio();
+
 const $ = id => document.getElementById(id);
+
+const ranges = {
+  "1-20": [1, 20],
+  "21-40": [21, 40],
+  "41-60": [41, 60],
+  "61-67": [61, 67]
+};
 
 let completed = new Set();
 
@@ -28,39 +36,23 @@ try {
   completed = new Set();
 }
 
-const ranges = {
-  "1-20": [1, 20],
-  "21-40": [21, 40],
-  "41-60": [41, 60],
-  "61-67": [61, 67]
-};
-
-/* 화면 전환 */
-function showView(viewId) {
-  ["homeView", "listView", "studyView"].forEach(id => {
-    const view = $(id);
-    if (view) view.hidden = id !== viewId;
-  });
-
-window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
 /* TXT 파일 하나 불러오기 */
 async function loadOneStory(number) {
-const filename = w$DIL0.txt;
+  const filename = `w${String(number).padStart(2, "0")}.txt`;
 
-const response = await fetch(DATA_DIR + filename, {
+  const response = await fetch(DATA_DIR + filename, {
     cache: "no-store"
   });
 
-if (!response.ok) {
-throw new Error(
-$DIL0 파일을 불러오지 못했습니다.\n +
-GitHub의 data 폴더에 파일이 있는지 확인해 주세요.
-);
-}
+  if (!response.ok) {
+    throw new Error(
+      `${filename} 파일을 불러오지 못했습니다.\n` +
+      `GitHub의 data 폴더에 해당 파일이 있는지 확인해 주세요.`
+    );
+  }
 
-const text = (await response.text()).replace(/^\uFEFF/, "");
+  const text = (await response.text()).replace(/^\uFEFF/, "");
+
   return parseStory(text, number);
 }
 
@@ -72,21 +64,38 @@ function parseStory(text, number) {
     .map(line => line.trim())
     .filter(Boolean);
 
-let title = 동화 $DIL0;
-let koreanTitle = "";
-let skipKoreanTitle = false;
-const content = [];
+  let title = `동화 ${number}`;
+  let koreanTitle = "";
+  let waitingForKoreanTitle = false;
+  const content = [];
 
-for (const line of lines) {
+  for (const line of lines) {
     const titleMatch = line.match(/^제목:\s*(.+)$/);
 
-if (titleMatch) {
+    if (titleMatch) {
       title = titleMatch[1].trim();
-      skipKoreanTitle = true;
+      waitingForKoreanTitle = true;
       continue;
     }
 
-/* 불필요한 안내 및 저작권 문구 제외 */
+    /* 제목 바로 다음 줄의 한국어 제목 */
+    if (waitingForKoreanTitle) {
+      waitingForKoreanTitle = false;
+
+      const koreanMatch = line.match(/^[（(](.*)[）)]$/);
+
+      if (koreanMatch) {
+        koreanTitle = koreanMatch[1].trim();
+        continue;
+      }
+
+      if (/^[가-힣\s]+$/.test(line) && !/[.!?]/.test(line)) {
+        koreanTitle = line;
+        continue;
+      }
+    }
+
+    /* 안내문과 저작권 문구 제외 */
     if (
       /학습자료|원문해석|글자 확대|글자 축소|인쇄/.test(line) ||
       /원문 내용 중 단어를 클릭하면/.test(line) ||
@@ -96,23 +105,7 @@ if (titleMatch) {
       continue;
     }
 
-/* 제목 바로 다음의 한글 번역 제목 */
-    if (skipKoreanTitle) {
-      skipKoreanTitle = false;
-
-if (/^[（(].*[）)]$/.test(line)) {
-        koreanTitle =
-          "(" + line.replace(/^[（(]/, "").replace(/[）)]$/, "") + ")";
-        continue;
-      }
-
-if (/^[가-힣\s]+$/.test(line) && !/[.!?]/.test(line)) {
-koreanTitle = ($DIL0);
-continue;
-}
-}
-
-/* 영어 문장과 한국어 해석 분류 */
+    /* 영어와 한국어 문장 분류 */
     if (/[a-zA-Z]/.test(line)) {
       content.push({ text: line, lang: "en" });
     } else if (/[가-힣]/.test(line)) {
@@ -120,7 +113,7 @@ continue;
     }
   }
 
-return {
+  return {
     id: number,
     title,
     koreanTitle,
@@ -128,38 +121,64 @@ return {
   };
 }
 
-/* TXT 67편 모두 불러오기 */
+/* 67편 불러오기 */
 async function loadAllStories() {
-  const result = await Promise.all(
+  const results = await Promise.all(
     Array.from(
       { length: TOTAL_STORIES },
       (_, index) => loadOneStory(index + 1)
     )
   );
 
-stories = result;
+  stories = results;
 }
 
-/* 학습 진행률 */
+/* 메인 화면과 진행률 */
 function updateProgress() {
   const count = completed.size;
   const percent = Math.round(count / TOTAL_STORIES * 100);
 
-if ($("progressCount")) {
-$("progressCount").textContent = $DIL0 / $DIL1;
+  if ($("progressCount")) {
+    $("progressCount").textContent = `${count} / ${TOTAL_STORIES}`;
+  }
+
+  if ($("progressBar")) {
+    $("progressBar").style.width = `${percent}%`;
+    $("progressBar").setAttribute("aria-valuenow", count);
+  }
+
+  if ($("progressPercent")) {
+    $("progressPercent").textContent = `${percent}%`;
+  }
 }
 
-if ($("progressBar")) {
-$("progressBar").style.width = $DIL0%;
-$("progressBar").setAttribute("aria-valuenow", count);
+/* 화면 전환 */
+function showView(viewId) {
+  ["homeView", "listView", "studyView"].forEach(id => {
+    const view = $(id);
+    if (view) view.hidden = id !== viewId;
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-if ($("progressPercent")) {
-$("progressPercent").textContent = $DIL0%;
-}
+/* 구간 선택 */
+function selectRange(range) {
+  if (!ranges[range]) return;
+
+  currentRange = range;
+
+  const [start, end] = ranges[range];
+
+  if ($("rangeTitle")) {
+    $("rangeTitle").textContent = `${start}~${end}번 동화 목록`;
+  }
+
+  renderStoryList();
+  showView("listView");
 }
 
-/* 동화 목록 만들기 */
+/* 동화 목록 표시 */
 function renderStoryList() {
   const list = $("storyList");
   if (!list) return;
@@ -168,39 +187,40 @@ function renderStoryList() {
 
   const [start, end] = ranges[currentRange];
 
-stories
+  stories
     .filter(story => story.id >= start && story.id <= end)
     .forEach(story => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "story-item";
 
-if (completed.has(story.id)) {
+      if (completed.has(story.id)) {
         button.classList.add("completed");
       }
 
-const number = document.createElement("span");
+      const number = document.createElement("span");
       number.className = "story-number";
       number.textContent = story.id;
 
-const title = document.createElement("span");
+      const title = document.createElement("span");
       title.className = "story-title";
       title.textContent = story.title;
 
       button.append(number, title);
 
-if (completed.has(story.id)) {
+      if (completed.has(story.id)) {
         const check = document.createElement("span");
         check.className = "story-check";
         check.textContent = "✓";
         button.appendChild(check);
       }
 
-button.addEventListener("click", () => openStory(story.id));
+      button.addEventListener("click", () => openStory(story.id));
+
       list.appendChild(button);
     });
 
-document.querySelectorAll("[data-range]").forEach(button => {
+  document.querySelectorAll("[data-range]").forEach(button => {
     button.classList.toggle(
       "active",
       button.dataset.range === currentRange
@@ -208,33 +228,46 @@ document.querySelectorAll("[data-range]").forEach(button => {
   });
 }
 
-/* 동화 한 편 열기 */
+/* 동화 제목 표시 */
+function getFullTitle(story) {
+  return story.koreanTitle
+    ? `${story.title} (${story.koreanTitle})`
+    : story.title;
+}
+
+/* 동화 열기 */
 function openStory(number) {
   const story = stories.find(item => item.id === number);
   if (!story) return;
 
-currentStory = number;
+  currentStory = number;
+  currentMode = "both";
+
   showView("studyView");
 
-if ($("studyTitle")) {
-$("studyTitle").textContent =
-$DIL0. $DIL1 +
-(story.koreanTitle ?  $DIL2 : "");
-}
+  if ($("studyTitle")) {
+    $("studyTitle").textContent =
+      `${story.id}. ${getFullTitle(story)}`;
+  }
 
-renderStoryContent(story);
+  renderStoryContent(story);
   updateCompleteButton();
   updateNavigation();
-  updateAudioTitle(story);
 
-/* 동화 번호에 맞는 MP3 연결 */
-audio.pause();
-audio.currentTime = 0;
-audio.src =
-$DIL0s$DIL1.mp3;
+  if ($("audioTitle")) {
+    $("audioTitle").textContent =
+      `${story.id}. ${story.title}`;
+  }
 
-audio.playbackRate = Number($("speedSelect")?.value || 1);
+  /* 번호에 맞는 음성 연결 */
+  audio.pause();
+  audio.currentTime = 0;
+  audio.src =
+    `${AUDIO_DIR}s${String(number).padStart(2, "0")}.mp3`;
+
+  audio.playbackRate = Number($("speedSelect")?.value || 1);
   audio.load();
+
   updateAudioProgress();
 }
 
@@ -245,19 +278,22 @@ function renderStoryContent(story) {
 
   body.innerHTML = "";
 
-story.lines
-.filter(line =>
-currentMode === "both" || line.lang === currentMode
-)
-.forEach(line => {
-const p = document.createElement("p");
-p.className =
-story-line $DIL0;
-p.textContent = line.text;
-body.appendChild(p);
-});
+  story.lines
+    .filter(line =>
+      currentMode === "both" || line.lang === currentMode
+    )
+    .forEach(line => {
+      const p = document.createElement("p");
 
-document.querySelectorAll("[data-mode]").forEach(button => {
+      p.className = line.lang === "en"
+        ? "story-line english-line"
+        : "story-line korean-line";
+
+      p.textContent = line.text;
+      body.appendChild(p);
+    });
+
+  document.querySelectorAll("[data-mode]").forEach(button => {
     button.classList.toggle(
       "active",
       button.dataset.mode === currentMode
@@ -265,40 +301,21 @@ document.querySelectorAll("[data-mode]").forEach(button => {
   });
 }
 
-/* 하단 오디오 제목 */
-function updateAudioTitle(story) {
-if ($("audioTitle")) {
-$("audioTitle").textContent =
-$DIL0. $DIL1;
-}
-}
-
-/* 이전 / 다음 버튼 */
-function updateNavigation() {
-  if ($("prevButton")) {
-    $("prevButton").disabled = currentStory <= 1;
-  }
-
-if ($("nextButton")) {
-    $("nextButton").disabled = currentStory >= TOTAL_STORIES;
-  }
-}
-
-/* 학습 완료 표시 */
+/* 완료 체크 버튼 */
 function updateCompleteButton() {
   const button = $("completeButton");
   if (!button) return;
 
   const isCompleted = completed.has(currentStory);
 
-button.textContent = isCompleted
+  button.textContent = isCompleted
     ? "✓ 학습 완료됨 (다시 누르면 해제)"
     : "✓ 학습 완료 체크 저장";
 
-button.classList.toggle("saved", isCompleted);
+  button.classList.toggle("saved", isCompleted);
 }
 
-/* 완료 상태 저장 또는 해제 */
+/* 완료 상태 저장 */
 function toggleComplete() {
   if (completed.has(currentStory)) {
     completed.delete(currentStory);
@@ -306,14 +323,25 @@ function toggleComplete() {
     completed.add(currentStory);
   }
 
-localStorage.setItem(
+  localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify([...completed])
   );
 
-updateProgress();
+  updateProgress();
   updateCompleteButton();
   renderStoryList();
+}
+
+/* 이전 / 다음 동화 */
+function updateNavigation() {
+  if ($("prevButton")) {
+    $("prevButton").disabled = currentStory <= 1;
+  }
+
+  if ($("nextButton")) {
+    $("nextButton").disabled = currentStory >= TOTAL_STORIES;
+  }
 }
 
 /* 오디오 재생 */
@@ -323,16 +351,17 @@ async function playAudio() {
     return;
   }
 
-try {
-await audio.play();
-} catch (error) {
-console.error("오디오 재생 오류:", error);
-alert(
-"오디오를 재생할 수 없습니다.\n\n" +
-확인할 주소: $DIL0\n\n +
-"GitHub의 s67 폴더에 해당 MP3 파일이 있는지 확인해 주세요."
-);
-}
+  try {
+    await audio.play();
+  } catch (error) {
+    console.error("오디오 재생 오류:", error);
+
+    alert(
+      "오디오를 재생할 수 없습니다.\n\n" +
+      `파일 주소: ${audio.src}\n\n` +
+      "s67 폴더의 MP3 파일명을 확인해 주세요."
+    );
+  }
 }
 
 /* 오디오 정지 */
@@ -346,57 +375,52 @@ function stopAudio() {
 function formatTime(seconds) {
   if (!Number.isFinite(seconds)) return "0:00";
 
-const minutes = Math.floor(seconds / 60);
+  const minutes = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
 
-return $DIL0:$DIL1;
+  return `${minutes}:${String(secs).padStart(2, "0")}`;
 }
 
-/* 오디오 진행 막대 갱신 */
+/* 오디오 진행 막대 */
 function updateAudioProgress() {
   if ($("currentTime")) {
     $("currentTime").textContent = formatTime(audio.currentTime);
   }
 
-if ($("durationTime")) {
+  if ($("durationTime")) {
     $("durationTime").textContent = formatTime(audio.duration);
   }
 
-if ($("audioProgress")) {
-    $("audioProgress").value = audio.duration
-      ? (audio.currentTime / audio.duration) * 100
+  if ($("audioProgress")) {
+    $("audioProgress").value = audio.duration > 0
+      ? audio.currentTime / audio.duration * 100
       : 0;
   }
 }
 
-/* 버튼과 입력 연결 */
+/* 버튼 연결 */
 function bindEvents() {
-  $("startButton")?.addEventListener("click", () => {
-    showView("listView");
-    renderStoryList();
+  document.querySelectorAll("[data-range]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectRange(button.dataset.range);
+    });
   });
 
-$("homeButton")?.addEventListener("click", () => {
+  $("homeButton")?.addEventListener("click", () => {
     audio.pause();
     showView("homeView");
   });
 
-$("listButton")?.addEventListener("click", () => {
+  $("listButton")?.addEventListener("click", () => {
     audio.pause();
-    showView("listView");
     renderStoryList();
+    showView("listView");
   });
 
-document.querySelectorAll("[data-range]").forEach(button => {
-    button.addEventListener("click", () => {
-      currentRange = button.dataset.range;
-      renderStoryList();
-    });
-  });
-
-document.querySelectorAll("[data-mode]").forEach(button => {
+  document.querySelectorAll("[data-mode]").forEach(button => {
     button.addEventListener("click", () => {
       currentMode = button.dataset.mode;
+
       const story = stories.find(item => item.id === currentStory);
       if (story) renderStoryContent(story);
     });
@@ -404,64 +428,60 @@ document.querySelectorAll("[data-mode]").forEach(button => {
 
   $("completeButton")?.addEventListener("click", toggleComplete);
 
-$("prevButton")?.addEventListener("click", () => {
+  $("prevButton")?.addEventListener("click", () => {
     if (currentStory > 1) openStory(currentStory - 1);
   });
 
-$("nextButton")?.addEventListener("click", () => {
+  $("nextButton")?.addEventListener("click", () => {
     if (currentStory < TOTAL_STORIES) openStory(currentStory + 1);
   });
 
-$("playButton")?.addEventListener("click", playAudio);
+  $("playButton")?.addEventListener("click", playAudio);
   $("stopButton")?.addEventListener("click", stopAudio);
 
-$("speedSelect")?.addEventListener("change", event => {
+  $("speedSelect")?.addEventListener("change", event => {
     audio.playbackRate = Number(event.target.value);
   });
 
-$("audioProgress")?.addEventListener("input", event => {
+  $("audioProgress")?.addEventListener("input", event => {
     if (Number.isFinite(audio.duration) && audio.duration > 0) {
       audio.currentTime =
         Number(event.target.value) / 100 * audio.duration;
     }
   });
 
-audio.addEventListener("timeupdate", updateAudioProgress);
+  audio.addEventListener("timeupdate", updateAudioProgress);
   audio.addEventListener("loadedmetadata", updateAudioProgress);
   audio.addEventListener("ended", updateAudioProgress);
+
   audio.addEventListener("error", () => {
-    console.error("MP3 로딩 실패:", audio.src);
+    console.error("MP3 파일 로딩 실패:", audio.src);
   });
 }
 
-/* 앱 초기화 */
+/* 앱 시작 */
 async function initApp() {
   bindEvents();
   updateProgress();
   showView("homeView");
 
-try {
+  try {
     await loadAllStories();
 
-console.log(
-동화 $DIL0/$DIL1편을 불러왔습니다.
-);
+    console.log(`동화 ${stories.length}/${TOTAL_STORIES}편을 불러왔습니다.`);
 
-const errorMessage = $("errorMessage");
-    if (errorMessage) {
-      errorMessage.hidden = true;
-      errorMessage.textContent = "";
+    if ($("errorMessage")) {
+      $("errorMessage").hidden = true;
+      $("errorMessage").textContent = "";
     }
   } catch (error) {
     console.error("동화 데이터 로딩 오류:", error);
 
-const message = $("errorMessage");
-    if (message) {
-      message.hidden = false;
-      message.textContent = error.message;
+    if ($("errorMessage")) {
+      $("errorMessage").hidden = false;
+      $("errorMessage").textContent = error.message;
     }
   }
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
-</CodeBlock>
