@@ -1,11 +1,94 @@
-1
 
+위에 파일에서 <아래 글자는 다 삭제해줘> 
 학습자료
 원문해석
 * 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Helicopter
-나의 첫 영어책 2, 나의 헬리콥터
+
 * 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+
+© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
+
+요청하신 문구를 모두 삭제한 TXT 파일을 만들었어요. 😊
+
+삭제한 항목:
+
+학습자료
+
+원문해석
+
+* 원문 내용 중 단어를 클릭하면…
+
+* 원문 숨기기(보기)를 클릭하면…
+
+© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
+
+영어 원문과 한국어 해석, 동화 제목과 번호는 유지했어요.
+
+story67_clean_no_ui.txt
+
+불필요한 문구 삭제 완료
+
+수정된 TXT 파일 다운로드
+
+
+story67_clean_no_ui.txt
+문서
+My First Readers 2 <= 이 문구를 => 제목:  이라고 수정해줘
+
+My First Readers 2 문구를 모두 제목:으로 변경했어. 총 67곳 수정했어.
+
+📄 수정된 TXT 파일 다운로드
+
+
+story67_titles_labeled.txt
+문서
+나의 첫 영어책 2 글자를 삭제해 달라고 ㅠ
+
+미안해 ㅠㅠ 이번에는 ‘나의 첫 영어책 2’ 글자를 완전히 삭제했어. 다른 내용은 최대한 그대로 유지했어.
+
+📄 수정된 TXT 파일 다운로드
+
+
+story67_removed_korean_bookname.txt
+문서
+영어책 내용 수정 작업에 PDF를 Word로 옮기는 것도 가능해요.
+
+
+
+그리고 이 문구에서 =>  제목:,  콤마 빼줘 => 제목: 이렇게
+
+미안해 😊 제목:,에서 콤마(,)를 삭제해서 제목: 으로 수정했어.
+
+📄 수정된 TXT 파일 다운로드
+
+
+story67_titles_fixed.txt
+문서
+제목: My Helicopter
+, 나의 헬리콥터 <= 이 문구를 => 제목: My Helicopter
+(나의 헬리콥터) / 이렇게 다 바꿔줘
+
+요청한 대로 67개 제목의 한글 번역 형식을 모두 수정했어.
+
+수정 전
+
+제목: My Helicopter
+, 나의 헬리콥터
+수정 후
+
+제목: My Helicopter
+(나의 헬리콥터)
+📄 수정된 TXT 파일 다운로드
+
+
+story67_titles_parentheses.txt
+문서
+
+
+
+1
+제목: My Helicopter
+(나의 헬리콥터)
 I can fly over the field.
 나는 들판 위로 날아갈 수 있어요.
 I can fly over the mountains.
@@ -22,18 +105,10 @@ I can fly over the street.
 나는 길 위로 날아갈 수 있어요.
 I can fly home.
 나는 집으로 날아갈 수 있어요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 2
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Let's Go!
-나의 첫 영어책 2, 우리 같이 가요!
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Let's Go!
+(우리 같이 가요!)
 I want to go to the desert.
 난 사막에 가고 싶어요.
 I want to go to the Arctic.
@@ -50,17 +125,10 @@ I want to go to the amusement park.
 난 놀이 공원에 가고 싶어요.
 I want to go to the moon!
 난 달나라에 가고 싶어요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 3
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Pet
-나의 첫 영어책 2, 나의 반려동물
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Pet
+(나의 반려동물)
 I see a hamster on Monday.
 나는 월요일에 햄스터를 봐요.
 I see a rabbit on Tuesday.
@@ -77,18 +145,10 @@ On Sunday, I get my pet.
 "Hey, Cutie!"
 일요일에는 내가 반려동물을 갖게 되네요.
 "안녕, 귀염둥이야!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 4
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, How to Make a Sandwich
-나의 첫 영어책 2, 샌드위치 만드는 법
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: How to Make a Sandwich
+(샌드위치 만드는 법)
 We need some bread.
 우리는 빵이 좀 필요해.
 We need some lettuce.
@@ -107,19 +167,10 @@ Oh! We need some ham!
 아참! 우리는 햄이 좀 필요하네!
 We need some more sandwiches.
 우리는 샌드위치가 좀 더 필요해요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 5
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Favorite Things
-나의 첫 영어책 2, 내가 제일 좋아하는 것들
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Favorite Things
+(내가 제일 좋아하는 것들)
 My favorite toy is my teddy, Bobo.
 내가 제일 좋아하는 장난감은 곰인형 보보예요.
 My favorite color is blue.
@@ -136,17 +187,10 @@ I find my friend, Jack.
 난 내 친구 잭을 찾아내요.
 These are my favorite things.
 이것들이 내가 제일 좋아하는 것들이랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 6
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Shoes
-나의 첫 영어책 2, 신발
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Shoes
+(신발)
 These shoes are for running.
 이 신발은 달리기를 할 때 신어요.
 These shoes are for swimming.
@@ -165,18 +209,10 @@ These shoes are for my baby brother.
 이 신발은 내 아기 남동생이 신는답니다.
 "One step at a time!"
 "한 번에 한 걸음씩!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 7
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, I Can Fly!
-나의 첫 영어책 2, 나는 날 수 있어요!
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: I Can Fly!
+(나는 날 수 있어요!)
 I can cross the whole ocean.
 나는 모든 바다를 건너갈 수 있어요.
 I can cross the desert too.
@@ -193,18 +229,10 @@ I can walk on a rope high in the air.
 나는 높은 공중에 있는 밧줄 위를 걸을 수 있고요.
 I can fly through the air too!
 나는 하늘을 통과하여 날아갈 수도 있답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 8
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, On the Monster
-나의 첫 영어책 2, 괴물 위에서
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: On the Monster
+(괴물 위에서)
 I am not afraid of the monster.
 나는 괴물이 무섭지 않아요.
 I am on the monster.
@@ -223,19 +251,10 @@ I am above the monster.
 나는 괴물보다 위에 있지요.
 Oh no! The monster got me!
 오, 이런! 괴물이 나를 잡았네요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 9
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Things That Fly
-나의 첫 영어책 2, 날아가는 것들
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Things That Fly
+(날아가는 것들)
 The balloon flies into the clouds.
 풍선이 구름 속으로 날아가요.
 The kite flies over the river.
@@ -252,20 +271,10 @@ The spaceship flies into space.
 우주선이 우주로 날아가고요.
 I fly over the hills!
 나는 언덕 위로 날아간답니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
-
 
 10
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, The Five Senses
-나의 첫 영어책 2, 다섯 가지 감각
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: The Five Senses
+(다섯 가지 감각)
 My eyes see.
 내 눈은 봐요.
 I see colors all around.
@@ -290,18 +299,10 @@ I see, I hear, I smell, I taste, I touch.
 나는 보고, 듣고, 냄새 맡고, 맛을 보고, 만져요.
 My five senses.
 나의 다섯 가지 감각이지요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 11
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Friend Billy
-나의 첫 영어책 2, 나의 친구 빌리
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Friend Billy
+(나의 친구 빌리)
 My friend Billy is coming.
 나의 친구 빌리가 오고 있어요.
 I hear his footsteps.
@@ -318,18 +319,10 @@ I taste his ice cream.
 나는 빌리의 아이스크림 맛을 봐요.
 Billy is my best friend.
 빌리는 나의 가장 친한 친구랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 12
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, At Night
-나의 첫 영어책 2, 밤에
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: At Night
+(밤에)
 The horse sleeps in the stable.
 말은 마구간에서 잡니다.
 The pig sleeps in the pen.
@@ -348,19 +341,10 @@ Where do you sleep?
 여러분은 어디에서 자나요?
 I sleep in my bed.
 난 내 침대에서 잔답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 13
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Things That Go
-나의 첫 영어책 2, 다니는 것들
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Things That Go
+(다니는 것들)
 The bus goes to the bus stop.
 버스가 정류장으로 갑니다.
 The car goes to the department store.
@@ -379,19 +363,10 @@ The plane goes to the city.
 비행기가 도시로 가네요.
 I go to many places.
 나는 많은 장소를 다닌답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
-
 
 14
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Energy
-나의 첫 영어책 2, 에너지
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Energy
+(에너지)
 The sun makes energy.
 태양은 에너지를 만들어요.
 It makes the plants grow.
@@ -412,19 +387,10 @@ I make energy.
 난 에너지를 만들어요.
 I make the bike move!
 난 자전거를 움직이게 한답니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
-
 
 15
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Which Is the Tallest?
-나의 첫 영어책 2, 어느 것이 가장 큰가요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Which Is the Tallest?
+(어느 것이 가장 큰가요?)
 Which is the tallest?
 The orange building is the tallest.
 어느 것이 가장 큰가요?
@@ -457,18 +423,10 @@ Which is the slowest?
 The rainbow snail is the slowest.
 무엇이 가장 느린가요?
 무지개 색 달팽이가 가장 느리네요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 16
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, What Time Is It?
-나의 첫 영어책 2, 몇 시예요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: What Time Is It?
+(몇 시예요?)
 "What time is it?"
 "It's six o'clock. It's ____ to get up!"
 "몇 시예요?"
@@ -507,19 +465,10 @@ My First Readers 2, What Time Is It?
 "몇 시예요?"
 "10시란다. 일어날 시간이구나."
 "이를 어째!" 다른 동물들이 소리치네요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 17
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Let's Jump Rope
-나의 첫 영어책 2, 줄넘기를 하자
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Let's Jump Rope
+(줄넘기를 하자)
 I can jump fast.
 I can jump slow.
 난 빨리 뛸 수 있어.
@@ -552,18 +501,10 @@ Look! Look! We can jump in a row!
 Let’s jump all together!
 봐! 봐! 우리들은 줄지어 뛸 수 있단다!
 우리 함께 뛰어 보자!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 18
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Who Am I?
-나의 첫 영어책 2, 나는 누구일까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Who Am I?
+(나는 누구일까요?)
 I have a long neck.
 Who am I?
 나는 긴 목을 가지고 있어요.
@@ -612,18 +553,10 @@ I am a balloon!
 I can see many animals in the zoo.
 나는 풍선이에요!
 나는 동물원에 있는 많은 동물들을 볼 수 있어요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 19
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Mr. Wolf, Mr. Wolf
-나의 첫 영어책 2, 늑대 아저씨, 늑대 아저씨
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Mr. Wolf, Mr. Wolf
+(늑대 아저씨, 늑대 아저씨)
 Mr. Wolf, Mr. Wolf, what are you doing?
 I am sleeping.
 늑대 아저씨, 늑대 아저씨, 뭘 하고 계세요?
@@ -654,18 +587,10 @@ I am eating little goats like you.
 난 너희 같은 쪼끄만 염소를 먹고 있지.
 "Yikes!"
 "이크!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 20
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, I Am Reading
-나의 첫 영어책 2, 나는 책을 읽어요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: I Am Reading
+(나는 책을 읽어요)
 I am reading about penguins.
 나는 펭귄에 관한 책을 읽어요.
 I am reading about pyramids.
@@ -684,18 +609,10 @@ I am reading!
 I like reading books.
 나는 책을 읽어요!
 난 책 읽는 걸 좋아하거든요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 21
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Time Goes Around
-나의 첫 영어책 2, 시간은 돌아요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Time Goes Around
+(시간은 돌아요)
 The big hand goes around.
 큰바늘이 돌아요.
 It goes around every hour.
@@ -712,18 +629,10 @@ The Earth goes around the sun.
 지구가 태양 주위를 돌아요.
 It goes around every year.
 지구는 매년 한 바퀴 돈답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 22
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Amusement Park Fun
-나의 첫 영어책 2, 놀이공원의 즐거움
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Amusement Park Fun
+(놀이공원의 즐거움)
 Going to an amusement park is fun.
 놀이공원에 가는 것은 재미있어요.
 There are many things to do.
@@ -742,18 +651,10 @@ I like the amusement park.
 나는 놀이공원을 좋아해요.
 It is a lot of fun!
 그건 아주 재미있거든요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 23
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Shapes
-나의 첫 영어책 2, 모양
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Shapes
+(모양)
 I can draw many shapes.
 나는 많은 모양들을 그릴 수 있어요.
 I can draw a circle.
@@ -790,18 +691,10 @@ Circle, square, triangle, rectangle, and heart!
 I can draw all of them.
 동그라미, 정사각형, 삼각형, 직사각형, 그리고 하트 모양!
 나는 그것들 모두를 그릴 수 있답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 24
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Cans, Bottles, and Boxes
-나의 첫 영어책 2, 캔, 병, 그리고 상자
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Cans, Bottles, and Boxes
+(캔, 병, 그리고 상자)
 I go shopping with my mom.
 난 엄마와 함께 쇼핑을 가요.
 Orange juice comes in bottles.
@@ -822,18 +715,10 @@ Ice cream comes in cones.
 아이스크림은 콘에 담겨 나온답니다.
 Yum!
 맛있어요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 25
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, What Makes This Sound?
-나의 첫 영어책 2, 무엇이 이런 소리를 낼까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: What Makes This Sound?
+(무엇이 이런 소리를 낼까요?)
 What makes this sound?
 The piano makes this sound.
 무엇이 이런 소리를 낼까요?
@@ -872,18 +757,10 @@ The flute makes this sound.
 플룻이 이런 소리를 내요.
 Let's make all these sounds together!
 이 모든 소리를 함께 내봐요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 26
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Once, Twice, All the Time
-나의 첫 영어책 2, 한 번, 두 번, 항상
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Once, Twice, All the Time
+(한 번, 두 번, 항상)
 Coco and I are best friends.
 코코와 나는 가장 친한 친구예요.
 Once a day, I brush Coco.
@@ -900,18 +777,10 @@ Coco kisses me all the time.
 코코는 항상 내게 뽀뽀를 합니다.
 Coco is my best friend.
 코코는 나의 가장 친한 친구랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 27
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, How Does It Feel?
-나의 첫 영어책 2, 어떤 느낌일까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: How Does It Feel?
+(어떤 느낌일까요?)
 I touch many things.
 They feel different.
 난 많은 것들을 만져 봐요.
@@ -946,7 +815,7 @@ It feels oily.
 미끌미끌하게 느껴져요.
 I touch the jam.
 It feels sticky.
-난 잼을 만져 봐요.  
+난 잼을 만져 봐요.
 끈적끈적하게 느껴지네요.
 I touch the pillow.
 It feels soft.
@@ -958,18 +827,10 @@ It feels furry.
 털이 복슬복슬한 느낌이네요.
 Things feel different.
 물건들은 각기 다른 느낌이 난답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 28
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Do I Have To?
-나의 첫 영어책 2, 내가 꼭 해야 돼요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Do I Have To?
+(내가 꼭 해야 돼요?)
 "Eat your salad, Timothy."
 "Do I have to?"
 "티모시, 네 샐러드 먹으렴."
@@ -998,18 +859,10 @@ My First Readers 2, Do I Have To?
 "우리 배고파요. 우리에게 간식을 만들어 주시겠어요?"
 "Hmm . . . Do we have to?"
 "글쎄다... 우리가 꼭 만들어 줘야 하니?"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 29
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Hands
-나의 첫 영어책 2, 손
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Hands
+(손)
 My mom's hands are chopping food.
 Chop, chop, chop.
 엄마의 손이 음식을 썰고 있어요.
@@ -1042,18 +895,10 @@ My hands are clapping to the music.
 Clap, clap, clap.
 내 손은 음악에 맞춰 손뼉을 치고 있답니다.
 손뼉을 쳐요, 손뼉을 쳐요, 손뼉을 쳐요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 30
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Where?
-나의 첫 영어책 2, 어디에서?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Where?
+(어디에서?)
 Where do birds fly?
 Birds fly in the sky.
 새들은 어디에서 날까?
@@ -1094,18 +939,10 @@ Where do you live?
 We live in an apartment.
 너희는 어디에 사니?
 우리는 아파트에서 살아.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 31
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Wheels
-나의 첫 영어책 2, 바퀴
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Wheels
+(바퀴)
 Wheels are round and they roll.
 바퀴는 둥글고 굴러가지요.
 This wheel is rolling.
@@ -1146,18 +983,10 @@ This is a train.
 이건 기차예요.
 Wheels help us move.
 바퀴는 우리가 이동할 수 있도록 도와준답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 32
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Tools
-나의 첫 영어책 2, 연장
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Tools
+(연장)
 Tools help me make many things.
 연장은 내가 많은 것을 만들 수 있도록 도와줘요.
 I use a ruler to measure.
@@ -1172,18 +1001,10 @@ I use a paintbrush to paint.
 나는 페인트를 칠하는 데 페인트용 솔을 사용하지요.
 Ta-da!  A birdhouse for the birds!
 짜잔! 새들을 위한 새집이에요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 33
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Come Play with Me
-나의 첫 영어책 2, 이리 와서 나랑 놀자
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Come Play with Me
+(이리 와서 나랑 놀자)
 We can run like the wind.
 우린 바람처럼 달릴 수 있어요.
 We can roll in the grass.
@@ -1202,18 +1023,10 @@ We can ride in the park.
 우린 공원에서 자전거를 탈 수도 있어요.
 We are best friends.
 우린 가장 친한 친구랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 34
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Counting Animals
-나의 첫 영어책 2, 동물 세어 보기
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Counting Animals
+(동물 세어 보기)
 Can you count the baby bears?
 One.
 One cub.
@@ -1276,18 +1089,10 @@ Ten chicks.
 병아리 열 마리.
 You can count very well.
 넌 아주 잘 세는구나.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 35
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Is It a Vegetable?
-나의 첫 영어책 2, 그건 채소일까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Is It a Vegetable?
+(그건 채소일까요?)
 It is juicy and orange. Is it a vegetable?
 No, it isn't. An orange is a fruit.
 그건 즙이 많고 주황색이에요. 그건 채소일까요?
@@ -1320,18 +1125,10 @@ They are thin and green. Are they a vegetable?
 Yes, they are! Cucumbers are a vegetable!
 그건 가늘고 초록색이에요. 그건 채소일까요?
 네, 맞아요! 오이는 채소랍니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 36
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, The Fourth of July
-나의 첫 영어책 2, 독립 기념일
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: The Fourth of July
+(독립 기념일)
 Everybody is thinking about the parade.
 모두가 퍼레이드에 대해 생각하고 있어요.
 Nobody is thinking about the dog!
@@ -1352,18 +1149,10 @@ Everybody is having fun!
 모두가 즐거운 시간을 보내고 있군요!
 Nobody is bored on the Fourth of July.
 독립 기념일에는 아무도 지루해하지 않는답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 37
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, What Are Things Made Of?
-나의 첫 영어책 2, 물건들은 무엇으로 만들어졌나요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: What Are Things Made Of?
+(물건들은 무엇으로 만들어졌나요?)
 My desk is made of wood.
 The wood is smooth.
 내 책상은 나무로 만들어졌어요.
@@ -1398,18 +1187,10 @@ The fur is fuzzy.
 털은 보풀로 덮여 있지요.
 I like his fuzzy fur!
 난 내 개의 보풀 털을 좋아해요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 38
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, How Do I Eat This?
-나의 첫 영어책 2, 난 이걸 어떻게 먹을까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: How Do I Eat This?
+(난 이걸 어떻게 먹을까요?)
 How do I eat my rice?
 난 밥을 어떻게 먹을까요?
 I use a spoon.
@@ -1442,18 +1223,10 @@ How do I eat this, then?
 그럼, 난 이건 어떻게 먹을까요?
 I use my hands.
 나는 내 손을 사용하지요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 39
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, The Night Flight
-나의 첫 영어책 2, 야간 비행
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: The Night Flight
+(야간 비행)
 At nine p.m., Danny goes to bed.
 밤 9시에 대니는 잠자리에 들어요.
 At ten p.m., Danny starts to dream.
@@ -1474,17 +1247,10 @@ At seven a.m., Danny wakes up.
 아침 7시에 대니는 잠에서 깨어나요.
 Was it all a dream?
 그건 모두 꿈이었을까?
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 40
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Time to Clean Up
-나의 첫 영어책 2, 청소할 시간
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Time to Clean Up
+(청소할 시간)
 It's time to clean up the blocks.
 블록들을 치울 시간이야.
 Let's put them in the chest.
@@ -1501,19 +1267,10 @@ It's time to say good-bye.
 작별 인사를 할 시간이네.
 Bye-bye!
 안녕!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 41
-
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Five Senses
-나의 첫 영어책 2, 나의 다섯 가지 감각
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Five Senses
+(나의 다섯 가지 감각)
 I have five senses.
 난 다섯 가지 감각을 가지고 있어요.
 I see with my eyes.
@@ -1538,18 +1295,10 @@ The ice feels cold.
 얼음은 차갑게 느껴져요.
 Whatever I do, I use my five senses.
 내가 무엇을 하든지, 난 나의 다섯 가지 감각을 사용한답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 42
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, At the Circus
-나의 첫 영어책 2, 서커스에서
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: At the Circus
+(서커스에서)
 Whose ball is this?
 This is his ball.
 이것은 누구의 공일까요?
@@ -1582,18 +1331,10 @@ Whose cannon is this?
 This is my cannon!
 이것은 누구의 대포일까요?
 이것은 나의 대포랍니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 43
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, The Days of the Week
-나의 첫 영어책 2, 일주일의 여러 날들
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: The Days of the Week
+(일주일의 여러 날들)
 Sunday is family day.
 일요일은 가족의 날이에요.
 Monday is math day.
@@ -1610,18 +1351,10 @@ Saturday is play day.
 토요일은 노는 날이지요.
 These are the days of my week!
 나는 일주일을 이렇게 보낸답니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 44
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, New Clothes
-나의 첫 영어책 2, 새 옷
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: New Clothes
+(새 옷)
 I get many gifts on my birthday.
 나는 생일날 많은 선물을 받아요.
 What's inside the green box?
@@ -1654,19 +1387,10 @@ It's a new jacket.
 새 재킷이에요.
 I like my new clothes.
 나는 내 새 옷이 좋아요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
-
 
 45
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Family
-나의 첫 영어책 2, 나의 가족
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Family
+(나의 가족)
 I am ten years old.
 나는 열 살이에요.
 My cousin is twenty years old.
@@ -1689,18 +1413,10 @@ My parrot is one hundred years old!
 내 앵무새는 백 살이에요!
 It is the oldest! "Hello!"
 앵무새가 가장 나이가 많답니다! "안녕!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 46
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, I Can Do Everything by Myself
-나의 첫 영어책 2, 난 혼자서 모든 것을 할 수 있어요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: I Can Do Everything by Myself
+(난 혼자서 모든 것을 할 수 있어요)
 Look at me!
 I can do everything by myself.
 나를 보세요!
@@ -1713,7 +1429,7 @@ I can brush my teeth.
 I can wash my face.
 난 이를 닦을 수 있어요.
 난 세수를 할 수 있죠.
-I can pour milk onto my cereal.  
+I can pour milk onto my cereal.
 I can pack my bag.
 난 시리얼 위에 우유를 부을 수 있어요.
 난 가방을 챙길 수 있어요.
@@ -1733,18 +1449,10 @@ Mother said, "Yes, you can do everything by yourself.
 But today is Sunday. There is no school today."
 엄마가 말씀하셨어요. "그래, 넌 혼자서 모든 것을 할 수 있구나.
 하지만 오늘은 일요일이야. 오늘은 수업이 없잖니."
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 47
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Fort
-나의 첫 영어책 2, 나의 요새
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Fort
+(나의 요새)
 I am a miner.
 I'm looking for gold.
 난 광부예요.
@@ -1775,18 +1483,10 @@ I'm playing in my fort.
 나는 내 요새 안에서 놀고 있어요.
 Oops! I'm making a mess!
 이크! 내가 다 어질러 놓았네요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 48
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Magnets
-나의 첫 영어책 2, 나의 자석
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Magnets
+(나의 자석)
 These are magnets.
 What do these magnets do?
 이것들은 자석이에요.
@@ -1809,18 +1509,10 @@ This magnet picks up the toy car.
 이 자석은 장난감 차를 집어 드네요.
 Wow! These magnets do many things!
 와! 이 자석들은 많은 일을 하는군요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 49
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, A New Bike
-나의 첫 영어책 2, 새 자전거
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: A New Bike
+(새 자전거)
 I got a new bike.
 It is fast.
 난 새 자전거가 생겼어요.
@@ -1845,17 +1537,10 @@ But I don't care!
 I like my new bike!
 하지만 난 상관없어요!
 난 내 자전거가 좋아요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 50
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, At the Store
-나의 첫 영어책 2, 상점에서
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: At the Store
+(상점에서)
 Storekeeper: Hi! Welcome to my store. May I help you?
 Customer: Yes, please.
 상점 주인: 안녕하세요! 저희 가게에 오신 걸 환영합니다. 도와드릴까요?
@@ -1878,18 +1563,10 @@ Customer: No, thank you!
 손님: 아뇨, 됐습니다!
 Storekeeper: Have a nice day!
 상점 주인: 좋은 하루 되세요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 51
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, I Am a Good Helper
-나의 첫 영어책 2, 나는 잘 돕는 사람이에요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: I Am a Good Helper
+(나는 잘 돕는 사람이에요)
 I am a good helper.
 나는 잘 돕는 사람이에요.
 I help Daddy fix the car.
@@ -1904,21 +1581,14 @@ I help my teacher clean the classroom.
 나는 선생님이 교실 청소하시는 것을 도와드려요.
 I help my brother cross the street.
 나는 내 남동생이 길 건너는 것을 돕지요.
-Are you a good helper too?  
+Are you a good helper too?
 How do you help people?
 여러분도 잘 돕는 사람인가요?
 여러분은 사람들을 어떻게 돕나요?
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 52
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Doing Chores
-나의 첫 영어책 2, 집안일 하기
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Doing Chores
+(집안일 하기)
 Rosie is my pet goose.
 로지는 나의 애완동물 거위예요.
 Rosie and I do chores together.
@@ -1951,18 +1621,10 @@ I take a nap.
 Rosie takes a nap too.
 나는 낮잠을 자요.
 로지도 낮잠을 자요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 53
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Rain on the Green Grass
-나의 첫 영어책 2, 푸른 잔디 위에 내리는 비
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Rain on the Green Grass
+(푸른 잔디 위에 내리는 비)
 Rain on the green grass,
 Rain on the trees,
 푸른 잔디 위에 내리는 비,
@@ -1995,18 +1657,10 @@ Rain on the doghouse,
 But not on me.
 개집 위에 내리는 비,
 하지만 내 위에는 아니랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 54
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, What I Like
-나의 첫 영어책 2, 내가 좋아하는 것
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: What I Like
+(내가 좋아하는 것)
 I like clowns because they are funny.
 나는 어릿광대를 좋아해요. 왜냐하면 어릿광대는 웃기니까요.
 I like roses because they are beautiful.
@@ -2023,17 +1677,10 @@ I like blankets because they are warm.
 나는 담요를 좋아해요. 왜냐하면 담요는 따뜻하니까요.
 I like my friend because she is nice.
 나는 내 친구를 좋아해요. 왜냐하면 친구는 착하니까요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 55
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Whose Shadow Is That?
-나의 첫 영어책 2, 저건 누구의 그림자일까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Whose Shadow Is That?
+(저건 누구의 그림자일까요?)
 Whose shadow is that?
 저건 누구의 그림자일까요?
 It belongs to a clock on a desk.
@@ -2066,18 +1713,10 @@ Whose shadow is that?
 저건 누구의 그림자일까요?
 It belongs to a cat on a television.
 그건 텔레비전 위에 있는 고양이의 것이랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 56
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Crayons
-나의 첫 영어책 2, 크레용
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Crayons
+(크레용)
 I have a new box of crayons.
 There are eight crayons in the box.
 나는 새 크레용 상자를 가지고 있어요.
@@ -2118,18 +1757,10 @@ Look at the fruit that I colored!
 Crayons are fun!
 내가 색칠한 과일을 보세요!
 크레용은 재미있답니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 57
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, I Want That
-나의 첫 영어책 2, 난 저걸 원해요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: I Want That
+(난 저걸 원해요)
 The cow moos at the pig. "Moo, moo!"
 The surprised pig runs away.
 소가 돼지에게 음매 하고 울어요. "음매, 음매!"
@@ -2160,18 +1791,10 @@ Poor sheep! It is hungry!
 양이 소에게 매애 하고 울어요. "매애, 매애!"
 하지만 소는 계속 먹고 있어요.
 가엾은 양! 양은 배가 고프대요!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 58
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Valentine's Day
-나의 첫 영어책 2, 밸런타인 데이
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Valentine's Day
+(밸런타인 데이)
 Today is Valentine's Day.
 오늘은 발렌타인 데이예요.
 Lucy gave me a card.
@@ -2200,18 +1823,10 @@ I gave everyone pink cupcakes.
 "I love you!"
 "모두들, 발렌타인 데이 축하해!"
 "사랑해!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 59
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Digly, Up and Down!
-나의 첫 영어책 2, 디글리, 위로 그리고 아래로
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Digly, Up and Down!
+(디글리, 위로 그리고 아래로)
 This is my pet. His name is Digly.
 He can do many tricks.
 내 애완동물이에요. 이름은 디글리랍니다.
@@ -2260,18 +1875,10 @@ Digly can get up.
 Digly, wait!"
 "디글리, 천천히!
 디글리, 기다리라니까!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 60
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, What Is in the Sea?
-나의 첫 영어책 2, 바닷속에는 무엇이 있을까요?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: What Is in the Sea?
+(바닷속에는 무엇이 있을까요?)
 This is an octopus.
 이건 문어예요.
 The octopus sprays ink.
@@ -2308,18 +1915,10 @@ They are different.
 But all of them live in the sea.
 그들은 모두 달라요.
 하지만 그들은 모두 바다에 산답니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 61
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Clothes
-나의 첫 영어책 2, 옷
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Clothes
+(옷)
 Baseball players wear uniforms at the stadium.
 야구 선수는 경기장에서 유니폼을 입어요.
 The doctor wears a white coat at the hospital.
@@ -2338,18 +1937,10 @@ Daddy wears a suit at the office.
 "Welcome home, Daddy!"
 아빠는 사무실에서 정장을 입어요.
 "어서 오세요, 아빠!"
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 62
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, My Brother and I
-나의 첫 영어책 2, 형과 나
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: My Brother and I
+(형과 나)
 My brother is asleep.
 I am awake.
 형은 잠을 자고 있어요.
@@ -2390,18 +1981,10 @@ But we both love Mom and Dad.
 And we are one happy family.
 하지만 우리 둘 다 엄마와 아빠를 사랑해요.
 그리고 우리는 행복한 가족이랍니다.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 63
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Houses of the World
-나의 첫 영어책 2, 세계의 집들
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Houses of the World
+(세계의 집들)
 People live in different houses.
 사람들은 서로 다른 집에서 살아요.
 This is a log cabin.
@@ -2442,18 +2025,10 @@ I live in an apartment.
 난 아파트에서 살아요.
 It is made of concrete blocks.
 그건 콘크리트 덩어리로 만들어졌지요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 64
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, What Am I?
-나의 첫 영어책 2, 나는 무엇일까?
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: What Am I?
+(나는 무엇일까?)
 I unlock your door. What am I?
 I am a key.
 난 네 문을 열어준단다. 나는 무엇일까?
@@ -2486,18 +2061,10 @@ I take pictures. What am I?
 I am a camera.
 난 사진을 찍는단다. 나는 무엇일까?
 나는 카메라야.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
 
 65
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Guess Who I Am
-나의 첫 영어책 2, 내가 누구인지 맞춰 보세요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Guess Who I Am
+(내가 누구인지 맞춰 보세요)
 I am black and white.
 I give milk.
 Guess who I am.
@@ -2560,17 +2127,10 @@ Guess who I am.
 내가 누구인지 맞춰 보세요.
 It's me, the farmer!
 그건 나, 농부랍니다!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 66
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, The Food Chant
-나의 첫 영어책 2, 음식 노래
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: The Food Chant
+(음식 노래)
 Apples on a tree, apples on a tree.
 Pick them off, eat them up.
 나무에 사과들, 나무에 사과들.
@@ -2603,17 +2163,10 @@ Food in your tummy, food in your tummy.
 Lick your lips, yum, yum, yummy!
 네 배 안에 음식, 네 배 안에 음식.
 입술을 핥으렴, 얌, 얌, 맛있어!
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
 
 67
-
-학습자료
-원문해석
-* 원문 내용 중 단어를 클릭하면 단어를 숨기거나 보이게 할 수 있습니다.글자 확대글자 축소인쇄
-My First Readers 2, Dan Is in Trouble
-나의 첫 영어책 2, 댄은 혼날 거예요
-* 원문 숨기기(보기)를 클릭하면 원문을 숨기거나 보이게 할 수 있습니다. 원문 숨기기
+제목: Dan Is in Trouble
+(댄은 혼날 거예요)
 Dan breaks the school rules.
 댄은 학교 규칙을 어겨요.
 He sits on his desk.
@@ -2642,7 +2195,3 @@ He makes a mess.
 "청소해라!" 선생님이 말씀하시죠.
 Uh-oh. Dan is in trouble.
 어이쿠. 댄은 혼날 거예요.
-© 2000-2026 Little Fox Co., Ltd. All rights reserved.www.littlefox.co.kr
-
-
-
