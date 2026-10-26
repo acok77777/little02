@@ -8,10 +8,10 @@ const stories = [];
 let currentStory = null;
 let currentRange = { start: 1, end: 20 };
 let currentMode = "both";
+let playbackSpeed = 1;
+
 const audio = new Audio();
-
 const $ = (id) => document.getElementById(id);
-
 const padNumber = (number) => String(number).padStart(2, "0");
 
 function getCompleted() {
@@ -36,7 +36,7 @@ function parseStory(number, text) {
   const lines = text
     .replace(/^\uFEFF/, "")
     .split(/\r?\n/)
-    .map((line) => line.trim())
+    .map(line => line.trim())
     .filter(Boolean);
 
   let title = `동화 ${number}`;
@@ -113,11 +113,13 @@ async function loadOneStory(number) {
 }
 
 async function loadAllStories() {
-  const loadedStories = await Promise.all(
-    Array.from({ length: TOTAL_STORIES }, (_, i) => loadOneStory(i + 1))
+  const loaded = await Promise.all(
+    Array.from({ length: TOTAL_STORIES }, (_, index) =>
+      loadOneStory(index + 1)
+    )
   );
 
-  stories.splice(0, stories.length, ...loadedStories);
+  stories.splice(0, stories.length, ...loaded);
   updateProgress();
 }
 
@@ -130,7 +132,7 @@ function getStoryTitle(story) {
 
 function updateProgress() {
   const count = completedStories.size;
-  const percent = Math.round((count / TOTAL_STORIES) * 100);
+  const percent = Math.round(count / TOTAL_STORIES * 100);
 
   $("progressCount").textContent = `${count} / ${TOTAL_STORIES}`;
   $("progressBar").style.width = `${percent}%`;
@@ -141,14 +143,17 @@ function updateProgress() {
   $("progressTrack").setAttribute("aria-valuenow", String(count));
 }
 
+/* 화면에 따라 상단 플레이어 표시 */
 function showView(viewName) {
-  ["homeView", "listView", "studyView"].forEach((id) => {
+  ["homeView", "listView", "studyView"].forEach(id => {
     const view = $(id);
     const active = id === viewName;
 
     view.classList.toggle("active", active);
     view.hidden = !active;
   });
+
+  $("fixedPlayer").hidden = viewName !== "studyView";
 
   window.scrollTo({ top: 0, behavior: "instant" });
 }
@@ -176,7 +181,6 @@ function renderStoryList() {
     const openButton = document.createElement("button");
     openButton.type = "button";
     openButton.className = "story-open";
-    openButton.setAttribute("aria-label", `${number}번 동화 학습하기`);
 
     const numberBadge = document.createElement("span");
     numberBadge.className = "story-number";
@@ -219,16 +223,20 @@ function openStory(number) {
   updateNavigation();
 
   stopAudio();
+
   audio.src = new URL(
     `${AUDIO_DIR}s${padNumber(number)}.mp3`,
     window.location.href
   ).href;
-  audio.load();
 
+  audio.load();
+  updateSpeedDisplay();
   showView("studyView");
 }
 
 function renderStudyStory() {
+  if (!currentStory) return;
+
   $("studyTitle").textContent =
     `📖 ${currentStory.number}. ${getStoryTitle(currentStory)}`;
 
@@ -259,7 +267,6 @@ function renderStudyStory() {
     }
   }
 
-  // 새 동화로 바뀔 때 본문을 처음 위치로
   content.scrollTop = 0;
 }
 
@@ -270,7 +277,7 @@ function setMode(mode) {
 }
 
 function updateModeButtons() {
-  document.querySelectorAll(".mode-buttons button").forEach((button) => {
+  document.querySelectorAll(".mode-buttons button").forEach(button => {
     button.classList.toggle("active", button.dataset.mode === currentMode);
   });
 }
@@ -315,6 +322,24 @@ function moveStory(step) {
   openStory(number);
 }
 
+/* 재생 속도: 0.5~3.0배속, 0.5씩 변경 */
+function updateSpeedDisplay() {
+  $("speedValue").textContent = `${playbackSpeed.toFixed(1)}배속`;
+  audio.playbackRate = playbackSpeed;
+
+  $("slowerButton").disabled = playbackSpeed <= 0.5;
+  $("fasterButton").disabled = playbackSpeed >= 3;
+}
+
+function changeSpeed(direction) {
+  playbackSpeed = Math.max(
+    0.5,
+    Math.min(3, Math.round((playbackSpeed + direction * 0.5) * 10) / 10)
+  );
+
+  updateSpeedDisplay();
+}
+
 function formatTime(seconds) {
   if (!Number.isFinite(seconds)) return "0:00";
 
@@ -337,13 +362,13 @@ function updateAudioProgress() {
 async function playAudio() {
   if (!currentStory) return;
 
-  audio.playbackRate = Number($("speedSelect").value);
+  audio.playbackRate = playbackSpeed;
 
   try {
     await audio.play();
   } catch (error) {
     console.error("오디오 재생 오류:", error);
-    alert("오디오를 재생할 수 없어요. s67 폴더의 MP3 파일을 확인해 주세요.");
+    alert("오디오를 재생할 수 없어요. MP3 파일 이름과 경로를 확인해 주세요.");
   }
 }
 
@@ -354,7 +379,7 @@ function stopAudio() {
 }
 
 function bindEvents() {
-  document.querySelectorAll("[data-range]").forEach((button) => {
+  document.querySelectorAll("[data-range]").forEach(button => {
     button.addEventListener("click", () => selectRange(button.dataset.range));
   });
 
@@ -380,9 +405,8 @@ function bindEvents() {
   $("playButton").addEventListener("click", playAudio);
   $("stopButton").addEventListener("click", stopAudio);
 
-  $("speedSelect").addEventListener("change", () => {
-    audio.playbackRate = Number($("speedSelect").value);
-  });
+  $("slowerButton").addEventListener("click", () => changeSpeed(-1));
+  $("fasterButton").addEventListener("click", () => changeSpeed(1));
 
   $("audioProgress").addEventListener("input", () => {
     if (Number.isFinite(audio.duration) && audio.duration > 0) {
@@ -403,6 +427,7 @@ function bindEvents() {
 async function initApp() {
   bindEvents();
   updateProgress();
+  updateSpeedDisplay();
   showView("homeView");
   await loadAllStories();
 }
