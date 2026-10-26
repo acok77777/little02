@@ -1,675 +1,36 @@
 
-* {
-  box-sizing: border-box;
-}
-
-:root {
-  --ink: #39344f;
-  --muted: #817b96;
-  --purple: #9279c4;
-  --shadow: 0 5px 18px rgba(90, 70, 110, 0.08);
-  --header-height: 72px;
-  --player-height: 105px;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-html {
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  color: var(--ink);
-  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-  line-height: 1.6;
-  background:
-    radial-gradient(circle at 0% 0%, #ffeaf3, transparent 35%),
-    radial-gradient(circle at 100% 15%, #e8f3ff, transparent 30%),
-    #fffafd;
-}
-
-button,
-input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-button:focus-visible,
-input:focus-visible {
-  outline: 3px solid #b8a5ed;
-  outline-offset: 2px;
-}
-
-/* 상단 제목 고정 */
-.app-header {
-  position: fixed;
-  z-index: 1200;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--header-height);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  border-bottom: 1px solid #eee4f1;
-  background: rgba(255, 250, 253, 0.98);
-  box-shadow: 0 2px 9px rgba(80, 60, 100, 0.05);
-}
-
-.brand-icon {
-  flex: 0 0 auto;
-  font-size: 31px;
-  line-height: 1;
-}
-
-.brand-text {
-  min-width: 0;
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: clamp(18px, 4.5vw, 25px);
-  line-height: 1.3;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-}
-
-.app-header p {
-  margin: 3px 0 0;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.3;
-}
-
-/* 학습 중에만 나타나는 고정 플레이어 */
-.fixed-player {
-  position: fixed;
-  z-index: 1100;
-  top: var(--header-height);
-  left: 0;
-  right: 0;
-  padding: 7px 12px 7px;
-  border-bottom: 1px solid #e8deef;
-  border-radius: 0 0 13px 13px;
-  background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 3px 12px rgba(70, 50, 90, 0.08);
-}
-
-.player-main {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 5px;
-  padding-bottom: 4px;
-}
-
-.player-main button {
-  min-height: 32px;
-  border: 0;
-  border-radius: 9px;
-  font-size: 11px;
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-.play-button {
-  padding: 5px 8px;
-  color: #fff;
-  background: var(--purple);
-}
-
-.pause-button {
-  padding: 5px 7px;
-  color: #fff;
-  background: #e4a0bb;
-}
-
-.stop-button {
-  padding: 5px 7px;
-  color: #63546f;
-  background: #f1edf6;
-}
-
-.speed-control {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin-left: auto;
-}
-
-.speed-arrow {
-  width: 27px;
-  padding: 0;
-  color: #5f4b7c;
-  background: #f0e9fa;
-  font-size: 14px !important;
-}
-
-.speed-arrow:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.speed-display {
-  display: flex;
-  min-width: 43px;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.15;
-}
-
-.speed-caption {
-  color: var(--muted);
-  font-size: 9px;
-}
-
-#speedValue {
-  color: #6c5197;
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-.audio-progress-area {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-#audioProgress {
-  display: block;
-  width: 100%;
-  height: 7px;
-  margin: 0;
-  accent-color: var(--purple);
-  cursor: pointer;
-}
-
-.audio-times {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2px;
-  color: var(--muted);
-  font-size: 9px;
-  line-height: 1.2;
-}
-
-/* 본문 영역 */
-main {
-  position: fixed;
-  top: var(--header-height);
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
-}
-
-.view {
-  display: none !important;
-  width: 100%;
-  height: 100%;
-}
-
-.view.active {
-  display: block !important;
-}
-
-.view[hidden] {
-  display: none !important;
-}
-
-/* 메인과 목록은 각 화면 안에서 스크롤 */
-#homeView,
-#listView {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 14px;
-  padding-bottom: 24px;
-}
-
-/* 학습 화면은 전체가 아니라 안쪽만 스크롤 */
-#studyView {
-  overflow: hidden;
-  padding: 0;
-}
-
-.study-scroll {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 3px 14px 25px;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* 플레이어 높이만큼만 본문을 아래로 배치 */
-body:has(#fixedPlayer:not([hidden])) main {
-  top: calc(var(--header-height) + var(--player-height));
-}
-
-/* 진행률 */
-.progress-panel {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-  padding: 15px;
-  border: 1px solid #f0e3f2;
-  border-radius: 19px;
-  background: #fff;
-  box-shadow: var(--shadow);
-}
-
-.progress-character {
-  flex: 0 0 auto;
-  font-size: 35px;
-}
-
-.progress-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.progress-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 7px;
-}
-
-.progress-heading h2 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 900;
-}
-
-#progressCount {
-  color: var(--purple);
-  font-size: 13px;
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-.progress-track {
-  height: 11px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #f0edf6;
-}
-
-#progressBar {
-  width: 0;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #f4a6c7, #b3a2ed, #9edbc0);
-  transition: width 0.3s ease;
-}
-
-#progressText {
-  margin: 5px 0 0;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-/* 메인 구간 버튼 */
-.home-lesson {
-  padding: 16px;
-  border: 1px solid #f0dfed;
-  border-radius: 21px;
-  background: #fff;
-  box-shadow: var(--shadow);
-}
-
-.section-decoration {
-  margin-bottom: 3px;
-  font-size: 22px;
-  letter-spacing: 3px;
-}
-
-.home-lesson h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 900;
-}
-
-.home-description {
-  margin: 4px 0 13px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.range-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
-}
-
-.range-card {
-  display: flex;
-  min-width: 0;
-  min-height: 100px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 8px 4px;
-  border: 2px solid transparent;
-  border-radius: 16px;
-  color: var(--ink);
-}
-
-.range-card.pink {
-  border-color: #f8d5e4;
-  background: linear-gradient(135deg, #fff0f6, #ffe3ed);
-}
-
-.range-card.blue {
-  border-color: #d2e5fb;
-  background: linear-gradient(135deg, #f1f7ff, #e1efff);
-}
-
-.range-card.green {
-  border-color: #d0ecd6;
-  background: linear-gradient(135deg, #f2fff4, #e1f7e6);
-}
-
-.range-card.yellow {
-  border-color: #f4e6b7;
-  background: linear-gradient(135deg, #fffcef, #fff2c9);
-}
-
-.range-emoji {
-  font-size: 26px;
-  line-height: 1.25;
-}
-
-.range-name {
-  font-size: 16px;
-  font-weight: 900;
-}
-
-.range-subtitle {
-  color: #77718a;
-  font-size: 10px;
-}
-
-/* 목록 */
-.page-heading {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0 0 10px;
-}
-
-.page-heading-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.page-heading h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 900;
-}
-
-.page-heading p {
-  margin: 2px 0 0;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.heading-character {
-  font-size: 28px;
-}
-
-.back-button,
-.nav-button {
-  min-height: 34px;
-  padding: 6px 9px;
-  border: 1px solid #e9deef;
-  border-radius: 9px;
-  color: #5c4b73;
-  background: #fff;
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.story-list {
-  display: grid;
-  gap: 8px;
-}
-
-.story-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 9px;
-  border: 1px solid #eee5f1;
-  border-radius: 14px;
-  background: #fff;
-}
-
-.story-open {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  border: 0;
-  color: var(--ink);
-  text-align: left;
-  background: transparent;
-}
-
-.story-number {
-  display: grid;
-  width: 35px;
-  height: 35px;
-  flex: 0 0 35px;
-  place-items: center;
-  border-radius: 10px;
-  color: #70568f;
-  background: #f4eafa;
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.story-title-wrap {
-  min-width: 0;
-  flex: 1;
-}
-
-.story-title {
-  display: block;
-  overflow-wrap: anywhere;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.story-subtitle {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.story-status {
-  flex: 0 0 auto;
-  padding: 5px 6px;
-  border: 1px solid #eee5f1;
-  border-radius: 8px;
-  color: #887d95;
-  background: #faf8fc;
-  font-size: 10px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.story-status.done {
-  border-color: #bfe7ca;
-  color: #287346;
-  background: #e8f9ed;
-}
-
-.story-item.completed {
-  border-color: #ccebd4;
-  background: #fbfffc;
-}
-
-.empty-message {
-  padding: 20px;
-  border: 1px dashed #e4d7eb;
-  border-radius: 15px;
-  color: var(--muted);
-  text-align: center;
-  background: #fff;
-}
-
-/* 학습 내용 */
-.study-heading {
-  justify-content: space-between;
-}
-
-.study-panel {
-  padding: 12px;
-  border: 1px solid #eee2f1;
-  border-radius: 15px;
-  background: #fff;
-  box-shadow: var(--shadow);
-}
-
-#studyTitle {
-  margin: 0 0 10px;
-  font-size: clamp(19px, 4vw, 26px);
-  font-weight: 900;
-  line-height: 1.45;
-  overflow-wrap: anywhere;
-}
-
-.mode-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.mode-buttons button {
-  padding: 7px 9px;
-  border: 1px solid #e9deef;
-  border-radius: 9px;
-  color: #675779;
-  background: #fff;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.mode-buttons button.active {
-  border-color: #9e86cb;
-  color: #fff;
-  background: #9279c4;
-}
-
-.story-content {
-  padding: 12px;
-  border: 1px solid #f0e7f2;
-  border-radius: 12px;
-  background: #fffdfd;
-}
-
-.story-content p {
-  margin: 0 0 10px;
-  font-size: 16px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-.story-content .korean-line {
-  margin-top: -6px;
-  color: #8c789f;
-  font-size: 14px;
-}
-
-.study-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 11px;
-}
-
-.complete-button {
-  min-height: 36px;
-  padding: 7px 10px;
-  border: 0;
-  border-radius: 10px;
-  color: #fff;
-  background: #9279c4;
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.complete-button.completed {
-  color: #286b42;
-  background: #dff5e5;
-}
-
-.navigation-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
+/* 빈 공간 줄이기: 휴대폰 화면 */
 @media (max-width: 380px) {
   :root {
     --header-height: 67px;
-    --player-height: 105px;
+    --player-height: 76px;
   }
 
-  .app-header {
-    padding: 7px 10px;
-    gap: 8px;
-  }
-
-  .brand-icon {
-    font-size: 27px;
-  }
-
-  .app-header h1 {
-    font-size: 19px;
-  }
-
-  .app-header p {
-    font-size: 10px;
-  }
-
+  /* 재생 박스를 화면 가로 전체로 */
   .fixed-player {
-    padding: 6px 8px 6px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 4px 7px 3px;
+    border-radius: 0 0 10px 10px;
   }
 
+  /* 재생 버튼 줄을 넓고 낮게 */
   .player-main {
+    width: 100%;
     gap: 4px;
-    padding-bottom: 3px;
+    padding-bottom: 1px;
+    flex-wrap: nowrap;
   }
 
   .player-main button {
     min-height: 30px;
+    flex-shrink: 0;
     font-size: 10px;
   }
 
   .play-button {
-    padding: 5px 6px;
+    padding: 5px 7px;
   }
 
   .pause-button {
@@ -686,21 +47,14 @@ body:has(#fixedPlayer:not([hidden])) main {
   }
 
   .speed-arrow {
-    width: 23px;
+    width: 22px;
   }
 
   .speed-display {
-    min-width: 39px;
+    min-width: 37px;
   }
 
-  .speed-caption {
-    font-size: 8px;
-  }
-
-  #speedValue {
-    font-size: 10px;
-  }
-
+  /* 진행 막대를 버튼에 가깝게 */
   .audio-progress-area {
     margin-top: 0;
     padding-top: 0;
@@ -708,59 +62,30 @@ body:has(#fixedPlayer:not([hidden])) main {
 
   #audioProgress {
     height: 6px;
+    margin: 0;
   }
 
   .audio-times {
-    margin-top: 1px;
+    margin-top: 0;
+    line-height: 1;
     font-size: 8px;
   }
 
-  .study-scroll {
-    padding: 3px 10px 20px;
+  /* 핵심: 아래 본문을 위로 끌어올리기 */
+  body:has(#fixedPlayer:not([hidden])) main {
+    top: calc(var(--header-height) + var(--player-height));
   }
 
-  .page-heading {
-    margin-bottom: 7px;
+  .study-scroll {
+    padding: 0 9px 20px;
+  }
+
+  .study-heading {
+    margin-top: 0;
+    margin-bottom: 4px;
   }
 
   .study-panel {
-    padding: 10px;
-  }
-
-  .progress-panel {
-    gap: 8px;
-    padding: 12px 10px;
-  }
-
-  .progress-character {
-    font-size: 29px;
-  }
-
-  .progress-heading h2 {
-    font-size: 13px;
-  }
-
-  #progressCount {
-    font-size: 12px;
-  }
-
-  .home-lesson {
-    padding: 13px 10px;
-  }
-
-  .range-grid {
-    gap: 8px;
-  }
-
-  .range-card {
-    min-height: 98px;
-  }
-
-  .range-name {
-    font-size: 15px;
-  }
-
-  .range-subtitle {
-    font-size: 10px;
+    padding: 9px;
   }
 }
