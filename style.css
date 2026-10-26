@@ -4,25 +4,18 @@
 }
 
 :root {
-  --ink: #33334d;
-  --muted: #77778d;
-  --pink: #ffe3ed;
-  --pink-strong: #f6a9c5;
-  --blue: #e0efff;
-  --blue-strong: #94c5f7;
-  --green: #e0f6e8;
-  --green-strong: #92d7ad;
-  --yellow: #fff2c9;
-  --yellow-strong: #f1d16f;
-  --paper: #fffdfb;
-  --white: #ffffff;
-  --line: #eeeaf0;
-  --shadow: 0 8px 24px rgba(61, 47, 76, 0.08);
+  --ink: #39344f;
+  --muted: #817b96;
+  --purple: #9178c5;
+  --pink: #fff0f6;
+  --blue: #edf5ff;
+  --green: #edfaef;
+  --yellow: #fff8df;
+  --shadow: 0 8px 25px rgba(90, 70, 110, 0.09);
 }
 
-html {
-  min-height: 100%;
-  background: #fff8fb;
+[hidden] {
+  display: none !important;
 }
 
 body {
@@ -30,12 +23,11 @@ body {
   min-height: 100vh;
   color: var(--ink);
   font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-  font-size: 16px;
   line-height: 1.6;
   background:
-    radial-gradient(circle at 10% 0%, #ffe8f1 0, transparent 30%),
-    radial-gradient(circle at 100% 20%, #e7f3ff 0, transparent 28%),
-    #fffafc;
+    radial-gradient(circle at 0% 0%, #ffeaf3, transparent 35%),
+    radial-gradient(circle at 100% 15%, #e8f3ff, transparent 30%),
+    #fffafd;
 }
 
 button,
@@ -52,62 +44,74 @@ button {
 button:focus-visible,
 select:focus-visible,
 input:focus-visible {
-  outline: 3px solid #a5caff;
+  outline: 3px solid #b8a5ed;
   outline-offset: 3px;
 }
 
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-
 .app-header {
-  width: min(100% - 32px, 960px);
+  width: min(100% - 32px, 860px);
   margin: 0 auto;
   padding: 28px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand-icon {
+  flex: 0 0 auto;
+  font-size: 42px;
+  line-height: 1.2;
 }
 
 .app-header h1 {
   margin: 0;
-  color: #34304b;
-  font-size: clamp(25px, 4vw, 36px);
-  font-weight: 900;
-  letter-spacing: -1.2px;
+  font-size: clamp(23px, 4vw, 34px);
   line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: -1px;
 }
 
 .app-header p {
-  margin: 8px 0 0;
+  margin: 7px 0 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
 }
 
 main {
-  width: min(100% - 32px, 960px);
+  width: min(100% - 32px, 860px);
   margin: 0 auto;
-  padding-bottom: 150px;
+  padding-bottom: 36px;
 }
 
 .view {
   display: none;
 }
 
-.view.active,
-.view:not([hidden]) {
+.view.active {
   display: block;
 }
 
-.panel {
-  margin: 0 0 22px;
-  padding: 24px;
-  border: 1px solid rgba(232, 221, 232, 0.85);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.94);
+/* 메인 학습 진행률 */
+.progress-panel {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-bottom: 18px;
+  padding: 20px 22px;
+  border: 1px solid #f0e3f2;
+  border-radius: 23px;
+  background: rgba(255, 255, 255, 0.95);
   box-shadow: var(--shadow);
 }
 
-.progress-panel {
-  padding: 22px 24px;
+.progress-character {
+  flex: 0 0 auto;
+  font-size: 43px;
+}
+
+.progress-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .progress-heading {
@@ -115,273 +119,293 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.progress-heading h2,
-.progress-panel h2 {
+.progress-heading h2 {
   margin: 0;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 17px;
+  font-weight: 900;
 }
 
-.progress-count {
-  color: #6c5b8a;
-  font-size: 14px;
-  font-weight: 800;
+#progressCount {
+  color: var(--purple);
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 .progress-track {
-  overflow: hidden;
   width: 100%;
-  height: 14px;
+  height: 13px;
+  overflow: hidden;
   border-radius: 999px;
-  background: #f0edf4;
+  background: #f0edf6;
 }
 
-#progressBar,
-.progressFill {
+#progressBar {
   width: 0;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #f4a9c7, #b9a8f5);
+  background: linear-gradient(90deg, #f4a6c7, #b3a2ed, #9edbc0);
   transition: width 0.3s ease;
 }
 
-#progressText,
-.progress-text {
-  margin: 8px 0 0;
-  color: #8b799e;
-  font-size: 14px;
-  font-weight: 700;
+#progressText {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 13px;
 }
 
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding: 28px;
-  border: 1px solid #f2dbe8;
-  border-radius: 28px;
-  background: linear-gradient(135deg, #fff0f6, #f2f7ff 65%, #f4fff7);
+/* 메인 화면 구간 선택 */
+.home-lesson {
+  padding: 23px;
+  border: 1px solid #f0dfed;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.94);
   box-shadow: var(--shadow);
 }
 
-.hero-art {
-  margin-bottom: 6px;
-  font-size: 36px;
-  line-height: 1.3;
+.section-decoration {
+  margin-bottom: 5px;
+  font-size: 25px;
+  letter-spacing: 5px;
 }
 
-.hero h2 {
-  margin: 0 0 8px;
-  color: #39304f;
-  font-size: clamp(23px, 4vw, 30px);
+.home-lesson h2 {
+  margin: 0;
+  font-size: 25px;
   font-weight: 900;
-  letter-spacing: -0.8px;
 }
 
-.hero p {
-  margin: 0 0 22px;
-  color: #77718b;
+.home-description {
+  margin: 5px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
 }
 
-.range-buttons,
 .range-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 13px;
 }
 
-.range-card,
-.range-button,
-.range-grid button {
+.range-card {
   display: flex;
-  min-height: 94px;
+  min-width: 0;
+  min-height: 126px;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 17px 18px;
+  gap: 3px;
+  padding: 12px;
   border: 2px solid transparent;
-  border-radius: 18px;
-  color: #39344d;
-  text-align: left;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    border-color 0.18s ease;
+  border-radius: 21px;
+  color: var(--ink);
+  box-shadow: 0 4px 12px rgba(80, 60, 100, 0.04);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.range-card:hover,
-.range-button:hover,
-.range-grid button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(64, 50, 80, 0.1);
+.range-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(80, 60, 100, 0.11);
 }
 
-.range-card strong,
-.range-button strong,
-.range-grid button strong {
-  font-size: 20px;
-  font-weight: 900;
-}
-
-.range-card span,
-.range-button span,
-.range-grid button span {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.pink {
-  border-color: #f9d3e2;
-  background: var(--pink);
-}
-
-.blue {
-  border-color: #cee4fc;
-  background: var(--blue);
-}
-
-.green {
-  border-color: #c9ecd5;
-  background: var(--green);
-}
-
-.yellow {
-  border-color: #f4e4a9;
-  background: var(--yellow);
-}
-
-.range-card:active,
-.range-button:active,
-.range-grid button:active {
+.range-card:active {
   transform: scale(0.98);
 }
 
-.section-title {
-  margin: 0 0 16px;
+.range-card.pink {
+  border-color: #f8d5e4;
+  background: linear-gradient(135deg, #fff0f6, #ffe3ed);
+}
+
+.range-card.blue {
+  border-color: #d2e5fb;
+  background: linear-gradient(135deg, #f1f7ff, #e1efff);
+}
+
+.range-card.green {
+  border-color: #d0ecd6;
+  background: linear-gradient(135deg, #f2fff4, #e1f7e6);
+}
+
+.range-card.yellow {
+  border-color: #f4e6b7;
+  background: linear-gradient(135deg, #fffcef, #fff2c9);
+}
+
+.range-emoji {
+  font-size: 31px;
+  line-height: 1.25;
+}
+
+.range-name {
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.range-subtitle {
+  color: #77718a;
+  font-size: 12px;
+}
+
+/* 목록 화면 */
+.page-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 6px 0 19px;
+  padding: 8px 0;
+}
+
+.page-heading > div {
+  flex: 1;
+}
+
+.page-heading h2 {
+  margin: 0;
   font-size: 23px;
   font-weight: 900;
 }
 
-.list-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
+.page-heading p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
 }
 
-.list-top h2 {
-  margin: 0;
-  font-size: 23px;
-}
-
-.secondary-button,
 .back-button,
 .nav-button {
-  min-height: 42px;
-  padding: 9px 15px;
-  border: 1px solid #e8dfed;
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid #e9deef;
   border-radius: 12px;
-  color: #504364;
+  color: #5c4b73;
   background: #fff;
   font-weight: 800;
+  white-space: nowrap;
 }
 
-.secondary-button:hover,
 .back-button:hover,
 .nav-button:hover {
-  background: #f8f2fc;
+  background: #f7f0fb;
+}
+
+.heading-character {
+  font-size: 35px;
 }
 
 .story-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .story-item {
   display: flex;
   width: 100%;
-  min-height: 76px;
   align-items: center;
-  gap: 13px;
-  padding: 15px;
-  border: 1px solid #eee6f1;
+  gap: 12px;
+  padding: 13px 15px;
+  border: 1px solid #eee5f1;
   border-radius: 17px;
-  color: var(--ink);
-  text-align: left;
   background: #fff;
-  box-shadow: 0 4px 12px rgba(61, 47, 76, 0.04);
-  transition: transform 0.18s ease, border-color 0.18s ease;
+  box-shadow: 0 3px 10px rgba(80, 60, 100, 0.035);
 }
 
-.story-item:hover {
-  transform: translateY(-2px);
-  border-color: #d9c5eb;
+.story-open {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  color: var(--ink);
+  text-align: left;
+  background: transparent;
 }
 
 .story-number {
   display: grid;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
   place-items: center;
-  border-radius: 13px;
-  color: #675083;
-  background: #f3eafd;
+  border-radius: 14px;
+  color: #70568f;
+  background: #f4eafa;
   font-weight: 900;
 }
 
-.story-item-content {
+.story-title-wrap {
   min-width: 0;
   flex: 1;
 }
 
-.story-item-title {
+.story-title {
   display: block;
   overflow-wrap: anywhere;
   font-weight: 800;
 }
 
-.story-item-subtitle {
+.story-subtitle {
   display: block;
-  margin-top: 3px;
+  margin-top: 2px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
+}
+
+.story-status {
+  flex: 0 0 auto;
+  max-width: 125px;
+  padding: 7px 10px;
+  border: 1px solid #eee5f1;
+  border-radius: 12px;
+  color: #887d95;
+  background: #faf8fc;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.story-status.done {
+  border-color: #bfe7ca;
+  color: #287346;
+  background: #e8f9ed;
 }
 
 .story-item.completed {
-  border-color: #bde5c9;
-  background: #f5fff7;
+  border-color: #ccebd4;
+  background: #fbfffc;
 }
 
-.story-item.completed .story-number {
-  color: #276b43;
-  background: #d9f5e2;
+.empty-message {
+  padding: 25px;
+  border: 1px dashed #e4d7eb;
+  border-radius: 17px;
+  color: var(--muted);
+  text-align: center;
+  background: #fff;
+}
+
+/* 동화 학습 화면 */
+.study-heading {
+  justify-content: space-between;
 }
 
 .study-panel {
-  padding: 22px;
-}
-
-.study-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 16px;
+  padding: 23px;
+  border: 1px solid #eee2f1;
+  border-radius: 23px;
+  background: #fff;
+  box-shadow: var(--shadow);
 }
 
 #studyTitle {
-  margin: 0;
-  font-size: clamp(22px, 4vw, 30px);
+  margin: 0 0 17px;
+  font-size: clamp(21px, 4vw, 29px);
   font-weight: 900;
-  line-height: 1.4;
+  line-height: 1.45;
   overflow-wrap: anywhere;
 }
 
@@ -389,267 +413,289 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 18px 0;
+  margin-bottom: 17px;
 }
 
 .mode-buttons button {
-  min-height: 42px;
-  padding: 9px 15px;
-  border: 1px solid #e8dff0;
+  padding: 9px 13px;
+  border: 1px solid #e9deef;
   border-radius: 12px;
-  color: #675777;
+  color: #675779;
   background: #fff;
+  font-size: 14px;
   font-weight: 800;
 }
 
-.mode-buttons button.active,
-.mode-buttons button[aria-pressed="true"] {
-  border-color: #bca6e4;
+.mode-buttons button.active {
+  border-color: #9e86cb;
   color: #fff;
-  background: #9a7bc7;
+  background: #9279c4;
 }
 
 .story-content {
-  min-height: 180px;
-  padding: 22px;
-  border: 1px solid #f0e6f1;
-  border-radius: 20px;
+  min-height: 170px;
+  padding: 20px;
+  border: 1px solid #f0e7f2;
+  border-radius: 17px;
   background: #fffdfd;
 }
 
 .story-content p {
-  margin: 0 0 12px;
-  font-size: clamp(17px, 2.5vw, 20px);
-  line-height: 1.8;
+  margin: 0 0 11px;
+  font-size: 18px;
+  line-height: 1.85;
   overflow-wrap: anywhere;
 }
 
-.story-content p:last-child {
-  margin-bottom: 0;
-}
-
-.story-content .english-line {
-  color: #36334e;
-  font-weight: 700;
-}
-
 .story-content .korean-line {
-  margin-top: -8px;
-  color: #8b779c;
-  font-size: 16px;
+  margin-top: -7px;
+  color: #8c789f;
+  font-size: 15px;
 }
 
 .study-actions {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 18px;
 }
 
 .complete-button {
-  min-height: 46px;
-  padding: 11px 18px;
+  min-height: 43px;
+  padding: 10px 15px;
   border: 0;
-  border-radius: 14px;
+  border-radius: 13px;
   color: #fff;
-  background: #8a75c3;
+  background: #9279c4;
   font-weight: 900;
 }
 
 .complete-button.completed {
-  color: #28633f;
-  background: #d9f5e2;
+  color: #286b42;
+  background: #dff5e5;
 }
 
 .navigation-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 
-.audio-dock {
-  position: fixed;
-  z-index: 20;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  border-top: 1px solid #e9dfed;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 -5px 22px rgba(58, 43, 72, 0.08);
-  backdrop-filter: blur(12px);
-}
-
-.audio-inner {
-  display: grid;
-  width: min(100%, 960px);
-  grid-template-columns: auto auto minmax(100px, 1fr) auto;
+/* 오디오 플레이어: 학습 화면 안에서만 표시 */
+.audio-panel {
+  display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 auto;
+  gap: 13px;
+  margin-top: 16px;
+  padding: 15px 17px;
+  border: 1px solid #eae1f0;
+  border-radius: 19px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow);
 }
 
-.audio-dock button {
-  min-height: 42px;
-  padding: 8px 14px;
+.audio-character {
+  font-size: 34px;
+}
+
+.audio-controls {
+  min-width: 0;
+  flex: 1;
+}
+
+.audio-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.audio-buttons button {
+  min-height: 37px;
+  padding: 7px 13px;
   border: 0;
-  border-radius: 12px;
+  border-radius: 11px;
   color: #fff;
-  background: #8a75c3;
+  background: #9279c4;
   font-weight: 800;
-  white-space: nowrap;
 }
 
-.audio-dock button.stop-button {
-  color: #63536f;
-  background: #f1edf5;
+.audio-buttons .stop-button {
+  color: #63546f;
+  background: #f1edf6;
 }
 
-.audio-dock select {
-  min-height: 42px;
-  max-width: 120px;
-  padding: 8px 10px;
+.speed-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+#speedSelect {
+  min-height: 36px;
+  padding: 5px 8px;
   border: 1px solid #e7ddec;
-  border-radius: 12px;
-  color: #51425e;
+  border-radius: 10px;
+  color: var(--ink);
   background: #fff;
 }
 
-.audio-progress-area {
-  min-width: 0;
-}
-
-#audioProgress,
-.audio-progress {
+#audioProgress {
   display: block;
   width: 100%;
   height: 8px;
-  accent-color: #9b83ce;
+  accent-color: #9279c4;
   cursor: pointer;
 }
 
 .audio-times {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 3px;
-  color: #81758d;
+  margin-top: 4px;
+  color: var(--muted);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
-.empty-message {
-  padding: 24px;
-  border: 1px dashed #ded3e7;
-  border-radius: 16px;
-  color: var(--muted);
-  text-align: center;
-  background: #fff;
-}
+@media (max-width: 560px) {
+  .app-header,
+  main {
+    width: calc(100% - 22px);
+  }
 
-@media (min-width: 760px) {
   .app-header {
-    padding-top: 34px;
+    padding-top: 19px;
+    gap: 10px;
   }
 
-  .hero {
-    padding: 34px;
-  }
-
-  .range-buttons,
-  .range-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .range-card,
-  .range-button,
-  .range-grid button {
-    min-height: 112px;
-  }
-}
-
-@media (max-width: 600px) {
-  .app-header {
-    width: min(100% - 24px, 960px);
-    padding-top: 20px;
+  .brand-icon {
+    font-size: 34px;
   }
 
   .app-header h1 {
-    font-size: 25px;
+    font-size: 22px;
   }
 
-  main {
-    width: min(100% - 24px, 960px);
-    padding-bottom: 165px;
+  .app-header p {
+    font-size: 12px;
   }
 
-  .panel {
-    padding: 17px;
-    border-radius: 20px;
+  .progress-panel {
+    gap: 10px;
+    padding: 15px 13px;
+    border-radius: 18px;
   }
 
-  .hero {
-    padding: 20px 16px;
+  .progress-character {
+    font-size: 33px;
   }
 
-  .range-buttons,
-  .range-grid {
-    gap: 8px;
+  .progress-heading h2 {
+    font-size: 14px;
   }
 
-  .range-card,
-  .range-button,
-  .range-grid button {
-    min-height: 84px;
-    padding: 12px;
-    border-radius: 14px;
-  }
-
-  .range-card strong,
-  .range-button strong,
-  .range-grid button strong {
-    font-size: 17px;
-  }
-
-  .story-list {
-    grid-template-columns: 1fr;
-  }
-
-  .story-content {
-    padding: 16px;
-  }
-
-  .audio-dock {
-    padding: 9px 10px calc(9px + env(safe-area-inset-bottom));
-  }
-
-  .audio-inner {
-    grid-template-columns: auto auto minmax(75px, 1fr);
-    gap: 7px;
-  }
-
-  .audio-dock button {
-    min-height: 38px;
-    padding: 7px 10px;
+  #progressCount {
     font-size: 13px;
   }
 
-  .audio-dock select {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    width: 100%;
-    max-width: none;
-    min-height: 36px;
+  .home-lesson {
+    padding: 17px 13px;
+    border-radius: 21px;
   }
 
-  .audio-progress-area {
-    grid-column: 1 / -1;
-    grid-row: 3;
+  .home-lesson h2 {
+    font-size: 22px;
   }
 
-  .audio-times {
+  .range-grid {
+    gap: 9px;
+  }
+
+  .range-card {
+    min-height: 110px;
+    padding: 9px 5px;
+    border-radius: 16px;
+  }
+
+  .range-emoji {
+    font-size: 27px;
+  }
+
+  .range-name {
+    font-size: 17px;
+  }
+
+  .range-subtitle {
     font-size: 11px;
+  }
+
+  .page-heading {
+    gap: 9px;
+  }
+
+  .page-heading h2 {
+    font-size: 20px;
+  }
+
+  .heading-character {
+    font-size: 29px;
+  }
+
+  .back-button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .story-item {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .story-open {
+    gap: 8px;
+  }
+
+  .story-number {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    font-size: 13px;
+  }
+
+  .story-title {
+    font-size: 13px;
+  }
+
+  .story-subtitle {
+    font-size: 11px;
+  }
+
+  .story-status {
+    max-width: 95px;
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .study-panel {
+    padding: 15px;
+  }
+
+  .story-content {
+    padding: 14px;
+  }
+
+  .story-content p {
+    font-size: 16px;
+  }
+
+  .audio-panel {
+    gap: 8px;
+    padding: 12px 10px;
+  }
+
+  .audio-character {
+    font-size: 27px;
   }
 }
