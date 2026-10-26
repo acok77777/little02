@@ -1,34 +1,21 @@
 
-/* =========================================
-   리틀팍스 동화 레벨 2
-   index.html의 디자인과 충돌하지 않도록 설정
-========================================= */
-
-/* 모든 요소의 크기 계산 통일 */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
 }
 
-/* 페이지 기본 설정 */
 html {
   min-height: 100%;
   scroll-behavior: smooth;
 }
 
 body {
-  min-height: 100vh;
   margin: 0;
+  min-height: 100vh;
+  background: #f3f7fc;
+  color: #253247;
+  font-family: Arial, "Malgun Gothic", sans-serif;
 }
 
-/* 숨김 처리 */
-[hidden],
-.hidden {
-  display: none !important;
-}
-
-/* 버튼과 입력 요소 */
 button,
 select,
 input {
@@ -37,36 +24,378 @@ input {
 
 button {
   cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  padding: 11px 15px;
+  background: #e3edf9;
+  color: #25466b;
 }
 
 button:disabled {
+  opacity: .4;
   cursor: not-allowed;
 }
 
-/* 동화 본문 줄바꿈 */
-#storyContent {
-  overflow-wrap: anywhere;
-  word-break: normal;
+button.active,
+button.primary {
+  background: #387cc4;
+  color: white;
 }
 
-/* 하단 오디오 플레이어 */
+[hidden] {
+  display: none !important;
+}
+
+.app-header {
+  padding: 22px 16px;
+  color: white;
+  background: #6c9fd8;
+}
+
+.app-header h1 {
+  margin: 0 0 6px;
+  font-size: 23px;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 14px;
+}
+
+main {
+  width: min(850px, 100%);
+  margin: auto;
+  padding: 18px 14px 180px;
+}
+
+.panel {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 14px #203c5b0d;
+}
+
+.progress-panel {
+  margin-bottom: 16px;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.progress-track {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #e8edf4;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0;
+  background: #48ad88;
+  transition: width .2s;
+}
+
+#progressPercent {
+  margin: 10px 0 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.hero-icon {
+  font-size: 52px;
+  margin-bottom: 8px;
+}
+
+.hero h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.hero p {
+  color: #617187;
+  margin: 0 0 20px;
+}
+
+.range-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.range-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  min-height: 94px;
+  gap: 7px;
+  padding: 14px 8px;
+  border: 1px solid transparent;
+}
+
+.range-card strong {
+  font-size: 20px;
+}
+
+.range-card small {
+  font-size: 12px;
+}
+
+.pink {
+  background: #ffe4ee;
+  color: #943653;
+  border-color: #ffd0e0;
+}
+
+.blue {
+  background: #dff2ff;
+  color: #235b94;
+  border-color: #c5e6ff;
+}
+
+.green {
+  background: #e3f8d5;
+  color: #316b31;
+  border-color: #ccebb9;
+}
+
+.yellow {
+  background: #fff1c7;
+  color: #80551b;
+  border-color: #f7dfa0;
+}
+
+.list-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.list-heading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.list-ranges {
+  margin-bottom: 16px;
+}
+
+.list-ranges .range-card {
+  min-height: 52px;
+}
+
+.list-ranges .range-card strong {
+  font-size: 15px;
+}
+
+#storyList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.story-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  text-align: left;
+  background: #f0f5fc;
+  padding: 12px 10px;
+}
+
+.story-item.completed {
+  background: #e4f6ed;
+}
+
+.story-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  font-weight: bold;
+}
+
+.story-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.story-check {
+  color: #168657;
+  font-weight: bold;
+}
+
+.study-panel > #studyTitle {
+  font-size: 22px;
+  line-height: 1.4;
+  margin: 18px 0;
+  overflow-wrap: anywhere;
+}
+
+.mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mode-buttons button {
+  min-width: 0;
+  padding: 12px 5px;
+}
+
+#storyContent {
+  margin-top: 15px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.story-line {
+  margin: 0 0 13px;
+  white-space: pre-wrap;
+}
+
+.english-line {
+  color: #254e83;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.korean-line {
+  color: #536274;
+  font-size: 16px;
+}
+
+.wide {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.navigation {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.navigation button {
+  flex: 1;
+}
+
 .audio-dock {
-  box-sizing: border-box;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+  background: white;
+  border-top: 1px solid #dce5ef;
+  box-shadow: 0 -5px 20px #203c5b0d;
 }
 
 .audio-inner {
-  min-width: 0;
+  width: min(850px, 100%);
+  margin: auto;
+}
+
+#audioTitle {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.audio-controls button {
+  white-space: nowrap;
+}
+
+#speedSelect {
+  max-width: 110px;
+  padding: 10px 5px;
+  border: 1px solid #d7e0eb;
+  border-radius: 10px;
+  background: white;
 }
 
 #audioProgress {
   display: block;
-  max-width: 100%;
+  width: 100%;
+  margin: 10px 0 0;
+  accent-color: #387cc4;
 }
 
-/* 모바일 화면 */
-@media (max-width: 420px) {
-  #storyContent {
-    overflow-wrap: anywhere;
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  color: #65758a;
+  font-size: 12px;
+}
+
+#errorMessage {
+  white-space: pre-wrap;
+  color: #b42318;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 12px 10px 175px;
+  }
+
+  .panel {
+    padding: 15px;
+  }
+
+  .hero {
+    padding: 22px 14px;
+  }
+
+  .range-card strong {
+    font-size: 18px;
+  }
+
+  #storyList {
+    grid-template-columns: 1fr;
+  }
+
+  .english-line {
+    font-size: 17px;
+  }
+
+  .korean-line {
+    font-size: 15px;
+  }
+
+  .mode-buttons {
+    gap: 5px;
+  }
+
+  .mode-buttons button {
+    font-size: 13px;
   }
 
   .audio-dock {
