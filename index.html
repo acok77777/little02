@@ -22,7 +22,7 @@
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <!-- 상단 고정 영역: 제목 -->
+  <!-- 화면 맨 위에 고정되는 제목 -->
   <header class="app-header">
     <div class="brand-icon" aria-hidden="true">🦊📚</div>
     <div class="brand-text">
@@ -31,10 +31,11 @@
     </div>
   </header>
 
-  <!-- 상단 고정 영역: 학습 중일 때만 플레이어 표시 -->
+  <!-- 동화 학습 중에만 표시되는 고정 플레이어 -->
   <section id="fixedPlayer" class="fixed-player" hidden>
     <div class="player-main">
       <button type="button" id="playButton" class="play-button">▶ 재생</button>
+      <button type="button" id="pauseButton" class="pause-button">Ⅱ 일시정지</button>
       <button type="button" id="stopButton" class="stop-button">■ 정지</button>
 
       <div class="speed-control">
@@ -120,7 +121,7 @@
       </div>
     </section>
 
-    <!-- 개별 동화: 이 영역만 스크롤 -->
+    <!-- 동화 학습 화면 -->
     <section id="studyView" class="view" hidden>
       <div class="study-scroll">
         <div class="page-heading study-heading">
