@@ -8,15 +8,23 @@
   --muted: #817b96;
   --purple: #9279c4;
   --shadow: 0 5px 18px rgba(90, 70, 110, 0.08);
+  --header-height: 72px;
+  --player-height: 100px;
 }
 
 [hidden] {
   display: none !important;
 }
 
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
+  height: 100%;
   margin: 0;
-  min-height: 100vh;
+  overflow: hidden;
   color: var(--ink);
   font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
   line-height: 1.6;
@@ -26,7 +34,7 @@ body {
     #fffafd;
 }
 
-button, select, input {
+button, input {
   font: inherit;
 }
 
@@ -35,41 +43,163 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #b8a5ed;
+  outline-offset: 2px;
+}
+
+/* 앱 제목은 화면 위에 고정 */
 .app-header {
+  position: fixed;
+  z-index: 1200;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: min(100% - 28px, 860px);
-  margin: 0 auto;
-  padding: 20px 0 14px;
+  gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid #eee4f1;
+  background: rgba(255, 250, 253, 0.98);
+  box-shadow: 0 2px 9px rgba(80, 60, 100, 0.05);
 }
 
 .brand-icon {
   flex: 0 0 auto;
-  font-size: 35px;
+  font-size: 31px;
+  line-height: 1;
+}
+
+.brand-text {
+  min-width: 0;
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: clamp(21px, 4vw, 32px);
-  line-height: 1.35;
+  font-size: clamp(18px, 4.5vw, 25px);
+  line-height: 1.3;
   font-weight: 900;
+  letter-spacing: -0.5px;
 }
 
 .app-header p {
-  margin: 4px 0 0;
+  margin: 3px 0 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 11px;
+  line-height: 1.3;
 }
 
+/* 플레이어는 제목 바로 아래 고정 */
+.fixed-player {
+  position: fixed;
+  z-index: 1100;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  padding: 8px 12px 7px;
+  border-bottom: 1px solid #e8deef;
+  border-radius: 0 0 15px 15px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 4px 15px rgba(70, 50, 90, 0.09);
+}
+
+.player-main {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.player-main button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.play-button {
+  padding: 7px 12px;
+  color: #fff;
+  background: var(--purple);
+}
+
+.stop-button {
+  padding: 7px 10px;
+  color: #63546f;
+  background: #f1edf6;
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.speed-arrow {
+  width: 36px;
+  padding: 0;
+  color: #5f4b7c;
+  background: #f0e9fa;
+  font-size: 17px !important;
+}
+
+.speed-display {
+  display: flex;
+  min-width: 55px;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.speed-caption {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+#speedValue {
+  color: #6c5197;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.audio-progress-area {
+  margin-top: 5px;
+}
+
+#audioProgress {
+  display: block;
+  width: 100%;
+  height: 7px;
+  margin: 0;
+  accent-color: var(--purple);
+  cursor: pointer;
+}
+
+.audio-times {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+/* 본문은 고정된 제목과 플레이어 아래에서만 스크롤 */
 main {
-  width: min(100% - 28px, 860px);
-  margin: 0 auto;
-  padding-bottom: 25px;
+  position: fixed;
+  top: var(--header-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
 }
 
 .view {
   display: none !important;
+  width: 100%;
+  height: 100%;
 }
 
 .view.active {
@@ -80,22 +210,59 @@ main {
   display: none !important;
 }
 
+/* 메인 화면 스크롤 */
+#homeView {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px;
+  padding-bottom: 24px;
+}
+
+/* 목록 화면 스크롤 */
+#listView {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px;
+  padding-bottom: 24px;
+}
+
+/* 학습 화면 자체는 스크롤하지 않음 */
+#studyView {
+  overflow: hidden;
+  padding: 0;
+}
+
+/* 학습 내용만 스크롤 */
+.study-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 14px 25px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 제목과 플레이어가 표시되는 높이만큼 본문 시작 위치 확보 */
+body:has(#fixedPlayer:not([hidden])) main {
+  top: calc(var(--header-height) + var(--player-height));
+}
+
 /* 진행률 */
 .progress-panel {
   display: flex;
   align-items: center;
-  gap: 13px;
-  margin-bottom: 15px;
-  padding: 16px;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 15px;
   border: 1px solid #f0e3f2;
-  border-radius: 20px;
+  border-radius: 19px;
   background: #fff;
   box-shadow: var(--shadow);
 }
 
 .progress-character {
   flex: 0 0 auto;
-  font-size: 36px;
+  font-size: 35px;
 }
 
 .progress-info {
@@ -108,12 +275,12 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
 
 .progress-heading h2 {
   margin: 0;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
 }
 
@@ -142,59 +309,54 @@ main {
 #progressText {
   margin: 5px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 /* 메인 구간 버튼 */
 .home-lesson {
-  padding: 18px;
+  padding: 16px;
   border: 1px solid #f0dfed;
-  border-radius: 23px;
+  border-radius: 21px;
   background: #fff;
   box-shadow: var(--shadow);
 }
 
 .section-decoration {
   margin-bottom: 3px;
-  font-size: 23px;
+  font-size: 22px;
   letter-spacing: 3px;
 }
 
 .home-lesson h2 {
   margin: 0;
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 900;
 }
 
 .home-description {
-  margin: 4px 0 15px;
+  margin: 4px 0 13px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .range-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 9px;
 }
 
 .range-card {
   display: flex;
   min-width: 0;
-  min-height: 108px;
+  min-height: 100px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 9px 5px;
+  padding: 8px 4px;
   border: 2px solid transparent;
-  border-radius: 17px;
+  border-radius: 16px;
   color: var(--ink);
-  transition: transform 0.18s ease;
-}
-
-.range-card:hover {
-  transform: translateY(-2px);
 }
 
 .range-card.pink {
@@ -218,26 +380,26 @@ main {
 }
 
 .range-emoji {
-  font-size: 28px;
+  font-size: 26px;
   line-height: 1.25;
 }
 
 .range-name {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 900;
 }
 
 .range-subtitle {
   color: #77718a;
-  font-size: 11px;
+  font-size: 10px;
 }
 
-/* 목록 */
+/* 목록 화면 */
 .page-heading {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 5px 0 14px;
+  gap: 9px;
+  margin: 0 0 13px;
 }
 
 .page-heading-text {
@@ -247,28 +409,29 @@ main {
 
 .page-heading h2 {
   margin: 0;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 900;
 }
 
 .page-heading p {
-  margin: 3px 0 0;
+  margin: 2px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .heading-character {
-  font-size: 30px;
+  font-size: 28px;
 }
 
-.back-button, .nav-button {
-  min-height: 37px;
+.back-button,
+.nav-button {
+  min-height: 36px;
   padding: 7px 10px;
   border: 1px solid #e9deef;
   border-radius: 10px;
   color: #5c4b73;
   background: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   white-space: nowrap;
 }
@@ -281,8 +444,8 @@ main {
 .story-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px;
+  gap: 7px;
+  padding: 9px;
   border: 1px solid #eee5f1;
   border-radius: 14px;
   background: #fff;
@@ -303,14 +466,14 @@ main {
 
 .story-number {
   display: grid;
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
   place-items: center;
-  border-radius: 11px;
+  border-radius: 10px;
   color: #70568f;
   background: #f4eafa;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
 }
 
@@ -322,21 +485,21 @@ main {
 .story-title {
   display: block;
   overflow-wrap: anywhere;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
 }
 
 .story-subtitle {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .story-status {
   flex: 0 0 auto;
-  padding: 5px 7px;
+  padding: 5px 6px;
   border: 1px solid #eee5f1;
-  border-radius: 9px;
+  border-radius: 8px;
   color: #887d95;
   background: #faf8fc;
   font-size: 10px;
@@ -364,22 +527,22 @@ main {
   background: #fff;
 }
 
-/* 학습 화면 */
+/* 동화 학습 내용 */
 .study-heading {
   justify-content: space-between;
 }
 
 .study-panel {
-  padding: 16px;
+  padding: 14px;
   border: 1px solid #eee2f1;
-  border-radius: 18px;
+  border-radius: 17px;
   background: #fff;
   box-shadow: var(--shadow);
 }
 
 #studyTitle {
-  margin: 0 0 13px;
-  font-size: clamp(20px, 4vw, 27px);
+  margin: 0 0 12px;
+  font-size: clamp(19px, 4vw, 26px);
   font-weight: 900;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -389,13 +552,13 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 11px;
 }
 
 .mode-buttons button {
-  padding: 7px 10px;
+  padding: 7px 9px;
   border: 1px solid #e9deef;
-  border-radius: 10px;
+  border-radius: 9px;
   color: #675779;
   background: #fff;
   font-size: 12px;
@@ -408,20 +571,16 @@ main {
   background: #9279c4;
 }
 
-/* 독립적으로 스크롤되는 동화 본문 */
 .story-content {
-  height: auto;
-  min-height: 120px;
-  max-height: none;
-  padding: 15px;
+  padding: 14px;
   border: 1px solid #f0e7f2;
-  border-radius: 14px;
+  border-radius: 13px;
   background: #fffdfd;
 }
 
 .story-content p {
   margin: 0 0 10px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
@@ -429,7 +588,7 @@ main {
 .story-content .korean-line {
   margin-top: -6px;
   color: #8c789f;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .study-actions {
@@ -437,15 +596,15 @@ main {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 13px;
 }
 
 .complete-button {
-  min-height: 39px;
-  padding: 8px 11px;
+  min-height: 38px;
+  padding: 8px 10px;
   border: 0;
-  border-radius: 11px;
+  border-radius: 10px;
   color: #fff;
   background: #9279c4;
   font-size: 12px;
@@ -460,117 +619,66 @@ main {
 .navigation-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-}
-
-/* 플레이어는 학습 화면 상단에 고정 */
-.audio-panel {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 10px;
-  border: 1px solid #e5d9ef;
-  border-radius: 0 0 15px 15px;
-  background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 5px 18px rgba(70, 50, 90, 0.12);
-}
-
-.sticky-player {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  margin: 0 -14px 12px;
-  padding: 10px 14px;
-  border-top: 0;
-  backdrop-filter: blur(12px);
-}
-
-.audio-character {
-  flex: 0 0 auto;
-  font-size: 27px;
-}
-
-.audio-controls {
-  min-width: 0;
-  flex: 1;
-}
-
-.audio-buttons {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 5px;
-}
-
-.audio-buttons button {
-  min-height: 33px;
-  padding: 6px 10px;
-  border: 0;
-  border-radius: 9px;
-  color: #fff;
-  background: #9279c4;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.audio-buttons .stop-button {
-  color: #63546f;
-  background: #f1edf6;
-}
-
-.speed-label {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-#speedSelect {
-  min-height: 31px;
-  padding: 3px 5px;
-  border: 1px solid #e7ddec;
-  border-radius: 8px;
-  color: var(--ink);
-  background: #fff;
-  font-size: 11px;
-}
-
-#audioProgress {
-  display: block;
-  width: 100%;
-  height: 7px;
-  accent-color: #9279c4;
-  cursor: pointer;
-}
-
-.audio-times {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2px;
-  color: var(--muted);
-  font-size: 10px;
-  font-variant-numeric: tabular-nums;
+  gap: 5px;
 }
 
 @media (max-width: 380px) {
-  .app-header, main {
-    width: calc(100% - 20px);
+  :root {
+    --header-height: 67px;
+    --player-height: 96px;
   }
 
   .app-header {
+    padding: 7px 10px;
     gap: 8px;
-    padding-top: 15px;
   }
 
   .brand-icon {
-    font-size: 29px;
+    font-size: 27px;
   }
 
   .app-header h1 {
-    font-size: 20px;
+    font-size: 19px;
   }
 
   .app-header p {
-    font-size: 11px;
+    font-size: 10px;
+  }
+
+  .fixed-player {
+    padding: 7px 9px 6px;
+  }
+
+  .player-main {
+    gap: 5px;
+  }
+
+  .player-main button {
+    min-height: 33px;
+  }
+
+  .play-button {
+    padding: 6px 9px;
+  }
+
+  .stop-button {
+    padding: 6px 8px;
+  }
+
+  .speed-control {
+    gap: 4px;
+  }
+
+  .speed-arrow {
+    width: 32px;
+  }
+
+  .speed-display {
+    min-width: 49px;
+  }
+
+  #speedValue {
+    font-size: 12px;
   }
 
   .progress-panel {
@@ -591,7 +699,7 @@ main {
   }
 
   .home-lesson {
-    padding: 14px 10px;
+    padding: 13px 10px;
   }
 
   .range-grid {
@@ -599,42 +707,22 @@ main {
   }
 
   .range-card {
-    min-height: 101px;
+    min-height: 98px;
   }
 
   .range-name {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .range-subtitle {
     font-size: 10px;
   }
 
-  .sticky-player {
-    margin-right: -10px;
-    margin-left: -10px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .audio-character {
-    font-size: 23px;
-  }
-
-  .audio-buttons {
-    gap: 5px;
-  }
-
-  .audio-buttons button {
-    padding: 5px 8px;
-    font-size: 11px;
+  .study-scroll {
+    padding: 10px;
   }
 
   .study-panel {
-    padding: 12px;
-  }
-
-  .story-content p {
-    font-size: 16px;
+    padding: 11px;
   }
 }
