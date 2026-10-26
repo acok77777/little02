@@ -9,7 +9,7 @@
   --purple: #9279c4;
   --shadow: 0 5px 18px rgba(90, 70, 110, 0.08);
   --header-height: 72px;
-  --player-height: 126px;
+  --player-height: 105px;
 }
 
 [hidden] {
@@ -50,7 +50,7 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-/* 화면 맨 위에 고정되는 앱 제목 */
+/* 상단 제목 고정 */
 .app-header {
   position: fixed;
   z-index: 1200;
@@ -92,52 +92,51 @@ input:focus-visible {
   line-height: 1.3;
 }
 
-/* 상단 고정 플레이어 */
+/* 학습 중에만 나타나는 고정 플레이어 */
 .fixed-player {
   position: fixed;
   z-index: 1100;
   top: var(--header-height);
   left: 0;
   right: 0;
-  padding: 12px 12px 13px;
+  padding: 7px 12px 7px;
   border-bottom: 1px solid #e8deef;
-  border-radius: 0 0 15px 15px;
+  border-radius: 0 0 13px 13px;
   background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 4px 15px rgba(70, 50, 90, 0.09);
+  box-shadow: 0 3px 12px rgba(70, 50, 90, 0.08);
 }
 
-/* 버튼 사이 간격과 아래 막대와의 여백 */
 .player-main {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 7px;
-  padding-bottom: 7px;
+  flex-wrap: nowrap;
+  gap: 5px;
+  padding-bottom: 4px;
 }
 
 .player-main button {
-  min-height: 36px;
+  min-height: 32px;
   border: 0;
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: 9px;
+  font-size: 11px;
   font-weight: 900;
   white-space: nowrap;
 }
 
 .play-button {
-  padding: 7px 10px;
+  padding: 5px 8px;
   color: #fff;
   background: var(--purple);
 }
 
 .pause-button {
-  padding: 7px 9px;
+  padding: 5px 7px;
   color: #fff;
   background: #e4a0bb;
 }
 
 .stop-button {
-  padding: 7px 9px;
+  padding: 5px 7px;
   color: #63546f;
   background: #f1edf6;
 }
@@ -145,16 +144,16 @@ input:focus-visible {
 .speed-control {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 3px;
   margin-left: auto;
 }
 
 .speed-arrow {
-  width: 34px;
+  width: 27px;
   padding: 0;
   color: #5f4b7c;
   background: #f0e9fa;
-  font-size: 16px !important;
+  font-size: 14px !important;
 }
 
 .speed-arrow:disabled {
@@ -164,33 +163,32 @@ input:focus-visible {
 
 .speed-display {
   display: flex;
-  min-width: 51px;
+  min-width: 43px;
   flex-direction: column;
   align-items: center;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .speed-caption {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 9px;
 }
 
 #speedValue {
   color: #6c5197;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
 }
 
-/* 진행 막대는 버튼 줄 아래, 여백을 조금 더 확보 */
 .audio-progress-area {
-  margin-top: 3px;
-  padding-top: 2px;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 #audioProgress {
   display: block;
   width: 100%;
-  height: 8px;
+  height: 7px;
   margin: 0;
   accent-color: var(--purple);
   cursor: pointer;
@@ -199,10 +197,10 @@ input:focus-visible {
 .audio-times {
   display: flex;
   justify-content: space-between;
-  margin-top: 4px;
+  margin-top: 2px;
   color: var(--muted);
-  font-size: 10px;
-  line-height: 1.3;
+  font-size: 9px;
+  line-height: 1.2;
 }
 
 /* 본문 영역 */
@@ -229,15 +227,8 @@ main {
   display: none !important;
 }
 
-/* 메인 화면 자체 스크롤 */
-#homeView {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 14px;
-  padding-bottom: 24px;
-}
-
-/* 동화 목록 자체 스크롤 */
+/* 메인과 목록은 각 화면 안에서 스크롤 */
+#homeView,
 #listView {
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -245,7 +236,7 @@ main {
   padding-bottom: 24px;
 }
 
-/* 학습 화면 아래 본문만 스크롤 */
+/* 학습 화면은 전체가 아니라 안쪽만 스크롤 */
 #studyView {
   overflow: hidden;
   padding: 0;
@@ -256,11 +247,11 @@ main {
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 12px 14px 25px;
+  padding: 3px 14px 25px;
   -webkit-overflow-scrolling: touch;
 }
 
-/* 플레이어가 보일 때 본문 시작 위치를 아래로 이동 */
+/* 플레이어 높이만큼만 본문을 아래로 배치 */
 body:has(#fixedPlayer:not([hidden])) main {
   top: calc(var(--header-height) + var(--player-height));
 }
@@ -412,12 +403,12 @@ body:has(#fixedPlayer:not([hidden])) main {
   font-size: 10px;
 }
 
-/* 목록 화면 */
+/* 목록 */
 .page-heading {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin: 0 0 13px;
+  margin: 0 0 10px;
 }
 
 .page-heading-text {
@@ -443,10 +434,10 @@ body:has(#fixedPlayer:not([hidden])) main {
 
 .back-button,
 .nav-button {
-  min-height: 36px;
-  padding: 7px 10px;
+  min-height: 34px;
+  padding: 6px 9px;
   border: 1px solid #e9deef;
-  border-radius: 10px;
+  border-radius: 9px;
   color: #5c4b73;
   background: #fff;
   font-size: 12px;
@@ -551,15 +542,15 @@ body:has(#fixedPlayer:not([hidden])) main {
 }
 
 .study-panel {
-  padding: 14px;
+  padding: 12px;
   border: 1px solid #eee2f1;
-  border-radius: 17px;
+  border-radius: 15px;
   background: #fff;
   box-shadow: var(--shadow);
 }
 
 #studyTitle {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   font-size: clamp(19px, 4vw, 26px);
   font-weight: 900;
   line-height: 1.45;
@@ -570,7 +561,7 @@ body:has(#fixedPlayer:not([hidden])) main {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 11px;
+  margin-bottom: 10px;
 }
 
 .mode-buttons button {
@@ -590,9 +581,9 @@ body:has(#fixedPlayer:not([hidden])) main {
 }
 
 .story-content {
-  padding: 14px;
+  padding: 12px;
   border: 1px solid #f0e7f2;
-  border-radius: 13px;
+  border-radius: 12px;
   background: #fffdfd;
 }
 
@@ -615,12 +606,12 @@ body:has(#fixedPlayer:not([hidden])) main {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 13px;
+  margin-top: 11px;
 }
 
 .complete-button {
-  min-height: 38px;
-  padding: 8px 10px;
+  min-height: 36px;
+  padding: 7px 10px;
   border: 0;
   border-radius: 10px;
   color: #fff;
@@ -643,7 +634,7 @@ body:has(#fixedPlayer:not([hidden])) main {
 @media (max-width: 380px) {
   :root {
     --header-height: 67px;
-    --player-height: 139px;
+    --player-height: 105px;
   }
 
   .app-header {
@@ -664,51 +655,76 @@ body:has(#fixedPlayer:not([hidden])) main {
   }
 
   .fixed-player {
-    padding: 11px 9px 12px;
+    padding: 6px 8px 6px;
   }
 
   .player-main {
-    gap: 5px;
-    padding-bottom: 9px;
+    gap: 4px;
+    padding-bottom: 3px;
   }
 
   .player-main button {
-    min-height: 34px;
-    font-size: 11px;
+    min-height: 30px;
+    font-size: 10px;
   }
 
   .play-button {
-    padding: 6px 8px;
+    padding: 5px 6px;
   }
 
   .pause-button {
-    padding: 6px 7px;
+    padding: 5px 5px;
   }
 
   .stop-button {
-    padding: 6px 7px;
+    padding: 5px 5px;
   }
 
   .speed-control {
-    gap: 4px;
+    gap: 2px;
     margin-left: auto;
   }
 
   .speed-arrow {
-    width: 29px;
+    width: 23px;
   }
 
   .speed-display {
-    min-width: 45px;
+    min-width: 39px;
+  }
+
+  .speed-caption {
+    font-size: 8px;
   }
 
   #speedValue {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .audio-progress-area {
-    margin-top: 3px;
-    padding-top: 2px;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  #audioProgress {
+    height: 6px;
+  }
+
+  .audio-times {
+    margin-top: 1px;
+    font-size: 8px;
+  }
+
+  .study-scroll {
+    padding: 3px 10px 20px;
+  }
+
+  .page-heading {
+    margin-bottom: 7px;
+  }
+
+  .study-panel {
+    padding: 10px;
   }
 
   .progress-panel {
@@ -746,13 +762,5 @@ body:has(#fixedPlayer:not([hidden])) main {
 
   .range-subtitle {
     font-size: 10px;
-  }
-
-  .study-scroll {
-    padding: 10px;
-  }
-
-  .study-panel {
-    padding: 11px;
   }
 }
