@@ -22,7 +22,6 @@
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <!-- 화면 맨 위에 고정되는 제목 -->
   <header class="app-header">
     <div class="brand-icon" aria-hidden="true">🦊📚</div>
     <div class="brand-text">
@@ -31,7 +30,7 @@
     </div>
   </header>
 
-  <!-- 동화 학습 중에만 표시되는 고정 플레이어 -->
+  <!-- 동화 학습 화면에서만 표시되는 상단 고정 플레이어 -->
   <section id="fixedPlayer" class="fixed-player" hidden>
     <div class="player-main">
       <button type="button" id="playButton" class="play-button">▶ 재생</button>
@@ -39,12 +38,12 @@
       <button type="button" id="stopButton" class="stop-button">■ 정지</button>
 
       <div class="speed-control">
-        <button type="button" id="slowerButton" class="speed-arrow" aria-label="재생 속도 느리게">◀</button>
+        <button type="button" id="slowerButton" class="speed-arrow" aria-label="속도 느리게">◀</button>
         <div class="speed-display">
           <span class="speed-caption">재생 속도</span>
           <strong id="speedValue">1.0배속</strong>
         </div>
-        <button type="button" id="fasterButton" class="speed-arrow" aria-label="재생 속도 빠르게">▶</button>
+        <button type="button" id="fasterButton" class="speed-arrow" aria-label="속도 빠르게">▶</button>
       </div>
     </div>
 
@@ -121,7 +120,7 @@
       </div>
     </section>
 
-    <!-- 동화 학습 화면 -->
+    <!-- 개별 동화 학습 화면 -->
     <section id="studyView" class="view" hidden>
       <div class="study-scroll">
         <div class="page-heading study-heading">
